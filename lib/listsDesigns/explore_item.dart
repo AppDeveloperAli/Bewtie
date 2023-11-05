@@ -1,3 +1,4 @@
+import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -14,100 +15,106 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 500,
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: 400,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return ItemCard(
-                    title: items[index],
-                    currentIndex: (index + 1).toString(),
-                    total: items.length.toString(),
-                    isFavorite: isFavorite[index],
-                    onFavoritePressed: () {
-                      setState(() {
-                        isFavorite[index] = !isFavorite[index];
-                      });
-                    },
-                  );
-                },
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const ExploreDetailsScreen()));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          width: double.infinity,
+          height: 500,
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 400,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return ItemCard(
+                      title: items[index],
+                      currentIndex: (index + 1).toString(),
+                      total: items.length.toString(),
+                      isFavorite: isFavorite[index],
+                      onFavoritePressed: () {
+                        setState(() {
+                          isFavorite[index] = !isFavorite[index];
+                        });
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: AppColors.mackUp),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8),
-                    child: Text('Make-up'),
-                  ),
-                  Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: AppColors.hair),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8),
-                    child: Text('Hair'),
-                  ),
-                  Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: AppColors.nails),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8),
-                    child: Text('Nails'),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: AppColors.mackUp),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0, right: 8),
+                      child: Text('Make-up'),
+                    ),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: AppColors.hair),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0, right: 8),
+                      child: Text('Hair'),
+                    ),
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: AppColors.nails),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0, right: 8),
+                      child: Text('Nails'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Price',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      Text('Name')
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '0 Reviews',
-                      ),
-                      Text('Location')
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
+              const Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Price',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Text('Name')
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '0 Reviews',
+                        ),
+                        Text('Location')
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

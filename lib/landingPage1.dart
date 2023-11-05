@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:bewtie/TabScreens/explore.dart';
+import 'package:bewtie/TabScreens/chatScreens/inboxScreen.dart';
+import 'package:bewtie/TabScreens/exploreScreens/explore.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +18,7 @@ class _LandingPageState extends State<LandingPage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     ExploreScreen(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    InboxScreen(),
     Text(
       'Index 2: School',
       style: optionStyle,
