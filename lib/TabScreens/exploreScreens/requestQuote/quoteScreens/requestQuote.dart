@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:bewtie/Components/cardButton.dart';
+import 'package:bewtie/Components/pickImage.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/billing.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/paymentScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
@@ -260,6 +261,30 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Text(
+                  'Add image',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    Expanded(child: PickImageCardWidget(isPicked: true)),
+                    Expanded(child: PickImageCardWidget(isPicked: false)),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Container(
+                  width: double.infinity,
+                  height: 0.5,
+                  color: AppColors.primaryPink,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 20),
+                child: Text(
                   'Cancellation policy',
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
@@ -267,7 +292,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Text(
-                  'Free cancellation for 48 hours. Cancel before  Nov 12 for a partial refund. Learn more',
+                  'Free cancellation for 48 hours. Cancel before Nov 12 for a partial refund. Learn more',
                 ),
               ),
               Padding(

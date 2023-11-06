@@ -1,16 +1,16 @@
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatefulWidget {
+class CustomCardArtist extends StatefulWidget {
   final String title;
 
-  CustomCard({required this.title});
+  CustomCardArtist({required this.title});
 
   @override
   _CustomCardState createState() => _CustomCardState();
 }
 
-class _CustomCardState extends State<CustomCard> {
+class _CustomCardState extends State<CustomCardArtist> {
   bool isClicked = false;
 
   void toggleBorderColor() {
@@ -32,7 +32,7 @@ class _CustomCardState extends State<CustomCard> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
             side: BorderSide(
-              color: isClicked ? AppColors.primaryPink : Colors.black,
+              color: isClicked ? AppColors.primaryPink : Colors.white,
               width: 0.5,
             ),
           ),
@@ -44,7 +44,7 @@ class _CustomCardState extends State<CustomCard> {
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                    color: isClicked ? AppColors.primaryPink : Colors.black,
+                    color: isClicked ? AppColors.primaryPink : Colors.white,
                   ),
                 ),
               ),

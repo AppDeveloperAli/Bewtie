@@ -1,6 +1,7 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardicon.dart';
 import 'package:bewtie/Components/textSelection.dart';
+import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   )),
               Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: MyCardButton(
-                    title: 'Become a Bewtie Artist',
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const BecomeArtistScreen()));
+                    },
+                    child: MyCardButton(
+                      title: 'Become a Bewtie Artist',
+                    ),
                   )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

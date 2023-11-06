@@ -14,7 +14,7 @@ class MyCardButton extends StatelessWidget {
         ),
         child: SizedBox(
           width: double.infinity,
-          height: 60,
+          height: 50,
           child: Center(
               child: Text(title,
                   style: const TextStyle(

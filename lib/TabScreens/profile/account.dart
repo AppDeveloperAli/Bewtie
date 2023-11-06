@@ -2,7 +2,9 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
+import 'package:bewtie/TabScreens/profile/payment.dart';
 import 'package:bewtie/TabScreens/profile/personalinfo.dart';
+import 'package:bewtie/TabScreens/profile/termsCondition.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -125,11 +127,20 @@ class AccountScreen extends StatelessWidget {
                   color: AppColors.primaryPink,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [Text('Payments'), Icon(Icons.arrow_forward)],
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const PaymentsScreen()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text('Payments'),
+                      Icon(Icons.arrow_forward)
+                    ],
+                  ),
                 ),
               ),
               Padding(
@@ -149,7 +160,13 @@ class AccountScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
-                child: MyTextCard(title: 'Terms & consitions', fontSize: 16),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const TermsCondition()));
+                    },
+                    child:
+                        MyTextCard(title: 'Terms & consitions', fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
