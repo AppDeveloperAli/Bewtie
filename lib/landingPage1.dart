@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:bewtie/TabScreens/booking/booking.dart';
 import 'package:bewtie/TabScreens/chatScreens/inboxScreen.dart';
 import 'package:bewtie/TabScreens/exploreScreens/explore.dart';
+import 'package:bewtie/TabScreens/profile/account.dart';
+import 'package:bewtie/TabScreens/wishlist/wishlist.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -19,22 +22,9 @@ class _LandingPageState extends State<LandingPage> {
   static const List<Widget> _widgetOptions = <Widget>[
     ExploreScreen(),
     InboxScreen(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    BookingScreen(),
+    WishlistScreen(),
+    AccountScreen()
   ];
 
   void _onItemTapped(int index) {
