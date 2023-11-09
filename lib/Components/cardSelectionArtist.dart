@@ -24,7 +24,7 @@ class _CustomCardState extends State<CustomCardArtist> {
     return Container(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: Card(
           elevation: 0,
           color: Colors.transparent,
@@ -36,7 +36,7 @@ class _CustomCardState extends State<CustomCardArtist> {
               width: 0.5,
             ),
           ),
-          child: InkWell(
+          child: GestureDetector(
             onTap: toggleBorderColor,
             child: Padding(
               padding: const EdgeInsets.all(16.0),

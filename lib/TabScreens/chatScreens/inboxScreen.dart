@@ -2,6 +2,7 @@
 
 import 'package:bewtie/TabScreens/chatScreens/chatScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
 
 class InboxScreen extends StatefulWidget {
@@ -19,6 +20,20 @@ class _InboxScreenState extends State<InboxScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LandingPage()),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(
+                  Icons.close,
+                  size: 40,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: Text(
@@ -30,7 +45,7 @@ class _InboxScreenState extends State<InboxScreen> {
               padding: const EdgeInsets.only(left: 20.0),
               child: Text(
                 'Messages',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             Padding(
@@ -38,7 +53,7 @@ class _InboxScreenState extends State<InboxScreen> {
               child: Container(
                 width: double.infinity,
                 height: 0.5,
-                color: AppColors.primaryPink,
+                color: AppColors.lightPink,
               ),
             ),
             ListView.builder(
@@ -74,8 +89,8 @@ class _InboxScreenState extends State<InboxScreen> {
                                     top: 0,
                                     right: 0,
                                     child: Container(
-                                      width: 20, // Adjust the size as needed
-                                      height: 20, // Adjust the size as needed
+                                      width: 15, // Adjust the size as needed
+                                      height: 15, // Adjust the size as needed
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: AppColors.primaryPink,
@@ -93,15 +108,14 @@ class _InboxScreenState extends State<InboxScreen> {
                                   child: Text(
                                     'Name',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Manrope'),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Text(
                                     'Date last message sent',
-                                    style: TextStyle(fontFamily: 'Manrope'),
                                   ),
                                 ),
                               ],
@@ -113,7 +127,7 @@ class _InboxScreenState extends State<InboxScreen> {
                     Container(
                       width: double.infinity,
                       height: 0.5,
-                      color: AppColors.primaryPink,
+                      color: AppColors.lightPink,
                     ),
                   ],
                 );

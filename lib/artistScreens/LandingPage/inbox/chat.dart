@@ -28,10 +28,10 @@ class _ChatScreenState extends State<ChatScreenArtist> {
                     Navigator.pop(context);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: Icon(
                       Icons.arrow_back,
-                      size: 40,
+                      size: 35,
                       color: Colors.white,
                     ),
                   ),
@@ -191,7 +191,7 @@ class _ChatScreenState extends State<ChatScreenArtist> {
                         child: Container(
                           width: double.infinity,
                           height: 0.5,
-                          color: AppColors.primaryPink,
+                          color: Colors.white,
                         ),
                       ),
                     ],

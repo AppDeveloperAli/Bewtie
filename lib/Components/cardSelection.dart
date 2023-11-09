@@ -21,8 +21,9 @@ class _CustomCardState extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
+      height: 55,
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
         child: Card(
@@ -36,16 +37,13 @@ class _CustomCardState extends State<CustomCard> {
               width: 0.5,
             ),
           ),
-          child: InkWell(
+          child: GestureDetector(
             onTap: toggleBorderColor,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Text(
-                  widget.title,
-                  style: TextStyle(
-                    color: isClicked ? AppColors.primaryPink : Colors.black,
-                  ),
+            child: Center(
+              child: Text(
+                widget.title,
+                style: TextStyle(
+                  color: isClicked ? AppColors.primaryPink : Colors.black,
                 ),
               ),
             ),

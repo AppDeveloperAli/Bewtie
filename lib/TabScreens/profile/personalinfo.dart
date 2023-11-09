@@ -22,8 +22,11 @@ class PersonalInformation extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Icon(Icons.arrow_back),
+                padding: EdgeInsets.all(10.0),
+                child: Icon(
+                  Icons.arrow_back,
+                  size: 30,
+                ),
               ),
             ),
             Padding(
@@ -57,8 +60,8 @@ class PersonalInformation extends StatelessWidget {
                     child: Text(
                       'Edit',
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontFamily: 'Manrope'),
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
@@ -69,7 +72,7 @@ class PersonalInformation extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: 0.5,
-                color: AppColors.primaryPink,
+                color: AppColors.lightPink,
               ),
             ),
             Padding(
@@ -98,8 +101,8 @@ class PersonalInformation extends StatelessWidget {
                     child: Text(
                       'Edit',
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontFamily: 'Manrope'),
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
@@ -110,7 +113,7 @@ class PersonalInformation extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: 0.5,
-                color: AppColors.primaryPink,
+                color: AppColors.lightPink,
               ),
             ),
             Padding(
@@ -139,8 +142,8 @@ class PersonalInformation extends StatelessWidget {
                     child: Text(
                       'Edit',
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontFamily: 'Manrope'),
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
@@ -151,7 +154,7 @@ class PersonalInformation extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: 0.5,
-                color: AppColors.primaryPink,
+                color: AppColors.lightPink,
               ),
             ),
             Padding(
@@ -180,8 +183,8 @@ class PersonalInformation extends StatelessWidget {
                     child: Text(
                       'Edit',
                       style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontFamily: 'Manrope'),
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
@@ -192,7 +195,7 @@ class PersonalInformation extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: 0.5,
-                color: AppColors.primaryPink,
+                color: AppColors.lightPink,
               ),
             ),
           ],

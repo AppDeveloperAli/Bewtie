@@ -4,6 +4,7 @@ import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search3.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/becomeArtist3.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BecomeArtistScreen2 extends StatefulWidget {
@@ -42,7 +43,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Mack-up (Bridal)...',
+                      'Make-up (Bridal)...',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20,
@@ -69,7 +70,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Text(
-                      'Mack-up',
+                      'Make-up',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -104,16 +105,19 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                       ],
                     ),
                   ),
-                  Slider(
-                    value: _currentSliderValue,
-                    max: 100,
-                    divisions: 100,
-                    label: _currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CupertinoSlider(
+                        value: _currentSliderValue,
+                        thumbColor: AppColors.primaryPink,
+                        // label: _currentSliderValue.round().toString(),
+                        onChanged: (value) {
+                          setState(() => _currentSliderValue = value);
+                        },
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 20),
@@ -153,16 +157,19 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                       ],
                     ),
                   ),
-                  Slider(
-                    value: _currentSliderValue,
-                    max: 100,
-                    divisions: 100,
-                    label: _currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CupertinoSlider(
+                        value: _currentSliderValue,
+                        thumbColor: AppColors.primaryPink,
+                        // label: _currentSliderValue.round().toString(),
+                        onChanged: (value) {
+                          setState(() => _currentSliderValue = value);
+                        },
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 20),
@@ -202,16 +209,20 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                       ],
                     ),
                   ),
-                  Slider(
-                    value: _currentSliderValue,
-                    max: 100,
-                    divisions: 100,
-                    label: _currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CupertinoSlider(
+                        value: _currentSliderValue,
+                        thumbColor: AppColors.primaryPink,
+
+                        // label: _currentSliderValue.round().toString(),
+                        onChanged: (value) {
+                          setState(() => _currentSliderValue = value);
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),

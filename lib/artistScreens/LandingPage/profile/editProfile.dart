@@ -27,9 +27,10 @@ class PersonalInformationArtist extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Padding(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Icon(
                   Icons.arrow_back,
+                  size: 35,
                   color: Colors.white,
                 ),
               ),
@@ -118,9 +119,9 @@ class PersonalInformationArtist extends StatelessWidget {
                     child: Text(
                       'Edit',
                       style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.underline,
-                          fontFamily: 'Manrope'),
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
@@ -167,9 +168,9 @@ class PersonalInformationArtist extends StatelessWidget {
                     child: Text(
                       'Edit',
                       style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.underline,
-                          fontFamily: 'Manrope'),
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
@@ -216,9 +217,9 @@ class PersonalInformationArtist extends StatelessWidget {
                     child: Text(
                       'Edit',
                       style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.underline,
-                          fontFamily: 'Manrope'),
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),

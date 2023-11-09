@@ -59,11 +59,11 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
               ),
               CustomCardArtist(title: 'Bridal'),
               CustomCardArtist(title: 'Editorial'),
-              CustomCardArtist(title: 'Film & Tv'),
+              CustomCardArtist(title: 'Film & TV'),
               CustomCardArtist(title: 'Party'),
               CustomCardArtist(title: 'Special Effects'),
               Padding(
-                padding: const EdgeInsets.only(top: 15, left: 20),
+                padding: const EdgeInsets.only(top: 25, left: 20),
                 child: Text(
                   'Hair',
                   style: TextStyle(
@@ -79,7 +79,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
               CustomCardArtist(title: 'Party'),
               CustomCardArtist(title: 'Special Effects'),
               Padding(
-                padding: const EdgeInsets.only(top: 15, left: 20),
+                padding: const EdgeInsets.only(top: 25, left: 20),
                 child: Text(
                   'Nails',
                   style: TextStyle(

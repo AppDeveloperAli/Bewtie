@@ -2,6 +2,7 @@
 
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/LandingPage/booking/bookingitem.dart';
+import 'package:bewtie/landingPage1.dart';
 import 'package:bewtie/listsDesigns/bookingItems.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,24 @@ class _BookingScreenState extends State<BookingScreenArtist> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LandingPage()),
+                  (route) => false,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Icon(
+                  Icons.close,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 20),
+              padding: const EdgeInsets.only(left: 20.0),
               child: Text(
                 'My bookings In date order',
                 style: TextStyle(
@@ -40,13 +57,16 @@ class _BookingScreenState extends State<BookingScreenArtist> {
                 color: Colors.white,
               ),
             ),
-            ListView.builder(
-              itemCount: 5,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return BookingOrdersArtist();
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ListView.builder(
+                itemCount: 5,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return BookingOrdersArtist();
+                },
+              ),
             )
           ],
         ),

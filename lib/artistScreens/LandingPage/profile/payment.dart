@@ -27,9 +27,10 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                 Navigator.pop(context);
               },
               child: Padding(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Icon(
                   Icons.arrow_back,
+                  size: 35,
                   color: Colors.white,
                 ),
               ),
@@ -75,10 +76,10 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 20),
+                  padding: const EdgeInsets.only(right: 10),
                   child: SizedBox(
-                      width: 130,
-                      height: 50,
+                      width: 140,
+                      height: 55,
                       child: MyCardButton(title: 'Remove')),
                 ),
               ],
@@ -116,7 +117,7 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                   Expanded(
                     flex: 3,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 15, left: 15),
+                      padding: EdgeInsets.only(top: 15, left: 5),
                       child: Text(
                         '+Add card',
                         style: TextStyle(
@@ -148,7 +149,7 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
           Expanded(
             flex: 3,
             child: Padding(
-              padding: EdgeInsets.only(top: 15, left: 15),
+              padding: EdgeInsets.only(top: 15, left: 5),
               child: Text(
                 title,
                 style: TextStyle(
@@ -168,7 +169,8 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                     showModalBottomSheet(
                         context: context,
                         builder: (context) {
-                          return SizedBox(
+                          return Container(
+                            color: Colors.white,
                             width: double.infinity,
                             height: 400,
                             child: Padding(
@@ -190,7 +192,7 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                                       child: Text(
                                     'Are you sure you want to delete this card?',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 18),
                                   )),
                                   Row(
                                     children: [
@@ -207,7 +209,7 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                                               Navigator.pop(context);
                                             },
                                             child: MyTextCard(
-                                                title: 'Yes', fontSize: 18)),
+                                                title: 'Yes', fontSize: 16)),
                                       ),
                                     ],
                                   )

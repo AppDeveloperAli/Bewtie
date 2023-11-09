@@ -21,10 +21,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
           child: Column(
             children: [
               Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 15, right: 15, bottom: 10),
                   child: MyCardIcon(
-                    hintText: 'Tell us what you"re after?',
-                    iconData: Icons.search,
+                    hintText: 'Tell us what you\'re after?',
+                    iconData: 'assets/icons/exploreblack.png',
                   )),
               Padding(
                   padding: const EdgeInsets.all(10.0),

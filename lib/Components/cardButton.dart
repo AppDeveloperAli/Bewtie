@@ -18,9 +18,7 @@ class MyCardButton extends StatelessWidget {
           child: Center(
               child: Text(title,
                   style: const TextStyle(
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18))),
+                      fontWeight: FontWeight.w600, fontSize: 16))),
         ));
   }
 }

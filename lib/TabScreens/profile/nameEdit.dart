@@ -20,8 +20,11 @@ class NameEditScreen extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Icon(Icons.close),
+                padding: EdgeInsets.all(10.0),
+                child: Icon(
+                  Icons.close,
+                  size: 30,
+                ),
               ),
             ),
             Padding(

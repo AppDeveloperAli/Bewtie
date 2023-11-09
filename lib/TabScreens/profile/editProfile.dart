@@ -18,15 +18,16 @@ class EditPhoneScreenArtist extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.all(15.0),
               child: Icon(
                 Icons.close,
                 color: Colors.white,
+                size: 25,
               ),
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(15.0),
             child: Text(
               'Update your phone number',

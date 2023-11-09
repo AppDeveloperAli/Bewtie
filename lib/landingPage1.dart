@@ -7,6 +7,7 @@ import 'package:bewtie/TabScreens/profile/account.dart';
 import 'package:bewtie/TabScreens/wishlist/wishlist.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -17,8 +18,6 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     ExploreScreen(),
     InboxScreen(),
@@ -42,27 +41,47 @@ class _LandingPageState extends State<LandingPage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.lightPink,
-        selectedItemColor: Colors.black,
+        selectedItemColor: AppColors.primaryPink, // Color for the selected item
         unselectedItemColor: Colors.black,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/exploreblack.png')),
+            icon: SvgPicture.asset(
+              'assets/svg/Explore-Icon-Black.svg',
+              width: 30,
+              color: _selectedIndex == 0 ? AppColors.primaryPink : Colors.black,
+            ),
             label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/inboxblack.png')),
+            icon: SvgPicture.asset(
+              'assets/svg/Inbox-Icon-Black.svg',
+              width: 25,
+              color: _selectedIndex == 1 ? AppColors.primaryPink : Colors.black,
+            ),
             label: 'Inbox',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/bookingblack.png')),
+            icon: SvgPicture.asset(
+              'assets/svg/Bookings-Icon-Black.svg',
+              width: 18,
+              color: _selectedIndex == 2 ? AppColors.primaryPink : Colors.black,
+            ),
             label: 'Bookings',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/wishlistblack.png')),
+            icon: SvgPicture.asset(
+              'assets/svg/Wishlist-Icon-Black.svg',
+              width: 25,
+              color: _selectedIndex == 3 ? AppColors.primaryPink : Colors.black,
+            ),
             label: 'Wishlist',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/profileblack.png')),
+            icon: SvgPicture.asset(
+              'assets/svg/Profile-Icon-Black.svg',
+              width: 25,
+              color: _selectedIndex == 4 ? AppColors.primaryPink : Colors.black,
+            ),
             label: 'Profile',
           ),
         ],

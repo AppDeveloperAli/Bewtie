@@ -114,11 +114,9 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                         ),
                         Text(
                           'Name',
-                          style: TextStyle(fontFamily: 'Manrope'),
                         ),
                         Text(
                           'Service',
-                          style: TextStyle(fontFamily: 'Manrope'),
                         )
                       ],
                     ),
@@ -127,11 +125,9 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       children: [
                         Text(
                           '0 Reviews',
-                          style: TextStyle(fontFamily: 'Manrope'),
                         ),
                         Text(
                           'Location',
-                          style: TextStyle(fontFamily: 'Manrope'),
                         )
                       ],
                     ),
@@ -145,42 +141,32 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                   children: [
                     Text(
                       'Availability',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontFamily: 'Manrope'),
                     ),
                     Text(
                       'Monday -',
-                      style: TextStyle(fontFamily: 'Manrope'),
                     ),
                     Text(
                       'Tuesday -',
-                      style: TextStyle(fontFamily: 'Manrope'),
                     ),
                     Text(
                       'Wednesday -',
-                      style: TextStyle(fontFamily: 'Manrope'),
                     ),
                     Text(
                       'Thursday -',
-                      style: TextStyle(fontFamily: 'Manrope'),
                     ),
                     Text(
                       'Friday -',
-                      style: TextStyle(fontFamily: 'Manrope'),
                     ),
                     Text(
                       'Saturday -',
-                      style: TextStyle(fontFamily: 'Manrope'),
                     ),
                     Text(
                       'Sunday -',
-                      style: TextStyle(fontFamily: 'Manrope'),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
                         'Bio',
-                        style: TextStyle(fontFamily: 'Manrope'),
                       ),
                     ),
                     Padding(
@@ -198,13 +184,16 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       child: Container(
                         width: double.infinity,
                         height: 0.5,
-                        color: AppColors.primaryPink,
+                        color: AppColors.lightPink,
                       ),
                     ),
-                    Text(
-                      '0 Reviews',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        '0 Reviews',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
                     ),
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -230,15 +219,14 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                               child: Text(
                                 'Name or reviewer',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Manrope'),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Text(
                                 'Date',
-                                style: TextStyle(fontFamily: 'Manrope'),
                               ),
                             ),
                             Padding(
@@ -261,7 +249,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                                         const ReviewsScreen()));
                               },
                               child: MyTextCard(
-                                  title: 'Show all XX reviews', fontSize: 15),
+                                  title: 'Show all reviews', fontSize: 15),
                             ),
                           ),
                           Expanded(

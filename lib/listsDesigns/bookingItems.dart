@@ -11,7 +11,7 @@ class BookingOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: Card(
         color: AppColors.primaryPink,
         shape: RoundedRectangleBorder(
@@ -61,9 +61,10 @@ class BookingOrders extends StatelessWidget {
                                 ),
                               ),
                               builder: (context) {
-                                return SizedBox(
+                                return Container(
                                   width: double.infinity,
                                   height: 400,
+                                  color: Colors.white,
                                   child: Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child: Column(
@@ -75,9 +76,13 @@ class BookingOrders extends StatelessWidget {
                                       children: [
                                         Center(
                                           child: Container(
-                                            width: 100,
-                                            height: 0.5,
-                                            color: AppColors.primaryPink,
+                                            width: 50,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              color: AppColors.primaryPink,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                           ),
                                         ),
                                         Center(

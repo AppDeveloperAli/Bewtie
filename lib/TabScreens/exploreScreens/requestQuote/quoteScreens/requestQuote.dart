@@ -7,6 +7,7 @@ import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/payme
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class RequestQuoteScreen extends StatefulWidget {
   const RequestQuoteScreen({super.key});
@@ -47,7 +48,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
                   'Details',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                 ),
               ),
               Padding(
@@ -60,7 +61,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  'Mack-up Bridal',
+                  'Make-up Bridal',
                 ),
               ),
               Padding(
@@ -93,14 +94,14 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
-                  color: AppColors.primaryPink,
+                  color: AppColors.lightPink,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
                   'How to Pay',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                 ),
               ),
               Row(
@@ -221,14 +222,14 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
-                  color: AppColors.primaryPink,
+                  color: AppColors.lightPink,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Text(
                   'Required for your booking',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                 ),
               ),
               Padding(
@@ -255,7 +256,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
-                  color: AppColors.primaryPink,
+                  color: AppColors.lightPink,
                 ),
               ),
               Padding(
@@ -270,7 +271,9 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 child: Row(
                   children: [
                     Expanded(child: PickImageCardWidget(isPicked: true)),
-                    Expanded(child: PickImageCardWidget(isPicked: false)),
+                    Expanded(
+                        child: SvgPicture.asset(
+                            'assets/svg/Add-Image-Icon-Black.svg')),
                   ],
                 ),
               ),

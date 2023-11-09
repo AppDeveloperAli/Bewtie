@@ -162,6 +162,8 @@ class TransactonArtist extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             color: AppColors.primaryPink,
+            decoration: TextDecoration.underline,
+            decorationColor: AppColors.primaryPink, // Set the underline color
           ),
         ),
       ],

@@ -43,7 +43,7 @@ class _Search1ScreenState extends State<Search1Screen> {
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 20),
                 child: Text(
-                  'Mack-up',
+                  'Make-up',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                 ),
               ),
@@ -53,7 +53,10 @@ class _Search1ScreenState extends State<Search1Screen> {
               CustomCard(title: 'Party'),
               CustomCard(title: 'Special Effects'),
               Padding(
-                padding: const EdgeInsets.only(top: 15, left: 20),
+                padding: const EdgeInsets.only(
+                  top: 30,
+                  left: 20,
+                ),
                 child: Text(
                   'Hair',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
@@ -61,11 +64,11 @@ class _Search1ScreenState extends State<Search1Screen> {
               ),
               CustomCard(title: 'Bridal'),
               CustomCard(title: 'Editorial'),
-              CustomCard(title: 'Film & Tv'),
+              CustomCard(title: 'Film & TV'),
               CustomCard(title: 'Party'),
               CustomCard(title: 'Special Effects'),
               Padding(
-                padding: const EdgeInsets.only(top: 15, left: 20),
+                padding: const EdgeInsets.only(top: 30, left: 20),
                 child: Text(
                   'Nails',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),

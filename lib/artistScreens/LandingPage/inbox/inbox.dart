@@ -3,6 +3,7 @@
 import 'package:bewtie/TabScreens/chatScreens/chatScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/LandingPage/inbox/chat.dart';
+import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
 
 class InboxScreenArtist extends StatefulWidget {
@@ -21,6 +22,22 @@ class _InboxScreenState extends State<InboxScreenArtist> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LandingPage()),
+                  (route) => false,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Icon(
+                  Icons.close,
+                  size: 30,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: Text(
@@ -37,7 +54,7 @@ class _InboxScreenState extends State<InboxScreenArtist> {
                 'Messages',
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 20,
+                    fontSize: 16,
                     color: Colors.white),
               ),
             ),
@@ -79,8 +96,8 @@ class _InboxScreenState extends State<InboxScreenArtist> {
                                     top: 0,
                                     right: 0,
                                     child: Container(
-                                      width: 20, // Adjust the size as needed
-                                      height: 20, // Adjust the size as needed
+                                      width: 15, // Adjust the size as needed
+                                      height: 15, // Adjust the size as needed
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: AppColors.primaryPink,

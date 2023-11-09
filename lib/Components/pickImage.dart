@@ -1,5 +1,6 @@
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PickImageCardWidget extends StatelessWidget {
   bool? isPicked;
@@ -16,9 +17,9 @@ class PickImageCardWidget extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(20)),
             color: isPicked! ? Colors.grey[400] : Colors.white),
         child: Center(
-          child: Icon(Icons.add_circle_outline_outlined,
-              size: 30, color: isPicked! ? Colors.white : Colors.black),
-        ),
+            child: isPicked!
+                ? SvgPicture.asset('assets/svg/Add-Image-Icon-White.svg')
+                : SvgPicture.asset('assets/svg/Add-Image-Icon-White.svg')),
       ),
     );
   }

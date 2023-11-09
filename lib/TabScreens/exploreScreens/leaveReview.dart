@@ -13,45 +13,50 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Icon(
-                Icons.close,
-                size: 40,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              'Leave a reviews',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Start typing',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+          child: Column(
+        children: [
+          Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.close,
+                    size: 40,
+                  ),
                 ),
               ),
-              maxLines: 20,
-            ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  'Leave a review',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Start typing',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  maxLines: 20,
+                ),
+              ),
+            ]),
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: MyCardButton(title: 'Send'),
           )
-        ]),
+        ],
       )),
     );
   }

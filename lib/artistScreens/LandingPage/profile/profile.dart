@@ -18,6 +18,7 @@ import 'package:bewtie/artistScreens/LandingPage/profile/payment.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/terms.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/transaction.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/whatDo.dart';
+import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
 
 class ArtistProfile extends StatelessWidget {
@@ -32,6 +33,23 @@ class ArtistProfile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => const LandingPage()),
+                    (route) => false,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Icon(
+                    Icons.close,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Text(
@@ -61,7 +79,7 @@ class ArtistProfile extends StatelessWidget {
                       'Name',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Manrope',
+                          fontSize: 18,
                           color: Colors.white),
                     ),
                   ),
@@ -127,15 +145,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const PersonalInformationArtist()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'Personal information',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -159,15 +175,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const PaymentsScreenArtist()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'Payments',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -178,7 +192,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -191,15 +205,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const DescribeScreen()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'Describe yourself',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -210,7 +222,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -223,15 +235,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const AddIMagesArtist()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'Add image / videos',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -242,7 +252,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -255,15 +265,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const WhatDoScreen()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'What do you do',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -274,7 +282,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -287,15 +295,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const HowCharge()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'How much you charge',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -306,7 +312,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -319,15 +325,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const PersonalInformationArtist()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'Personal information',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -338,7 +342,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -351,15 +355,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const AvailibilityArtist()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                        'Availibility',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        'Avalibilty',
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -370,7 +372,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -383,15 +385,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const LocationArtist()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'Location',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,
@@ -402,7 +402,7 @@ class ArtistProfile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
@@ -415,15 +415,13 @@ class ArtistProfile extends StatelessWidget {
                       builder: (context) => const TransactonArtist()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
                         'Transaction',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                       Icon(
                         Icons.arrow_forward,

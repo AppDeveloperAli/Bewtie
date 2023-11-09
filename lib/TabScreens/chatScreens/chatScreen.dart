@@ -45,9 +45,10 @@ class _ChatScreenState extends State<ChatScreen> {
                             ),
                           ),
                           builder: (context) {
-                            return SizedBox(
+                            return Container(
                               width: double.infinity,
                               height: 400,
+                              color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Column(
@@ -58,9 +59,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                   children: [
                                     Center(
                                       child: Container(
-                                        width: 100,
-                                        height: 0.5,
-                                        color: AppColors.primaryPink,
+                                        width: 50,
+                                        height: 5,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primaryPink,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
                                       ),
                                     ),
                                     Center(
@@ -107,7 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Container(
                 width: double.infinity,
                 height: 0.5,
-                color: AppColors.primaryPink,
+                color: AppColors.lightPink,
               ),
             ),
             Expanded(
@@ -173,7 +178,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: Container(
                           width: double.infinity,
                           height: 0.5,
-                          color: AppColors.primaryPink,
+                          color: AppColors.lightPink,
                         ),
                       ),
                     ],

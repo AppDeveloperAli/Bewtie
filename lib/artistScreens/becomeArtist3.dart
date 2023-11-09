@@ -22,73 +22,79 @@ class _Search3ScreenState extends State<BecomeArtist3> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Icon(
-                  Icons.close,
-                  size: 40,
-                  color: Colors.white,
-                ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Icon(
+                        Icons.close,
+                        size: 40,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Make-up (Bridal)...',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 0.5,
+                    color: Colors.white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Make-up (€0)...',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 0.5,
+                    color: Colors.white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Your availibilty',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  CustomCardArtist(title: 'Mon'),
+                  CustomCardArtist(title: 'Tue'),
+                  CustomCardArtist(title: 'Wed'),
+                  CustomCardArtist(title: 'Thu'),
+                  CustomCardArtist(title: 'Fri'),
+                  CustomCardArtist(title: 'Sat'),
+                  CustomCardArtist(title: 'Sun'),
+                ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Mack-up (Bridal)...',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 0.5,
-              color: Colors.white,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Mack-up (€0)...',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 0.5,
-              color: Colors.white,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Your availibilty',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            CustomCardArtist(title: 'Mon'),
-            CustomCardArtist(title: 'Tue'),
-            CustomCardArtist(title: 'Wed'),
-            CustomCardArtist(title: 'Thu'),
-            CustomCardArtist(title: 'Fri'),
-            CustomCardArtist(title: 'Sat'),
-            CustomCardArtist(title: 'Sun'),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(

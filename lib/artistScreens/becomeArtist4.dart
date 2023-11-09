@@ -37,7 +37,7 @@ class BecomeArtistScreen4 extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Mack-up (Bridal)...',
+                      'Make-up (Bridal)...',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20,
@@ -53,7 +53,7 @@ class BecomeArtistScreen4 extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Mack-up (€0)...',
+                      'Make-up (€0)...',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20,

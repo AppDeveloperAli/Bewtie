@@ -6,6 +6,7 @@ import 'package:bewtie/TabScreens/profile/payment.dart';
 import 'package:bewtie/TabScreens/profile/personalinfo.dart';
 import 'package:bewtie/TabScreens/profile/termsCondition.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -19,6 +20,20 @@ class AccountScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LandingPage()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.close,
+                    size: 40,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Text(
@@ -43,8 +58,8 @@ class AccountScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
                       'Name',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontFamily: 'Manrope'),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                 ],
@@ -54,7 +69,7 @@ class AccountScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
-                  color: AppColors.primaryPink,
+                  color: AppColors.lightPink,
                 ),
               ),
               Padding(
@@ -90,7 +105,7 @@ class AccountScreen extends StatelessWidget {
                       ),
                       Expanded(
                           child: MyTextCard(
-                              title: 'I’m a Bewty Artist', fontSize: 15))
+                              title: 'I’m a Betwie Artist', fontSize: 15))
                     ],
                   ),
                 ),
@@ -100,7 +115,7 @@ class AccountScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
-                  color: AppColors.primaryPink,
+                  color: AppColors.lightPink,
                 ),
               ),
               GestureDetector(
@@ -109,7 +124,8 @@ class AccountScreen extends StatelessWidget {
                       builder: (context) => const PersonalInformation()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 20, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -124,7 +140,7 @@ class AccountScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
-                  color: AppColors.primaryPink,
+                  color: AppColors.lightPink,
                 ),
               ),
               GestureDetector(
@@ -133,7 +149,8 @@ class AccountScreen extends StatelessWidget {
                       builder: (context) => const PaymentsScreen()));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 20, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -148,7 +165,7 @@ class AccountScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   height: 0.5,
-                  color: AppColors.primaryPink,
+                  color: AppColors.lightPink,
                 ),
               ),
               Padding(
@@ -166,15 +183,11 @@ class AccountScreen extends StatelessWidget {
                           builder: (context) => const TermsCondition()));
                     },
                     child:
-                        MyTextCard(title: 'Terms & consitions', fontSize: 16)),
+                        MyTextCard(title: 'Terms & ‘conditions', fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: MyTextCard(title: 'Privacy Policy', fontSize: 16),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: MyTextCard(title: 'Data Providers', fontSize: 16),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
