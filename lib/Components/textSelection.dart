@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ClickableText extends StatefulWidget {
   final String text;
@@ -27,7 +28,8 @@ class _ClickableTextState extends State<ClickableText> {
           text: widget.text,
           style: TextStyle(
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              color: Colors.black),
+              color: Colors.black,
+              fontFamily: 'Manrope'),
         ),
       ),
     );

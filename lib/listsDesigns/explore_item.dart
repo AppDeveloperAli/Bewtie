@@ -12,35 +12,22 @@ class ExploreItemDesign extends StatefulWidget {
 }
 
 class _ExploreItemDesignState extends State<ExploreItemDesign> {
-  final List<Color?> itemColors = [
-    Colors.grey[300],
-    Colors.grey[300],
-    Colors.grey[300]
+  PageController _pageController = PageController(viewportFraction: 0.8);
+
+  List<Color> itemColors = [
+    Colors.amber,
+    Colors.blue,
+    Colors.green,
   ];
+
   int currentIndex = 1; // Initialize the index
+  int totalItems = 3; // Set the total number of items
 
   bool isFavorite = false;
 
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      final itemWidth = 200; // Adjust to your item width
-      final pixels = _scrollController.position.pixels;
-      final newIndex = (pixels / itemWidth).round();
-      if (newIndex != currentIndex) {
-        setState(() {
-          currentIndex = newIndex;
-        });
-      }
-    });
-  }
-
   @override
   void dispose() {
-    _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -60,27 +47,28 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
             Column(
               children: [
                 SizedBox(
-                  width: double.infinity,
                   height: 400,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    controller: _scrollController,
-                    itemCount: itemColors.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        semanticContainer: true,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: Container(
-                          width: 400,
-                          height: 300,
-                          color: itemColors[index % itemColors.length],
-                        ),
-                      );
-                    },
+                  width: 600,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Adjust the radius as needed
+                    ),
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          currentIndex = index + 1;
+                        });
+                      },
+                      children: itemColors
+                          .map((color) => Container(
+                                color: color,
+                              ))
+                          .toList(),
+                    ),
                   ),
                 ),
                 Padding(
