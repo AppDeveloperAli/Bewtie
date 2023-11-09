@@ -8,6 +8,7 @@ import 'package:bewtie/TabScreens/wishlist/wishlist.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -43,11 +44,12 @@ class _LandingPageState extends State<LandingPage> {
         backgroundColor: AppColors.lightPink,
         selectedItemColor: AppColors.primaryPink, // Color for the selected item
         unselectedItemColor: Colors.black,
+        selectedLabelStyle: GoogleFonts.manrope(),
+        unselectedLabelStyle: GoogleFonts.manrope(),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/svg/Explore-Icon-Black.svg',
-              width: 30,
               color: _selectedIndex == 0 ? AppColors.primaryPink : Colors.black,
             ),
             label: 'Explore',
@@ -55,7 +57,6 @@ class _LandingPageState extends State<LandingPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/svg/Inbox-Icon-Black.svg',
-              width: 25,
               color: _selectedIndex == 1 ? AppColors.primaryPink : Colors.black,
             ),
             label: 'Inbox',
@@ -63,7 +64,6 @@ class _LandingPageState extends State<LandingPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/svg/Bookings-Icon-White.svg',
-              width: 18,
               color: _selectedIndex == 2 ? AppColors.primaryPink : Colors.black,
             ),
             label: 'Bookings',
@@ -71,7 +71,6 @@ class _LandingPageState extends State<LandingPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/svg/Wishlist-Icon-Black.svg',
-              width: 25,
               color: _selectedIndex == 3 ? AppColors.primaryPink : Colors.black,
             ),
             label: 'Wishlist',
@@ -79,7 +78,6 @@ class _LandingPageState extends State<LandingPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/svg/Profile-Icon-Blacks.svg',
-              width: 25,
               color: _selectedIndex == 4 ? AppColors.primaryPink : Colors.black,
             ),
             label: 'Profile',
