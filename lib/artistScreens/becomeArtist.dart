@@ -49,7 +49,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 20),
                 child: Text(
-                  'Mack-up',
+                  'Make-up',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 20,

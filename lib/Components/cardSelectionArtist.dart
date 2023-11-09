@@ -21,23 +21,23 @@ class _CustomCardState extends State<CustomCardArtist> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Card(
-          elevation: 0,
-          color: Colors.transparent,
-          shadowColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-            side: BorderSide(
-              color: isClicked ? AppColors.primaryPink : Colors.white,
-              width: 0.5,
+    return GestureDetector(
+      onTap: toggleBorderColor,
+      child: Container(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Card(
+            elevation: 0,
+            color: Colors.transparent,
+            shadowColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+              side: BorderSide(
+                color: isClicked ? AppColors.primaryPink : Colors.white,
+                width: 0.5,
+              ),
             ),
-          ),
-          child: GestureDetector(
-            onTap: toggleBorderColor,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Center(

@@ -62,7 +62,7 @@ class _LandingPageState extends State<LandingPage> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/svg/Bookings-Icon-Black.svg',
+              'assets/svg/Bookings-Icon-White.svg',
               width: 18,
               color: _selectedIndex == 2 ? AppColors.primaryPink : Colors.black,
             ),
@@ -78,7 +78,7 @@ class _LandingPageState extends State<LandingPage> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/svg/Profile-Icon-Black.svg',
+              'assets/svg/Profile-Icon-Blacks.svg',
               width: 25,
               color: _selectedIndex == 4 ? AppColors.primaryPink : Colors.black,
             ),

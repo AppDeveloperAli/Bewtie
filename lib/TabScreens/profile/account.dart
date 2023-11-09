@@ -183,7 +183,7 @@ class AccountScreen extends StatelessWidget {
                           builder: (context) => const TermsCondition()));
                     },
                     child:
-                        MyTextCard(title: 'Terms & ‘conditions', fontSize: 16)),
+                        MyTextCard(title: 'Terms & conditions', fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
