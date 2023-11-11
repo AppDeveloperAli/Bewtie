@@ -300,7 +300,7 @@ class ArtistProfile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                        'How much you charge',
+                        'How much do you charge',
                         style: TextStyle(color: Colors.white),
                       ),
                       Icon(
@@ -360,7 +360,7 @@ class ArtistProfile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                        'Avalibilty',
+                        'Availability',
                         style: TextStyle(color: Colors.white),
                       ),
                       Icon(
@@ -420,7 +420,7 @@ class ArtistProfile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                        'Transaction',
+                        'Transactions',
                         style: TextStyle(color: Colors.white),
                       ),
                       Icon(
@@ -458,15 +458,11 @@ class ArtistProfile extends StatelessWidget {
                           builder: (context) => const TermsConditionArtist()));
                     },
                     child: MyTextCardArtist(
-                        title: 'Terms & consitions', fontSize: 16)),
+                        title: 'Terms & conditions', fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: MyTextCardArtist(title: 'Privacy Policy', fontSize: 16),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: MyTextCardArtist(title: 'Data Providers', fontSize: 16),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),

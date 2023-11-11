@@ -41,12 +41,20 @@ class _BookingScreenState extends State<BookingScreenArtist> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
-              child: Text(
-                'My bookings In date order',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                    color: Colors.white),
+              child: Row(
+                children: const [
+                  Text(
+                    'My bookings',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white),
+                  ),
+                  Text(
+                    ' In date order',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ],
               ),
             ),
             Padding(

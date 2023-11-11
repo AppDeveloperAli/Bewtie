@@ -34,7 +34,7 @@ class LocationArtist extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  'Your availibilty',
+                  'Your location',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
@@ -42,8 +42,7 @@ class LocationArtist extends StatelessWidget {
                   ),
                 ),
               ),
-              TextInputFeildWidgetArtist(
-                  labelText: 'Enter your destination here')
+              TextInputFeildWidgetArtist(labelText: 'Enter your location')
             ],
           ),
           Padding(

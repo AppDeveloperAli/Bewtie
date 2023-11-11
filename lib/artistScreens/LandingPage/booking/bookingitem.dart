@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
@@ -13,7 +13,7 @@ class BookingOrdersArtist extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Card(
-        color: Colors.white,
+        color: AppColors.lightPink,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -26,24 +26,24 @@ class BookingOrdersArtist extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Service',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                    Text(
+                    const Text(
                       'Name',
                       style: TextStyle(fontSize: 16),
                     ),
-                    Text(
+                    const Text(
                       'Service',
                       style: TextStyle(fontSize: 16),
                     ),
-                    Text(
+                    const Text(
                       'Location',
                       style: TextStyle(fontSize: 16),
                     ),
-                    Text(
+                    const Text(
                       'Price',
                       style: TextStyle(fontSize: 16),
                     ),
@@ -92,7 +92,7 @@ class BookingOrdersArtist extends StatelessWidget {
                                                             10),
                                                   ),
                                                 )),
-                                                Center(
+                                                const Center(
                                                     child: Text(
                                                   'Are you sure you want to cancel your booking? \n\nAs it is less than 48 hours before the  booking date, there will be a charge',
                                                   textAlign: TextAlign.center,
@@ -131,7 +131,7 @@ class BookingOrdersArtist extends StatelessWidget {
                                     color: Colors.transparent,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
-                                      side: BorderSide(
+                                      side: const BorderSide(
                                         color: Colors.black, // Outline color
                                         width: 1.0, // Outline width
                                       ),
@@ -140,10 +140,11 @@ class BookingOrdersArtist extends StatelessWidget {
                                       width: 60,
                                       height: 60,
                                       child: Center(
-                                          child: Text('Cancel Booking',
-                                              style: TextStyle(
-                                                fontFamily: 'Manrope',
-                                              ))),
+                                          child: Text(
+                                        'Cancel Booking',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      )),
                                     )),
                               ),
                             ),
@@ -188,7 +189,7 @@ class BookingOrdersArtist extends StatelessWidget {
                                                             10),
                                                   ),
                                                 )),
-                                                Center(
+                                                const Center(
                                                     child: Text(
                                                   'Have you finished the job?',
                                                   textAlign: TextAlign.center,

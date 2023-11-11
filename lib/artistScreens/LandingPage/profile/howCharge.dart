@@ -2,7 +2,9 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
+import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/becomeArtist3.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HowCharge extends StatefulWidget {
@@ -87,16 +89,19 @@ class _Search2ScreenState extends State<HowCharge> {
                       ],
                     ),
                   ),
-                  Slider(
-                    value: _currentSliderValue,
-                    max: 100,
-                    divisions: 100,
-                    label: _currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CupertinoSlider(
+                        value: _currentSliderValue,
+                        thumbColor: AppColors.primaryPink,
+                        // label: _currentSliderValue.round().toString(),
+                        onChanged: (value) {
+                          setState(() => _currentSliderValue = value);
+                        },
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 20),
@@ -136,16 +141,19 @@ class _Search2ScreenState extends State<HowCharge> {
                       ],
                     ),
                   ),
-                  Slider(
-                    value: _currentSliderValue,
-                    max: 100,
-                    divisions: 100,
-                    label: _currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CupertinoSlider(
+                        value: _currentSliderValue,
+                        thumbColor: AppColors.primaryPink,
+                        // label: _currentSliderValue.round().toString(),
+                        onChanged: (value) {
+                          setState(() => _currentSliderValue = value);
+                        },
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 20),
@@ -185,16 +193,19 @@ class _Search2ScreenState extends State<HowCharge> {
                       ],
                     ),
                   ),
-                  Slider(
-                    value: _currentSliderValue,
-                    max: 100,
-                    divisions: 100,
-                    label: _currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CupertinoSlider(
+                        value: _currentSliderValue,
+                        thumbColor: AppColors.primaryPink,
+                        // label: _currentSliderValue.round().toString(),
+                        onChanged: (value) {
+                          setState(() => _currentSliderValue = value);
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -78,8 +78,8 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: SizedBox(
-                      width: 140,
-                      height: 55,
+                      width: 135,
+                      height: 50,
                       child: MyCardButton(title: 'Remove')),
                 ),
               ],
@@ -111,13 +111,13 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(top: 20, right: 10, left: 10),
               child: Row(
                 children: [
                   Expanded(
                     flex: 3,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 15, left: 5),
+                      padding: EdgeInsets.only(left: 5),
                       child: Text(
                         '+Add card',
                         style: TextStyle(
@@ -143,13 +143,13 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
 
   Widget items(String title) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 20, right: 10, left: 10),
       child: Row(
         children: [
           Expanded(
             flex: 3,
             child: Padding(
-              padding: EdgeInsets.only(top: 15, left: 5),
+              padding: const EdgeInsets.only(left: 5),
               child: Text(
                 title,
                 style: TextStyle(

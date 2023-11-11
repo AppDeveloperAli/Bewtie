@@ -10,6 +10,8 @@ import 'package:bewtie/artistScreens/LandingPage/booking/booking.dart';
 import 'package:bewtie/artistScreens/LandingPage/inbox/inbox.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ArtistMainPage extends StatefulWidget {
   const ArtistMainPage({super.key});
@@ -43,17 +45,48 @@ class _LandingPageState extends State<ArtistMainPage> {
         backgroundColor: Colors.black,
         selectedItemColor: AppColors.primaryPink,
         unselectedItemColor: Colors.white,
+        selectedLabelStyle: GoogleFonts.manrope(),
+        unselectedLabelStyle: GoogleFonts.manrope(),
+        selectedFontSize: 12.0,
+        unselectedFontSize: 12.0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/inboxblack.png')),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Inbox-Icon-White.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 0 ? AppColors.primaryPink : Colors.white,
+              ),
+            ),
             label: 'Inbox',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/bookingblack.png')),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Bookings-Icon-White.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 1 ? AppColors.primaryPink : Colors.white,
+              ),
+            ),
             label: 'Bookings',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/profileblack.png')),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Profile-Icon-White.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 2 ? AppColors.primaryPink : Colors.white,
+              ),
+            ),
             label: 'Profile',
           ),
         ],

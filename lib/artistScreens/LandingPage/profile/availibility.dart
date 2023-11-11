@@ -33,7 +33,7 @@ class AvailibilityArtist extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  'Your availibilty',
+                  'Your availability',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 20,

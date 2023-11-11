@@ -39,7 +39,7 @@ class _LeaveReviewScreenState extends State<DescribeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    'Leave a review',
+                    'Describe yourself',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,

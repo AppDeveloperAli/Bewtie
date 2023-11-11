@@ -46,51 +46,71 @@ class _LandingPageState extends State<LandingPage> {
         unselectedItemColor: Colors.black,
         selectedLabelStyle: GoogleFonts.manrope(),
         unselectedLabelStyle: GoogleFonts.manrope(),
-        selectedFontSize: 14.0, // Set a specific font size for selected items
-        unselectedFontSize: 14.0,
+        selectedFontSize: 12.0, // Set a specific font size for selected items
+        unselectedFontSize: 12.0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/Explore-Icon-Black.svg',
-              height: 27,
-              width: 25,
-              color: _selectedIndex == 0 ? AppColors.primaryPink : Colors.black,
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Explore-Icon-Black.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 0 ? AppColors.primaryPink : Colors.black,
+              ),
             ),
             label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/Inbox-Icon-Black.svg',
-              height: 25,
-              width: 25,
-              color: _selectedIndex == 1 ? AppColors.primaryPink : Colors.black,
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Inbox-Icon-Black.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 1 ? AppColors.primaryPink : Colors.black,
+              ),
             ),
             label: 'Inbox',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/Bookings-Icon-White.svg',
-              height: 25,
-              width: 25,
-              color: _selectedIndex == 2 ? AppColors.primaryPink : Colors.black,
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Bookings-Icon-White.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 2 ? AppColors.primaryPink : Colors.black,
+              ),
             ),
             label: 'Bookings',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/Wishlist-Icon-Black.svg',
-              height: 25,
-              width: 25,
-              color: _selectedIndex == 3 ? AppColors.primaryPink : Colors.black,
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Wishlist-Icon-Black.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 3 ? AppColors.primaryPink : Colors.black,
+              ),
             ),
             label: 'Wishlist',
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/svg/Profile-Icon-Blacks.svg',
-              height: 25,
-              width: 25,
-              color: _selectedIndex == 4 ? AppColors.primaryPink : Colors.black,
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: SvgPicture.asset(
+                'assets/svg/Profile-Icon-Blacks.svg',
+                height: 25,
+                width: 25,
+                color:
+                    _selectedIndex == 4 ? AppColors.primaryPink : Colors.black,
+              ),
             ),
             label: 'Profile',
           ),
