@@ -18,86 +18,88 @@ class BecomeArtistScreen4 extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                        Icons.close,
-                        size: 40,
-                        color: Colors.white,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(
+                          Icons.close,
+                          size: 40,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Make-up (Bridal)...',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Make-up (Bridal)...',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 0.5,
-                    color: Colors.white,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Make-up (€0)...',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: Colors.white,
+                    Container(
+                      width: double.infinity,
+                      height: 0.5,
+                      color: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Make-up (€0)...',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 0.5,
-                    color: Colors.white,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Monday 01s August...',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: Colors.white,
+                    Container(
+                      width: double.infinity,
+                      height: 0.5,
+                      color: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Monday 01s August...',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 0.5,
-                    color: Colors.white,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Your Location',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: AppColors.primaryPink,
+                    Container(
+                      width: double.infinity,
+                      height: 0.5,
+                      color: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Your Location',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: AppColors.primaryPink,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: TextInputFeildWidgetArtist(
-                          labelText: 'Enter your destination here...')),
-                ],
+                    Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextInputFeildWidgetArtist(
+                            labelText: 'Enter your destination here...')),
+                  ],
+                ),
               ),
             ),
             Padding(

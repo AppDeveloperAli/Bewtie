@@ -75,7 +75,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
               ),
               CustomCardArtist(title: 'Bridal'),
               CustomCardArtist(title: 'Editorial'),
-              CustomCardArtist(title: 'Film & Tv'),
+              CustomCardArtist(title: 'Film & TV'),
               CustomCardArtist(title: 'Party'),
               CustomCardArtist(title: 'Special Effects'),
               Padding(
@@ -91,7 +91,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
               ),
               CustomCardArtist(title: 'Bridal'),
               CustomCardArtist(title: 'Editorial'),
-              CustomCardArtist(title: 'Film & Tv'),
+              CustomCardArtist(title: 'Film & TV'),
               CustomCardArtist(title: 'Party'),
               CustomCardArtist(title: 'Special Effects'),
               Padding(

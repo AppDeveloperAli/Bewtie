@@ -49,7 +49,7 @@ class _Search1ScreenState extends State<Search1Screen> {
               ),
               CustomCard(title: 'Bridal'),
               CustomCard(title: 'Editorial'),
-              CustomCard(title: 'Film & Tv'),
+              CustomCard(title: 'Film & TV'),
               CustomCard(title: 'Party'),
               CustomCard(title: 'Special Effects'),
               Padding(
@@ -76,7 +76,7 @@ class _Search1ScreenState extends State<Search1Screen> {
               ),
               CustomCard(title: 'Bridal'),
               CustomCard(title: 'Editorial'),
-              CustomCard(title: 'Film & Tv'),
+              CustomCard(title: 'Film & TV'),
               CustomCard(title: 'Party'),
               CustomCard(title: 'Special Effects'),
               Padding(

@@ -54,7 +54,7 @@ class _Search2ScreenState extends State<HowCharge> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Text(
-                      'Mack-up',
+                      'Make-up',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,

@@ -1,9 +1,11 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardicon.dart';
 import 'package:bewtie/Components/textSelection.dart';
+import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search1.dart';
 import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -22,10 +24,41 @@ class _ExploreScreenState extends State<ExploreScreen> {
             children: [
               Padding(
                   padding: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 10),
-                  child: MyCardIcon(
-                    hintText: 'Tell us what you\'re after?',
-                    iconData: 'assets/icons/exploreblack.png',
+                    top: 10,
+                    left: 15,
+                    right: 15,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const Search1Screen()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(30.0),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1.0,
+                        ),
+                      ),
+                      width: double.infinity,
+                      height: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Tell us what you\'re after?'),
+                            SvgPicture.asset(
+                              'assets/svg/Explore-Icon-Black.svg',
+                              height: 20,
+                              width: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   )),
               Padding(
                   padding: const EdgeInsets.all(10.0),

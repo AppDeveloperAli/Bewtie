@@ -50,7 +50,7 @@ class _Search1ScreenState extends State<WhatDoScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 20),
                 child: Text(
-                  'Mack-up',
+                  'Make-up',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
@@ -60,7 +60,7 @@ class _Search1ScreenState extends State<WhatDoScreen> {
               ),
               CustomCardArtist(title: 'Bridal'),
               CustomCardArtist(title: 'Editorial'),
-              CustomCardArtist(title: 'Film & Tv'),
+              CustomCardArtist(title: 'Film & TV'),
               CustomCardArtist(title: 'Party'),
               CustomCardArtist(title: 'Special Effects'),
               Padding(
@@ -76,7 +76,7 @@ class _Search1ScreenState extends State<WhatDoScreen> {
               ),
               CustomCardArtist(title: 'Bridal'),
               CustomCardArtist(title: 'Editorial'),
-              CustomCardArtist(title: 'Film & Tv'),
+              CustomCardArtist(title: 'Film & TV'),
               CustomCardArtist(title: 'Party'),
               CustomCardArtist(title: 'Special Effects'),
               Padding(
@@ -92,7 +92,7 @@ class _Search1ScreenState extends State<WhatDoScreen> {
               ),
               CustomCardArtist(title: 'Bridal'),
               CustomCardArtist(title: 'Editorial'),
-              CustomCardArtist(title: 'Film & Tv'),
+              CustomCardArtist(title: 'Film & TV'),
               CustomCardArtist(title: 'Party'),
               CustomCardArtist(title: 'Special Effects'),
               Padding(

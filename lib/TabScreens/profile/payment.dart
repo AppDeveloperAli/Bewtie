@@ -75,22 +75,16 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
               ),
             ),
             items('Apple Pay'),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Container(
-                width: double.infinity,
-                height: 0.5,
-                color: AppColors.primaryPink,
-              ),
+            Container(
+              width: double.infinity,
+              height: 0.5,
+              color: AppColors.primaryPink,
             ),
             items('Paypal'),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Container(
-                width: double.infinity,
-                height: 0.5,
-                color: AppColors.primaryPink,
-              ),
+            Container(
+              width: double.infinity,
+              height: 0.5,
+              color: AppColors.primaryPink,
             ),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -99,7 +93,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                   Expanded(
                     flex: 3,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 15, left: 15),
+                      padding: EdgeInsets.only(left: 15),
                       child: Text(
                         '+Add card',
                         style: TextStyle(
@@ -128,7 +122,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
           Expanded(
             flex: 3,
             child: Padding(
-              padding: EdgeInsets.only(top: 15, left: 15),
+              padding: EdgeInsets.only(left: 15),
               child: Text(
                 title,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),

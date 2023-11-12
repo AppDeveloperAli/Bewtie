@@ -15,10 +15,10 @@ class Search4Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Expanded(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -102,34 +102,34 @@ class Search4Screen extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                const ExploreDetailsScreen()));
+                      },
+                      child: MyTextCard(title: 'Cancel', fontSize: 15),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  const ExploreDetailsScreen()));
+                                  const RequestQuoteScreen()));
                         },
-                        child: MyTextCard(title: 'Cancel', fontSize: 15),
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    const RequestQuoteScreen()));
-                          },
-                          child: MyCardButton(title: 'Search')),
-                    ),
-                  ],
-                ),
+                        child: MyCardButton(title: 'Search')),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
