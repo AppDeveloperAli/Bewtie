@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "248931132785",
+    "project_id": "bewtie-51fc2",
+    "storage_bucket": "bewtie-51fc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248931132785:android:4b4bc48dfcfa47245e82d0",
+        "android_client_info": {
+          "package_name": "com.bewtie.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjY2FhuQ9P8QYBNoRBYIha0dLLRJnohDg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

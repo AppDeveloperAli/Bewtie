@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 class TextInputFeildWidget extends StatefulWidget {
   TextEditingController? controller;
   String labelText;
-  TextInputFeildWidget({super.key, required this.labelText, this.controller});
+  TextInputType? keyboardType;
+  TextInputFeildWidget(
+      {super.key, required this.labelText, this.controller, this.keyboardType});
 
   @override
   State<TextInputFeildWidget> createState() => _TextInputFeildWidgetState();
@@ -56,6 +58,7 @@ class _TextInputFeildWidgetState extends State<TextInputFeildWidget> {
             ),
             labelText: widget.labelText,
           ),
+          keyboardType: widget.keyboardType,
           onChanged: (text) {
             setState(() {
               // email = text;

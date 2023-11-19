@@ -1,4 +1,4 @@
-package com.example.bewtie
+package com.bewtie.app
 
 import io.flutter.embedding.android.FlutterActivity
 
