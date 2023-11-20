@@ -34,6 +34,8 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Widget logged_in_View(BuildContext context) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +218,11 @@ class _AccountScreenState extends State<AccountScreen> {
               right: 10,
               top: 20,
             ),
-            child: MyCardButton(title: 'Log out'),
+            child: GestureDetector(
+                onTap: () {
+                  auth.signOut();
+                },
+                child: MyCardButton(title: 'Log out')),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15),
@@ -245,84 +251,142 @@ class Logged_Out_view extends StatefulWidget {
 }
 
 class _Logged_Out_viewState extends State<Logged_Out_view> {
-  String countryTitle = 'United Kingdom';
+  FirebaseAuth auth = FirebaseAuth.instance;
+  TextEditingController emailController1 = TextEditingController();
+  TextEditingController passwordController1 = TextEditingController();
+  TextEditingController emailController2 = TextEditingController();
+  TextEditingController passwordController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LandingPage()),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Icon(
-              Icons.close,
-              size: 40,
-            ),
+    return Scaffold(
+      body: Column(
+        children: [
+          TextInputFeildWidget(
+            labelText: "Email",
+            controller: emailController1,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Text(
-            'Log in or Sign up',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          TextInputFeildWidget(
+            labelText: "Password",
+            controller: passwordController1,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
-          child: GestureDetector(
-            onTap: () {
-              showCountryPicker(
-                context: context,
-                showPhoneCode: true,
-                onSelect: (Country country) {
-                  setState(() {
-                    countryTitle = '${country.displayName}';
-                    print(countryTitle);
-                  });
-                },
-              );
-            },
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-                side: BorderSide(color: Colors.black),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                width: double.infinity,
-                height: 80.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Country / region',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      countryTitle,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          GestureDetector(
+              onTap: () {
+                auth.createUserWithEmailAndPassword(
+                    email: emailController1.text,
+                    password: passwordController1.text);
+              },
+              child: MyCardButton(title: "Sign Up")),
+          SizedBox(
+            height: 25,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 15, left: 15),
-          child: TextInputFeildWidget(
-            labelText: 'Phone Number',
-            keyboardType: TextInputType.number,
+          TextInputFeildWidget(
+            labelText: "Email",
+            controller: emailController2,
           ),
-        )
-      ],
+          TextInputFeildWidget(
+            labelText: "Password",
+            controller: passwordController2,
+          ),
+          GestureDetector(
+              onTap: () {
+                auth.signInWithEmailAndPassword(
+                    email: emailController2.text,
+                    password: passwordController2.text);
+              },
+              child: MyCardButton(title: "Sign In")),
+        ],
+      ),
     );
   }
 }
+
+// class Logged_Out_view extends StatefulWidget {
+//   const Logged_Out_view({super.key});
+
+//   @override
+//   State<Logged_Out_view> createState() => _Logged_Out_viewState();
+// }
+
+// class _Logged_Out_viewState extends State<Logged_Out_view> {
+//   String countryTitle = 'United Kingdom';
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         GestureDetector(
+//           onTap: () {
+//             Navigator.of(context).pushReplacement(
+//               MaterialPageRoute(builder: (context) => LandingPage()),
+//             );
+//           },
+//           child: Padding(
+//             padding: const EdgeInsets.all(10.0),
+//             child: Icon(
+//               Icons.close,
+//               size: 40,
+//             ),
+//           ),
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(left: 20, right: 20),
+//           child: Text(
+//             'Log in or Sign up',
+//             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+//           ),
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
+//           child: GestureDetector(
+//             onTap: () {
+//               showCountryPicker(
+//                 context: context,
+//                 showPhoneCode: true,
+//                 onSelect: (Country country) {
+//                   setState(() {
+//                     countryTitle = '${country.displayName}';
+//                     print(countryTitle);
+//                   });
+//                 },
+//               );
+//             },
+//             child: Card(
+//               elevation: 0,
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(15.0),
+//                 side: BorderSide(color: Colors.black),
+//               ),
+//               child: Container(
+//                 padding: EdgeInsets.all(10.0),
+//                 width: double.infinity,
+//                 height: 80.0,
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       'Country / region',
+//                       style: TextStyle(fontWeight: FontWeight.bold),
+//                     ),
+//                     Text(
+//                       countryTitle,
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(right: 15, left: 15),
+//           child: TextInputFeildWidget(
+//             labelText: 'Phone Number',
+//             keyboardType: TextInputType.number,
+//           ),
+//         )
+//       ],
+//     );
+//   }
+// }
