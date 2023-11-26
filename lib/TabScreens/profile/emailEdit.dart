@@ -2,10 +2,42 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/textFieldInput.dart';
+import 'package:bewtie/Utils/snackBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EmailEditScreen extends StatelessWidget {
-  const EmailEditScreen({super.key});
+  EmailEditScreen({super.key});
+
+  TextEditingController emailController = TextEditingController();
+
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+  Future<void> addUser(BuildContext context) async {
+    if (emailController.text.isNotEmpty) {
+      if (currentUser != null) {
+        final DocumentSnapshot userDoc =
+            await users.doc(currentUser!.uid).get();
+
+        if (userDoc.exists) {
+          await users.doc(currentUser!.uid).update({
+            'email': emailController.text,
+          });
+          Navigator.pop(context);
+          CustomSnackBar(context, Text('Name Updated...'));
+        } else {
+          await users.doc(currentUser!.uid).set({
+            'email': emailController.text,
+          });
+          Navigator.pop(context);
+          CustomSnackBar(context, Text('Name Updated...'));
+        }
+      }
+    } else {
+      CustomSnackBar(context, Text("Email must be provided..."));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +89,11 @@ class EmailEditScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: TextInputFeildWidget(labelText: 'Xxxxxxxxxxx'),
+                    child: TextInputFeildWidget(
+                      labelText: 'Xxxxxxxxxxx',
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
                   ),
                 ],
               ),
@@ -65,8 +101,8 @@ class EmailEditScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20),
               child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
+                onTap: () async {
+                  await addUser(context); // Navigator.pop(context);
                 },
                 child: MyCardButton(
                   title: 'Update',

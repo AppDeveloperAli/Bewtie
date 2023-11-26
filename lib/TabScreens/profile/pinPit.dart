@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/landingPage1.dart';

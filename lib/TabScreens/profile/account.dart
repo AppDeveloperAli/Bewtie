@@ -9,7 +9,9 @@ import 'package:bewtie/TabScreens/profile/pinPit.dart';
 import 'package:bewtie/TabScreens/profile/termsCondition.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/Utils/snackBar.dart';
+import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/landingPage1.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +30,57 @@ class _AccountScreenState extends State<AccountScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child:
-            auth.currentUser != null ? logged_in_View(context) : MyHomePage(),
+        child: auth.currentUser != null ? LoggedInView() : MyHomePage(),
       ),
     );
   }
+}
 
-  Widget logged_in_View(BuildContext context) {
+class LoggedInView extends StatefulWidget {
+  const LoggedInView({super.key});
+
+  @override
+  State<LoggedInView> createState() => _LoggedInViewState();
+}
+
+class _LoggedInViewState extends State<LoggedInView> {
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+
+  late String firstName = "";
+  late String lastName = "";
+  late String image = "";
+
+  @override
+  void initState() {
+    super.initState();
+    if (currentUser != null) {
+      getUserData(currentUser!.uid);
+    }
+  }
+
+  Future<void> getUserData(String uid) async {
+    try {
+      DocumentSnapshot userDoc = await users.doc(uid).get();
+
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+        setState(() {
+          firstName = userData['first_name'] ?? "Name";
+          lastName = userData['last_name'] ?? "";
+          image = userData['profileimage'] ?? "";
+        });
+      } else {
+        print("User document does not exist");
+      }
+    } catch (e) {
+      print("Error fetching user data: $e");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     return SingleChildScrollView(
@@ -72,13 +118,17 @@ class _AccountScreenState extends State<AccountScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.grey[300],
+                    image: DecorationImage(
+                      image: NetworkImage(image),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  'Name',
+                  '$firstName $lastName',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ),
@@ -107,25 +157,37 @@ class _AccountScreenState extends State<AccountScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Card(
-                        color: AppColors.primaryPink,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 60,
-                          child: Center(
-                              child: Text('I need an Artist',
-                                  style: const TextStyle(
-                                      fontFamily: 'Manrope',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))),
-                        )),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const LandingPage()));
+                      },
+                      child: Card(
+                          color: AppColors.primaryPink,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 60,
+                            child: Center(
+                                child: Text('I need an Artist',
+                                    style: const TextStyle(
+                                        fontFamily: 'Manrope',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15))),
+                          )),
+                    ),
                   ),
                   Expanded(
-                      child: MyTextCard(
-                          title: 'I’m a Betwie Artist', fontSize: 15))
+                      child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const BecomeArtistScreen()));
+                    },
+                    child:
+                        MyTextCard(title: 'I’m a Betwie Artist', fontSize: 15),
+                  ))
                 ],
               ),
             ),
@@ -203,7 +265,12 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: MyTextCard(title: 'Privacy Policy', fontSize: 16),
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const TermsCondition()));
+                },
+                child: MyTextCard(title: 'Privacy Policy', fontSize: 16)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15),
@@ -221,7 +288,10 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             child: GestureDetector(
                 onTap: () {
-                  auth.signOut();
+                  auth.signOut().whenComplete(() {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LandingPage()));
+                  });
                 },
                 child: MyCardButton(title: 'Log out')),
           ),
@@ -244,167 +314,6 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 }
 
-// class Logged_Out_view extends StatefulWidget {
-//   const Logged_Out_view({super.key});
-
-//   @override
-//   State<Logged_Out_view> createState() => _Logged_Out_viewState();
-// }
-
-// class _Logged_Out_viewState extends State<Logged_Out_view> {
-//   FirebaseAuth auth = FirebaseAuth.instance;
-//   TextEditingController emailController1 = TextEditingController();
-//   TextEditingController passwordController1 = TextEditingController();
-//   TextEditingController emailController2 = TextEditingController();
-//   TextEditingController passwordController2 = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         children: [
-//           TextInputFeildWidget(
-//             labelText: "Email",
-//             controller: emailController1,
-//           ),
-//           TextInputFeildWidget(
-//             labelText: "Password",
-//             controller: passwordController1,
-//           ),
-//           GestureDetector(
-//               onTap: () {
-//                 auth.createUserWithEmailAndPassword(
-//                     email: emailController1.text,
-//                     password: passwordController1.text);
-//               },
-//               child: MyCardButton(title: "Sign Up")),
-//           SizedBox(
-//             height: 25,
-//           ),
-//           TextInputFeildWidget(
-//             labelText: "Email",
-//             controller: emailController2,
-//           ),
-//           TextInputFeildWidget(
-//             labelText: "Password",
-//             controller: passwordController2,
-//           ),
-//           GestureDetector(
-//               onTap: () {
-//                 auth.signInWithEmailAndPassword(
-//                     email: emailController2.text,
-//                     password: passwordController2.text);
-//               },
-//               child: MyCardButton(title: "Sign In")),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-class Logged_Out_view extends StatefulWidget {
-  const Logged_Out_view({super.key});
-
-  @override
-  State<Logged_Out_view> createState() => _Logged_Out_viewState();
-}
-
-class _Logged_Out_viewState extends State<Logged_Out_view> {
-  String countryTitle = 'United Kingdom';
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LandingPage()),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Icon(
-              Icons.close,
-              size: 40,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Text(
-            'Log in or Sign up',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
-          child: GestureDetector(
-            onTap: () {
-              showCountryPicker(
-                context: context,
-                showPhoneCode: true,
-                onSelect: (Country country) {
-                  setState(() {
-                    countryTitle = '${country.displayName}';
-                    print(countryTitle);
-                  });
-                },
-              );
-            },
-            child: Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-                side: BorderSide(color: Colors.black),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                width: double.infinity,
-                height: 80.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Country / region',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      countryTitle,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 15, left: 15),
-          child: TextInputFeildWidget(
-            labelText: 'Phone Number',
-            keyboardType: TextInputType.number,
-          ),
-        ),
-        GestureDetector(
-            onTap: () async {
-              await FirebaseAuth.instance.verifyPhoneNumber(
-                phoneNumber: '+923053272174',
-                verificationCompleted: (PhoneAuthCredential credential) {},
-                verificationFailed: (FirebaseAuthException e) {
-                  print(e.toString());
-                },
-                codeSent: (String verificationId, int? resendToken) {},
-                codeAutoRetrievalTimeout: (String verificationId) {},
-              );
-            },
-            child: MyCardButton(title: 'Send OTP'))
-      ],
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -413,8 +322,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   late TextEditingController _phoneNumberController;
-  late TextEditingController _otpController;
   late String? _verificationId;
+  String countryTitle = 'United Kingdom';
+  String phoneCode = '';
+  bool isLoading = false;
 
   bool isOTPsend = false;
 
@@ -422,13 +333,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _phoneNumberController = TextEditingController();
-    _otpController = TextEditingController();
     _verificationId = null; // Set to null in initState
   }
 
-  Future<void> _verifyPhoneNumber() async {
+  Future<void> _verifyPhoneNumber(String numbr) async {
+    setState(() {
+      isLoading = true;
+    });
     await auth.verifyPhoneNumber(
-      phoneNumber: _phoneNumberController.text,
+      phoneNumber: numbr,
       timeout: const Duration(minutes: 2),
       verificationCompleted: (PhoneAuthCredential credential) async {
         await FirebaseAuth.instance.signInWithCredential(credential);
@@ -436,6 +349,9 @@ class _MyHomePageState extends State<MyHomePage> {
       verificationFailed: (FirebaseAuthException e) {
         print('Verification Failed: $e');
         CustomSnackBar(context, Text(e.toString()));
+        setState(() {
+          isLoading = false;
+        });
       },
       codeSent: (String verificationId, [int? forceResendingToken]) {
         _verificationId = verificationId;
@@ -443,28 +359,22 @@ class _MyHomePageState extends State<MyHomePage> {
           MaterialPageRoute(
               builder: (context) => PinPutScreen(
                     otp: _verificationId,
-                    phoneNumber: _phoneNumberController.text,
+                    phoneNumber: numbr,
                   )),
         );
+        setState(() {
+          isLoading = false;
+        });
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         // Auto-retrieval timeout, handle it accordingly.
+        CustomSnackBar(context, Text('Code request time-out'));
+        setState(() {
+          isLoading = false;
+        });
       },
     );
   }
-
-  // Future<void> _signInWithPhoneNumber() async {
-  //   AuthCredential credential = PhoneAuthProvider.credential(
-  //     verificationId: _verificationId!,
-  //     smsCode: _otpController.text,
-  //   );
-
-  //   await FirebaseAuth.instance.signInWithCredential(credential);
-  //   // Navigate to the next screen or perform any other actions.
-  //   Navigator.of(context).pushReplacement(
-  //     MaterialPageRoute(builder: (context) => LandingPage()),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -494,48 +404,73 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Padding(
+            padding: const EdgeInsets.only(top: 15, right: 10, left: 10),
+            child: GestureDetector(
+              onTap: () {
+                showCountryPicker(
+                  context: context,
+                  showPhoneCode: true,
+                  onSelect: (Country country) {
+                    setState(() {
+                      countryTitle = country.displayName;
+                      phoneCode = country.phoneCode;
+                      print(countryTitle);
+                    });
+                  },
+                );
+              },
+              child: Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  side: BorderSide(color: Colors.black),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  width: double.infinity,
+                  height: 80.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Country / region',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        countryTitle,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: TextInputFeildWidget(
               controller: _phoneNumberController,
               labelText: 'Phone Number',
+              keyboardType: TextInputType.number,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: GestureDetector(
               onTap: () {
-                _verifyPhoneNumber();
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //       builder: (context) => PinPutScreen(
-                //             otp: _verificationId,
-                //             phoneNumber: _phoneNumberController.text,
-                //           )),
-                // );
+                String phoneNumber =
+                    '+$phoneCode${_phoneNumberController.text}';
+
+                print(phoneNumber);
+                _verifyPhoneNumber(phoneNumber);
               },
-              child: MyCardButton(
-                title: 'Continue',
-              ),
+              child: isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : MyCardButton(
+                      title: 'Continue',
+                    ),
             ),
           ),
-          isOTPsend
-              ? Column(
-                  children: [
-                    TextInputFeildWidget(
-                      controller: _otpController,
-                      labelText: 'OTP',
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // _signInWithPhoneNumber();
-                      },
-                      child: MyCardButton(
-                        title: 'Verify',
-                      ),
-                    ),
-                  ],
-                )
-              : Container(),
         ],
       ),
     );
