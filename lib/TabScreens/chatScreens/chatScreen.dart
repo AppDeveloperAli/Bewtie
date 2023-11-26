@@ -246,7 +246,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   print(_messages.length);
                   //messageList = snapshot.data!.docs;
-
+//
                   // print("---------------------- $messageList");
 
                   if (_messages.isEmpty) {
