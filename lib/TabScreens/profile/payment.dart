@@ -62,7 +62,11 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                   child: SizedBox(
                       width: 130,
                       height: 50,
-                      child: MyCardButton(title: 'Remove')),
+                      child: GestureDetector(
+                          onTap: () {
+                            showSheet();
+                          },
+                          child: MyCardButton(title: 'Remove'))),
                 ),
               ],
             ),
@@ -134,61 +138,63 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
               flex: 3,
               child: GestureDetector(
                   onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return SizedBox(
-                            width: double.infinity,
-                            height: 400,
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Center(
-                                    child: Container(
-                                      width: 100,
-                                      height: 0.5,
-                                      color: AppColors.primaryPink,
-                                    ),
-                                  ),
-                                  Center(
-                                      child: Text(
-                                    'Are you sure you want to delete this card?',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  )),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: MyCardButton(title: 'No')),
-                                      ),
-                                      Expanded(
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: MyTextCard(
-                                                title: 'Yes', fontSize: 18)),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        });
+                    showSheet();
                   },
                   child: MyTextCard(title: 'Remove', fontSize: 16))),
         ],
       ),
     );
+  }
+
+  Future<dynamic> showSheet() {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            width: double.infinity,
+            height: 400,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 100,
+                      height: 0.5,
+                      color: AppColors.primaryPink,
+                    ),
+                  ),
+                  Center(
+                      child: Text(
+                    'Are you sure you want to delete this card?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                  )),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: MyCardButton(title: 'No')),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: MyTextCard(title: 'Yes', fontSize: 18)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

@@ -1,15 +1,21 @@
 import 'package:bewtie/firebase_options.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterNativeSplash.remove();
+
   runApp(const MyApp());
 }
 
@@ -26,7 +32,7 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(bodyMedium: GoogleFonts.manrope()),
         useMaterial3: true,
       ),
-      home: const LandingPage(),
+      home: const SplashScreen(),
     );
   }
 }
