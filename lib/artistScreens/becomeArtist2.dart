@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:bewtie/Components/cardButton.dart';
-import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search3.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/becomeArtist3.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +25,9 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
   final int priceMakeup = 0;
   final int priceHair = 0;
   final int priceNails = 0;
-
+  double _nailsSliderValue = 0;
+  double _mackupSliderValue = 0;
+  double _hairSliderValue = 0;
   @override
   Widget build(BuildContext context) {
     print("---------------------------------");
@@ -112,7 +113,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            '0 €',
+                            '${_mackupSliderValue.toInt()} €',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -127,12 +128,13 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CupertinoSlider(
-                        value: _currentSliderValue,
+                        value: _mackupSliderValue,
+                        min: 0,
+                        max: 500,
+                        divisions: 50,
                         thumbColor: AppColors.primaryPink,
-                        // label: _currentSliderValue.round().toString(),
                         onChanged: (value) {
-                          setState(() => _currentSliderValue = value);
-                          print("------------$_currentSliderValue");
+                          setState(() => _mackupSliderValue = value);
                         },
                       ),
                     ),
@@ -165,7 +167,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            '0 €',
+                            '${_hairSliderValue.toInt()} €',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -180,11 +182,13 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CupertinoSlider(
-                        value: _currentSliderValue,
+                        value: _hairSliderValue,
+                        min: 0,
+                        max: 500,
+                        divisions: 50,
                         thumbColor: AppColors.primaryPink,
-                        // label: _currentSliderValue.round().toString(),
                         onChanged: (value) {
-                          setState(() => _currentSliderValue = value);
+                          setState(() => _hairSliderValue = value);
                         },
                       ),
                     ),
@@ -217,7 +221,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            '0 €',
+                            '${_nailsSliderValue.toInt()} €',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -232,12 +236,13 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CupertinoSlider(
-                        value: _currentSliderValue,
+                        value: _nailsSliderValue,
+                        min: 0,
+                        max: 500,
+                        divisions: 50,
                         thumbColor: AppColors.primaryPink,
-
-                        // label: _currentSliderValue.round().toString(),
                         onChanged: (value) {
-                          setState(() => _currentSliderValue = value);
+                          setState(() => _nailsSliderValue = value);
                         },
                       ),
                     ),
