@@ -3,6 +3,7 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
 
 class DeleteAccountArtist extends StatelessWidget {
@@ -55,8 +56,15 @@ class DeleteAccountArtist extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  MyTextCardArtist(title: 'No', fontSize: 18),
-                  MyCardButton(title: 'Yes')
+                  GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: MyTextCardArtist(title: 'No', fontSize: 18)),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const LandingPage()));
+                      },
+                      child: MyCardButton(title: 'Yes'))
                 ],
               ),
             )

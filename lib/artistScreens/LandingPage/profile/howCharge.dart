@@ -3,7 +3,6 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
 import 'package:bewtie/Utils/colors.dart';
-import 'package:bewtie/artistScreens/becomeArtist3.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +14,12 @@ class HowCharge extends StatefulWidget {
 }
 
 class _Search2ScreenState extends State<HowCharge> {
+  double _nailsSliderValue = 0;
+  double _mackupSliderValue = 0;
+  double _hairSliderValue = 0;
+
   @override
   Widget build(BuildContext context) {
-    double _currentSliderValue = 0;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -79,7 +81,7 @@ class _Search2ScreenState extends State<HowCharge> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            '0 €',
+                            '${_mackupSliderValue.toInt()} €',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -94,11 +96,13 @@ class _Search2ScreenState extends State<HowCharge> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CupertinoSlider(
-                        value: _currentSliderValue,
+                        value: _mackupSliderValue,
+                        min: 0,
+                        max: 500,
+                        divisions: 50,
                         thumbColor: AppColors.primaryPink,
-                        // label: _currentSliderValue.round().toString(),
                         onChanged: (value) {
-                          setState(() => _currentSliderValue = value);
+                          setState(() => _mackupSliderValue = value);
                         },
                       ),
                     ),
@@ -131,7 +135,7 @@ class _Search2ScreenState extends State<HowCharge> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            '0 €',
+                            '${_hairSliderValue.toInt()} €',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -146,11 +150,13 @@ class _Search2ScreenState extends State<HowCharge> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CupertinoSlider(
-                        value: _currentSliderValue,
+                        value: _hairSliderValue,
+                        min: 0,
+                        max: 500,
+                        divisions: 50,
                         thumbColor: AppColors.primaryPink,
-                        // label: _currentSliderValue.round().toString(),
                         onChanged: (value) {
-                          setState(() => _currentSliderValue = value);
+                          setState(() => _hairSliderValue = value);
                         },
                       ),
                     ),
@@ -183,7 +189,7 @@ class _Search2ScreenState extends State<HowCharge> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            '0 €',
+                            '${_nailsSliderValue.toInt()} €',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -198,11 +204,13 @@ class _Search2ScreenState extends State<HowCharge> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CupertinoSlider(
-                        value: _currentSliderValue,
+                        value: _nailsSliderValue,
+                        min: 0,
+                        max: 500,
+                        divisions: 50,
                         thumbColor: AppColors.primaryPink,
-                        // label: _currentSliderValue.round().toString(),
                         onChanged: (value) {
-                          setState(() => _currentSliderValue = value);
+                          setState(() => _nailsSliderValue = value);
                         },
                       ),
                     ),
