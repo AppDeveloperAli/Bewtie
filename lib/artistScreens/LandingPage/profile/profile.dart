@@ -138,7 +138,7 @@ class ArtistProfile extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const PersonalInformationArtist()));
+                      builder: (context) => PersonalInformationArtist()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15),

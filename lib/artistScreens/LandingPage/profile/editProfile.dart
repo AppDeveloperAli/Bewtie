@@ -1,18 +1,67 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:bewtie/TabScreens/profile/editPhone.dart';
-import 'package:bewtie/TabScreens/profile/editPhoto.dart';
-import 'package:bewtie/TabScreens/profile/editProfile.dart';
-import 'package:bewtie/TabScreens/profile/emailEdit.dart';
-import 'package:bewtie/TabScreens/profile/nameEdit.dart';
-import 'package:bewtie/Utils/colors.dart';
-import 'package:bewtie/artistScreens/LandingPage/profile/editName.dart';
-import 'package:bewtie/artistScreens/LandingPage/profile/editPhoto.dart';
-import 'package:bewtie/artistScreens/LandingPage/profile/emailEdit.dart';
+import 'package:bewtie/Utils/snackBar.dart';
+import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editPhone.dart';
+import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editName.dart';
+import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editPhoto.dart';
+import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/emailEdit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class PersonalInformationArtist extends StatelessWidget {
-  const PersonalInformationArtist({super.key});
+class PersonalInformationArtist extends StatefulWidget {
+  PersonalInformationArtist({super.key});
+
+  @override
+  State<PersonalInformationArtist> createState() =>
+      _PersonalInformationArtistState();
+}
+
+class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
+  CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+
+  late String firstName = "";
+  late String lastName = "";
+  late String email = "";
+  late String number = "";
+  late String image = "";
+
+  @override
+  void initState() {
+    super.initState();
+    if (currentUser != null) {
+      getUserData();
+    }
+  }
+
+  Future<void> getUserData() async {
+    try {
+      final DocumentReference profileDataDoc = users
+          .doc(currentUser!.uid)
+          .collection('Profile_Data')
+          .doc(currentUser!.uid);
+
+      final DocumentSnapshot userDoc = await profileDataDoc.get();
+
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+        setState(() {
+          firstName = userData['first_name'] ?? "Name";
+          lastName = userData['last_name'] ?? "";
+          email = userData['Email'] ?? "Email Address";
+          number = userData['number'] ?? "Phone Number";
+          image = userData['profileimage'] ?? "";
+        });
+      } else {
+        CustomSnackBar(context, Text('User Data not available'));
+      }
+    } catch (e) {
+      CustomSnackBar(context, Text('Error fetching user data: $e'));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +106,10 @@ class PersonalInformationArtist extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey[300],
+                      image: DecorationImage(
+                        image: NetworkImage(image),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -103,7 +156,7 @@ class PersonalInformationArtist extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Text(
-                    'Name',
+                    firstName,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -112,7 +165,7 @@ class PersonalInformationArtist extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const NameEditScreenArtist()));
+                        builder: (context) => NameEditScreenArtist()));
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10, right: 20),
@@ -152,7 +205,7 @@ class PersonalInformationArtist extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Text(
-                    'Email address',
+                    email,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -161,7 +214,7 @@ class PersonalInformationArtist extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const EmailEditScreenArtist()));
+                        builder: (context) => EmailEditScreenArtist()));
                   },
                   child: Padding(
                     padding: EdgeInsets.only(left: 10, right: 20),
@@ -201,7 +254,7 @@ class PersonalInformationArtist extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Text(
-                    '00000 00000',
+                    number,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -210,7 +263,7 @@ class PersonalInformationArtist extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const EditPhoneScreenArtist()));
+                        builder: (context) => EditPhoneScreenArtist()));
                   },
                   child: Padding(
                     padding: EdgeInsets.only(left: 10, right: 20),
