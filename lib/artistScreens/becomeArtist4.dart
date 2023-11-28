@@ -2,10 +2,10 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/textFieldArtist.dart';
-import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/requestQuote.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/LandingPage/mainPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BecomeArtistScreen4 extends StatefulWidget {
@@ -37,29 +37,31 @@ class BecomeArtistScreen4 extends StatefulWidget {
 }
 
 class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
+  bool isLoading = false;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _location = TextEditingController();
 
-  // Function to create firebase collection :-
-
   void _createArtistCollection(String location) async {
+    setState(() {
+      isLoading = true;
+    });
+    FirebaseAuth auth = FirebaseAuth.instance;
     final CollectionReference artistsCollection =
         _firestore.collection('Artist');
 
-    // Check if the collection already exists
-    if (!(await artistsCollection.doc().get()).exists) {
-      // Collection doesn't exist, create it
-      await artistsCollection.doc().set({
-        'Makeup Type': widget.typeMakeup, // Example makeup types
-        'availability': widget.availability, // Example availability
-        'Location': location.toString(),
-        'price': widget.priceMakeup,
-      });
+    await artistsCollection.doc(auth.currentUser!.uid).set({
+      'Makeup Type': widget.typeMakeup,
+      'availability': widget.availability,
+      'Location': location.toString(),
+      'price': widget.priceMakeup,
+    });
 
-      print('Artist collection created successfully.');
-    } else {
-      print('Artist collection already exists.');
-    }
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const ArtistMainPage()));
+    setState(() {
+      isLoading = false;
+    });
+    print('Artist collection created successfully.');
   }
 
   @override
@@ -168,16 +170,11 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
                       padding: const EdgeInsets.all(10.0),
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const ArtistMainPage()));
+                            _createArtistCollection(_location.text);
                           },
-                          child: GestureDetector(
-                              onTap: () {
-                                setState(() {});
-                                print("---------Submit");
-                                _createArtistCollection(_location.text);
-                              },
-                              child: MyCardButton(title: 'Submit'))),
+                          child: isLoading
+                              ? Center(child: CircularProgressIndicator())
+                              : MyCardButton(title: 'Submit')),
                     ),
                   ),
                 ],

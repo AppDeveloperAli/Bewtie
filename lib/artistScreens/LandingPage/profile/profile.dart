@@ -1,11 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:bewtie/Components/cardButton.dart';
-import 'package:bewtie/Components/cardText.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
-import 'package:bewtie/TabScreens/profile/payment.dart';
-import 'package:bewtie/TabScreens/profile/personalinfo.dart';
-import 'package:bewtie/TabScreens/profile/termsCondition.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/addImages.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/availibility.dart';
@@ -301,36 +297,6 @@ class ArtistProfile extends StatelessWidget {
                     children: const [
                       Text(
                         'How much do you charge',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: Container(
-                  width: double.infinity,
-                  height: 0.5,
-                  color: Colors.white,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const PersonalInformationArtist()));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Personal information',
                         style: TextStyle(color: Colors.white),
                       ),
                       Icon(

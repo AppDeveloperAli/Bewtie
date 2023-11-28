@@ -1,10 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:bewtie/TabScreens/booking/booking.dart';
-import 'package:bewtie/TabScreens/chatScreens/inboxScreen.dart';
-import 'package:bewtie/TabScreens/exploreScreens/explore.dart';
-import 'package:bewtie/TabScreens/profile/account.dart';
-import 'package:bewtie/TabScreens/wishlist/wishlist.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/LandingPage/booking/booking.dart';
 import 'package:bewtie/artistScreens/LandingPage/inbox/inbox.dart';
