@@ -9,15 +9,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BecomeArtist3 extends StatefulWidget {
-  const BecomeArtist3({super.key});
+  final List<String> typeMakeup;
+  final List<String> typeHair;
+  final List<String> typeNails;
+  final int priceMakeup;
+  final int priceHair;
+  final int priceNails;
+  const BecomeArtist3(
+      {super.key,
+      required this.priceMakeup,
+      required this.priceHair,
+      required this.priceNails,
+      required this.typeMakeup,
+      required this.typeHair,
+      required this.typeNails});
 
   @override
   State<BecomeArtist3> createState() => _Search3ScreenState();
 }
 
 class _Search3ScreenState extends State<BecomeArtist3> {
+  final List<String> availability = [];
   @override
   Widget build(BuildContext context) {
+    print("----------${widget.typeMakeup}");
+    print("------${widget.priceMakeup}");
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -83,13 +99,83 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                       ),
                     ),
                   ),
-                  CustomCardArtist(title: 'Mon'),
-                  CustomCardArtist(title: 'Tue'),
-                  CustomCardArtist(title: 'Wed'),
-                  CustomCardArtist(title: 'Thu'),
-                  CustomCardArtist(title: 'Fri'),
-                  CustomCardArtist(title: 'Sat'),
-                  CustomCardArtist(title: 'Sun'),
+                  CustomCardArtist(
+                    title: 'Mon',
+                    onTap: () {
+                      if (availability.contains("Mon")) {
+                        availability.remove("Mon");
+                      } else {
+                        availability.add("Mon");
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  CustomCardArtist(
+                    title: 'Tue',
+                    onTap: () {
+                      if (availability.contains("Tue")) {
+                        availability.remove("Tue");
+                      } else {
+                        availability.add("Tue");
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  CustomCardArtist(
+                    title: 'Wed',
+                    onTap: () {
+                      if (availability.contains("Wed")) {
+                        availability.remove("Wed");
+                      } else {
+                        availability.add("Wed");
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  CustomCardArtist(
+                    title: 'Thu',
+                    onTap: () {
+                      if (availability.contains("Thu")) {
+                        availability.remove("Thu");
+                      } else {
+                        availability.add("Thu");
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  CustomCardArtist(
+                    title: 'Fri',
+                    onTap: () {
+                      if (availability.contains("Fri")) {
+                        availability.remove("Fri");
+                      } else {
+                        availability.add("Fri");
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  CustomCardArtist(
+                    title: 'Sat',
+                    onTap: () {
+                      if (availability.contains("Sat")) {
+                        availability.remove("Sat");
+                      } else {
+                        availability.add("Sat");
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  CustomCardArtist(
+                    title: 'Sun',
+                    onTap: () {
+                      if (availability.contains("Sun")) {
+                        availability.remove("Sun");
+                      } else {
+                        availability.add("Sun");
+                      }
+                      setState(() {});
+                    },
+                  ),
                 ],
               ),
             ),
@@ -97,8 +183,17 @@ class _Search3ScreenState extends State<BecomeArtist3> {
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                   onTap: () {
+                    print("---------$availability");
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const BecomeArtistScreen4()));
+                        builder: (context) => BecomeArtistScreen4(
+                              typeMakeup: widget.typeMakeup,
+                              typeHair: widget.typeHair,
+                              typeNails: widget.typeNails,
+                              priceMakeup: widget.priceMakeup,
+                              priceHair: widget.priceHair,
+                              priceNails: widget.priceNails,
+                              availability: availability,
+                            )));
                   },
                   child: MyCardButton(title: 'Next')),
             )

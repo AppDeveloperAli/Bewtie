@@ -1,5 +1,4 @@
 import 'package:bewtie/firebase_options.dart';
-import 'package:bewtie/landingPage1.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/splash.dart';
 import 'package:firebase_core/firebase_core.dart';

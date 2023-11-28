@@ -8,15 +8,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BecomeArtistScreen2 extends StatefulWidget {
-  const BecomeArtistScreen2({super.key});
+  final List<String> typeMakeup;
+  final List<String> typeHair;
+  final List<String> typeNails;
+
+  const BecomeArtistScreen2(
+      {super.key,
+      required this.typeMakeup,
+      required this.typeHair,
+      required this.typeNails});
 
   @override
   State<BecomeArtistScreen2> createState() => _Search2ScreenState();
 }
 
 class _Search2ScreenState extends State<BecomeArtistScreen2> {
+  final int priceMakeup = 0;
+  final int priceHair = 0;
+  final int priceNails = 0;
+
   @override
   Widget build(BuildContext context) {
+    print("---------------------------------");
+    print("Makeup : ${widget.typeMakeup}");
+    print("Hair : ${widget.typeHair}");
+    print("Nails : ${widget.typeNails}");
+
     double _currentSliderValue = 0;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -85,7 +102,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            'Bridal',
+                            widget.typeMakeup[0],
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -115,6 +132,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                         // label: _currentSliderValue.round().toString(),
                         onChanged: (value) {
                           setState(() => _currentSliderValue = value);
+                          print("------------$_currentSliderValue");
                         },
                       ),
                     ),
@@ -137,7 +155,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            'Bridal',
+                            widget.typeHair[0],
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -189,7 +207,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                            'Bridal',
+                            widget.typeNails[0],
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -232,7 +250,14 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
               child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const BecomeArtist3()));
+                        builder: (context) => BecomeArtist3(
+                              typeMakeup: widget.typeMakeup,
+                              typeHair: widget.typeHair,
+                              typeNails: widget.typeNails,
+                              priceMakeup: priceMakeup,
+                              priceHair: priceHair,
+                              priceNails: priceNails,
+                            )));
                   },
                   child: MyCardButton(title: 'Next')),
             )

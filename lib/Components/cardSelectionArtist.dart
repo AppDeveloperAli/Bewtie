@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class CustomCardArtist extends StatefulWidget {
   final String title;
+  void Function()? onTap;
 
-  CustomCardArtist({required this.title});
+  CustomCardArtist({required this.title, this.onTap});
 
   @override
   _CustomCardState createState() => _CustomCardState();
@@ -22,7 +23,10 @@ class _CustomCardState extends State<CustomCardArtist> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: toggleBorderColor,
+      onTap: () {
+        widget.onTap?.call();
+        toggleBorderColor();
+      },
       child: Container(
         width: double.infinity,
         child: Padding(
