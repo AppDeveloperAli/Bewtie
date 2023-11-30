@@ -15,21 +15,25 @@ class BecomeArtistScreen4 extends StatefulWidget {
   final List<String> typeNails;
 
   // From 2nd Screen :-
-  final int priceMakeup;
-  final int priceHair;
-  final int priceNails;
+  // final double priceMakeup;
+  // final double priceHair;
+  // final double priceNails;
+
+  Map<String, double> makeupPrices;
+  Map<String, double> hairPrices;
+  Map<String, double> nailsPrices;
 
   // From 3rd Screen :-
   final List<String> availability;
 
-  const BecomeArtistScreen4(
+  BecomeArtistScreen4(
       {super.key,
       required this.typeMakeup,
       required this.typeHair,
       required this.typeNails,
-      required this.priceMakeup,
-      required this.priceHair,
-      required this.priceNails,
+      required this.makeupPrices,
+      required this.hairPrices,
+      required this.nailsPrices,
       required this.availability});
 
   @override
@@ -49,11 +53,19 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
     final CollectionReference artistsCollection =
         _firestore.collection('Artist');
 
-    await artistsCollection.doc(auth.currentUser!.uid).set({
+    await artistsCollection
+        .doc(auth.currentUser!.uid)
+        .collection("Post")
+        .doc(auth.currentUser!.uid)
+        .set({
       'Makeup Type': widget.typeMakeup,
+      'Hair Type': widget.typeHair,
+      'Nails Type': widget.typeNails,
       'availability': widget.availability,
       'Location': location.toString(),
-      'price': widget.priceMakeup,
+      'Price Makeup': widget.makeupPrices,
+      'Price Hair': widget.hairPrices,
+      'Price Nails': widget.nailsPrices,
     });
 
     Navigator.of(context)
@@ -67,7 +79,7 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
   @override
   Widget build(BuildContext context) {
     print("--------${widget.typeMakeup}");
-    print("--------${widget.priceMakeup}");
+    print("--------${widget.makeupPrices}");
     print("--------${widget.availability}");
     return Scaffold(
       backgroundColor: Colors.black,

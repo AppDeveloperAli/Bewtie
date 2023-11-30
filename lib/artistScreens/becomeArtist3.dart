@@ -12,14 +12,18 @@ class BecomeArtist3 extends StatefulWidget {
   final List<String> typeMakeup;
   final List<String> typeHair;
   final List<String> typeNails;
-  final int priceMakeup;
-  final int priceHair;
-  final int priceNails;
-  const BecomeArtist3(
+  Map<String, double> makeupPrices;
+  Map<String, double> hairPrices;
+  Map<String, double> nailsPrices;
+
+  // final double priceMakeup;
+  // final double priceHair;
+  // final double priceNails;
+  BecomeArtist3(
       {super.key,
-      required this.priceMakeup,
-      required this.priceHair,
-      required this.priceNails,
+      required this.makeupPrices,
+      required this.hairPrices,
+      required this.nailsPrices,
       required this.typeMakeup,
       required this.typeHair,
       required this.typeNails});
@@ -33,7 +37,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
   @override
   Widget build(BuildContext context) {
     print("----------${widget.typeMakeup}");
-    print("------${widget.priceMakeup}");
+    print("------${widget.hairPrices}");
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -189,9 +193,9 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                               typeMakeup: widget.typeMakeup,
                               typeHair: widget.typeHair,
                               typeNails: widget.typeNails,
-                              priceMakeup: widget.priceMakeup,
-                              priceHair: widget.priceHair,
-                              priceNails: widget.priceNails,
+                              makeupPrices: widget.makeupPrices,
+                              hairPrices: widget.hairPrices,
+                              nailsPrices: widget.nailsPrices,
                               availability: availability,
                             )));
                   },
