@@ -195,7 +195,8 @@ class _BillingScreenState extends State<BillingScreen> {
                               }
                             },
                             child: isLoading
-                                ? Center(child: CircularProgressIndicator())
+                                ? const Center(
+                                    child: CircularProgressIndicator())
                                 : MyCardButton(title: 'Done')))
                   ],
                 ),
