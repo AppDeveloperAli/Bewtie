@@ -4,7 +4,10 @@ class TextInputFeildWidgetArtist extends StatefulWidget {
   TextEditingController? controller;
   String labelText;
   TextInputFeildWidgetArtist(
-      {super.key, required this.labelText, this.controller});
+      {super.key,
+      required this.labelText,
+      this.controller,
+      TextInputType? keyboardType});
 
   @override
   State<TextInputFeildWidgetArtist> createState() =>

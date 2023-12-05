@@ -13,6 +13,8 @@ class InboxScreenArtist extends StatefulWidget {
   State<InboxScreenArtist> createState() => _InboxScreenState();
 }
 
+// Artist Inbox Screen :-
+
 class _InboxScreenState extends State<InboxScreenArtist> {
   @override
   Widget build(BuildContext context) {

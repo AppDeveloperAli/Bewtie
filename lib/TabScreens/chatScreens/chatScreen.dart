@@ -6,7 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final String uid;
+  const ChatScreen({super.key, required this.uid});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -38,6 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {
         _user = user;
         _chatroomId = '${_user!.uid}_${receiverUid}';
+        // _chatroomId = widget.uid;
         print("--------------------------   $_chatroomId");
         //_chatroomId = _user!.uid;
       });
@@ -45,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
     await _createMessagesCollection();
   }
 
-  String get receiverUid => "siHs9q6iCLaAeJIdPFnwn5hTrI22";
+  String get receiverUid => widget.uid;
 
   Future<void> _createMessagesCollection() async {
     final messagesCollection = _firestore.collection('Messages');
@@ -56,12 +58,15 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _sendMessage(String messageText, String recieverUid) {
-    _firestore.collection('Messages').doc(_chatroomId).collection('chats').add({
+  void _sendMessage(String messageText, String recieverUid) async {
+    await _firestore
+        .collection('Messages')
+        .doc(_chatroomId)
+        .collection('chats')
+        .add({
       'text': messageText,
-      'sender': _user!.email,
+      'sender': _auth.currentUser!.uid,
       'receiver': receiverUid,
-      'receiverEmail': "",
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
@@ -100,6 +105,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("----------${widget.uid}");
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -267,7 +273,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           title: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(_messages[index].text.toString())),
-                          //subtitle: Text(messageList[index].),
+                          subtitle: Text(
+                              _messages[index].timestamp.toDate().toString()),
                         ),
                       );
                     },
@@ -402,10 +409,10 @@ class Message {
 
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
-      text: map['text'],
-      sender: map['sender'],
-      receiver: map['receiver'],
-      timestamp: map['timestamp'],
+      text: map['text'] ?? '',
+      sender: map['sender'] ?? '',
+      receiver: map['receiver'] ?? '',
+      timestamp: map['timestamp'] ?? Timestamp.now(),
     );
   }
 }

@@ -2,6 +2,7 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
+import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/billing.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -107,7 +108,12 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                   ),
                   Expanded(
                       flex: 3,
-                      child: MyTextCard(title: 'Select', fontSize: 16)),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const BillingScreen()));
+                          },
+                          child: MyTextCard(title: 'Select', fontSize: 16))),
                   Expanded(flex: 3, child: Container()),
                 ],
               ),

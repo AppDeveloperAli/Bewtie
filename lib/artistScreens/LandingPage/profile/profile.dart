@@ -3,6 +3,7 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/addImages.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/availibility.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/delete.dart';
@@ -15,10 +16,60 @@ import 'package:bewtie/artistScreens/LandingPage/profile/terms.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/transaction.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/whatDo.dart';
 import 'package:bewtie/landingPage1.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ArtistProfile extends StatelessWidget {
+class ArtistProfile extends StatefulWidget {
   const ArtistProfile({super.key});
+
+  @override
+  State<ArtistProfile> createState() => _ArtistProfileState();
+}
+
+class _ArtistProfileState extends State<ArtistProfile> {
+  CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+
+  late String firstName = "";
+  late String lastName = "";
+  late String email = "";
+  late String number = "";
+  late String image = "";
+
+  @override
+  void initState() {
+    super.initState();
+    if (currentUser != null) {
+      getUserData();
+    }
+  }
+
+  Future<void> getUserData() async {
+    try {
+      final DocumentReference profileDataDoc = users
+          .doc(currentUser!.uid)
+          .collection('Profile_Data')
+          .doc(currentUser!.uid);
+
+      final DocumentSnapshot userDoc = await profileDataDoc.get();
+
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+        setState(() {
+          firstName = userData['first_name'] ?? "Name";
+          lastName = userData['last_name'] ?? "";
+          image = userData['profileimage'] ?? "";
+        });
+      } else {
+        CustomSnackBar(context, Text('User Data not available'));
+      }
+    } catch (e) {
+      CustomSnackBar(context, Text('Error fetching user data: $e'));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +117,17 @@ class ArtistProfile extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey[300],
+                        image: DecorationImage(
+                          image: NetworkImage(image),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      'Name',
+                      '$firstName $lastName',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -138,7 +193,7 @@ class ArtistProfile extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const PersonalInformationArtist()));
+                      builder: (context) => PersonalInformationArtist()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -228,7 +283,7 @@ class ArtistProfile extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AddIMagesArtist()));
+                      builder: (context) => AddImagesArtist()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -428,7 +483,13 @@ class ArtistProfile extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
-                child: MyTextCardArtist(title: 'Privacy Policy', fontSize: 16),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const TermsConditionArtist()));
+                    },
+                    child: MyTextCardArtist(
+                        title: 'Privacy Policy', fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
@@ -444,7 +505,15 @@ class ArtistProfile extends StatelessWidget {
                   right: 10,
                   top: 20,
                 ),
-                child: MyCardButton(title: 'Log out'),
+                child: GestureDetector(
+                    onTap: () {
+                      FirebaseAuth auth = FirebaseAuth.instance;
+                      auth.signOut().whenComplete(() {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const LandingPage()));
+                      });
+                    },
+                    child: MyCardButton(title: 'Log out')),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),

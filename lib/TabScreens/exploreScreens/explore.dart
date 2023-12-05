@@ -2,8 +2,10 @@ import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardicon.dart';
 import 'package:bewtie/Components/textSelection.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search1.dart';
+import 'package:bewtie/TabScreens/profile/account.dart';
 import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -15,6 +17,8 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +34,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const Search1Screen()));
+                      if (auth.currentUser != null) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const Search1Screen()));
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const AccountScreen()));
+                      }
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -64,8 +73,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const BecomeArtistScreen()));
+                      if (auth.currentUser != null) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const BecomeArtistScreen()));
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const AccountScreen()));
+                      }
                     },
                     child: MyCardButton(
                       title: 'Become a Bewtie Artist',

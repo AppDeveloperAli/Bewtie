@@ -2,6 +2,9 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
+import 'package:bewtie/Utils/snackBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DescribeScreen extends StatefulWidget {
@@ -12,6 +15,39 @@ class DescribeScreen extends StatefulWidget {
 }
 
 class _LeaveReviewScreenState extends State<DescribeScreen> {
+  TextEditingController controller = TextEditingController();
+
+  CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+
+  Future<void> addUser(BuildContext context) async {
+    if (controller.text.isNotEmpty) {
+      if (currentUser != null) {
+        final DocumentReference profileDataDoc = users
+            .doc(currentUser!.uid)
+            .collection('Profile_Data')
+            .doc(currentUser!.uid);
+
+        final DocumentSnapshot userDoc = await profileDataDoc.get();
+
+        if (userDoc.exists) {
+          await profileDataDoc.update({
+            'describe': controller.text,
+          });
+        } else {
+          await profileDataDoc.set({
+            'describe': controller.text,
+          });
+        }
+
+        Navigator.pop(context);
+        CustomSnackBar(context, Text('Describe Updated...'));
+      }
+    } else {
+      CustomSnackBar(context, Text("Describe must be provided"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +87,7 @@ class _LeaveReviewScreenState extends State<DescribeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: TextField(
+                      controller: controller,
                       textAlignVertical: TextAlignVertical.top,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
@@ -80,7 +117,12 @@ class _LeaveReviewScreenState extends State<DescribeScreen> {
                         },
                         child:
                             MyTextCardArtist(title: 'Cancel', fontSize: 18))),
-                Expanded(child: MyCardButton(title: 'Send')),
+                Expanded(
+                    child: GestureDetector(
+                        onTap: () {
+                          addUser(context);
+                        },
+                        child: MyCardButton(title: 'Send'))),
               ],
             ),
           )
