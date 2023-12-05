@@ -20,14 +20,10 @@ class _LocationArtistState extends State<LocationArtist> {
   final TextEditingController _locationController = TextEditingController();
 
   Future<void> updateLocation(String documentId) async {
-    CollectionReference artistCollection = _firestore.collection('Artist');
+    CollectionReference artistCollection = _firestore.collection('Post');
 
     try {
-      await artistCollection
-          .doc(documentId)
-          .collection("Post")
-          .doc(documentId)
-          .update({
+      await artistCollection.doc(documentId).update({
         'Location': _locationController.text,
       });
 

@@ -19,14 +19,10 @@ class _AvailibilityArtistState extends State<AvailibilityArtist> {
   final List<String> availability = [];
 
   Future<void> updateAvailability(String documentId) async {
-    CollectionReference artistCollection = _firestore.collection('Artist');
+    CollectionReference artistCollection = _firestore.collection('Post');
 
     try {
-      await artistCollection
-          .doc(documentId)
-          .collection("Post")
-          .doc(documentId)
-          .update({
+      await artistCollection.doc(documentId).update({
         'availability': availability,
       });
 

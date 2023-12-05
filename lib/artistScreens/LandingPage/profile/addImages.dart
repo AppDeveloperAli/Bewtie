@@ -191,12 +191,7 @@ class _AddImagesArtistState extends State<AddImagesArtist> {
           downloadUrls.add(downloadUrl);
         }
 
-        await _firestore
-            .collection('Artist')
-            .doc(user.uid)
-            .collection('Post')
-            .doc(user.uid)
-            .update({
+        await _firestore.collection('Post').doc(user.uid).update({
           'images': downloadUrls,
         });
 

@@ -175,14 +175,9 @@ class FirestoreService {
       String currentUserId = user.uid;
 
       final CollectionReference userCollection =
-          FirebaseFirestore.instance.collection('Artist');
+          FirebaseFirestore.instance.collection('Artist_Data');
 
-      final DocumentReference userDocument = userCollection.doc(currentUserId);
-
-      final CollectionReference profileCollection =
-          userDocument.collection('Profile_Data');
-
-      await profileCollection
+      await userCollection
           .doc(_auth.currentUser!.uid)
           .set({'profileimage': imageUrl});
     } else {}

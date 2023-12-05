@@ -275,15 +275,11 @@ class _Search2ScreenState extends State<HowCharge> {
     try {
       // Replace 'your_collection' with the name of your Firestore collection
       CollectionReference<Map<String, dynamic>> artistCollection =
-          _firestore.collection('Artist');
+          _firestore.collection('Post');
 
       // Replace 'your_document_id' with the ID of the document you want to retrieve
       DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
-          await artistCollection
-              .doc(documentId)
-              .collection("Post")
-              .doc(documentId)
-              .get();
+          await artistCollection.doc(documentId).get();
 
       if (documentSnapshot.exists) {
         // Extract specific fields from the document
@@ -306,14 +302,10 @@ class _Search2ScreenState extends State<HowCharge> {
   }
 
   Future<void> updatePrices(String documentId) async {
-    CollectionReference artistCollection = _firestore.collection('Artist');
+    CollectionReference artistCollection = _firestore.collection('Post');
 
     try {
-      await artistCollection
-          .doc(documentId)
-          .collection("Post")
-          .doc(documentId)
-          .update({
+      await artistCollection.doc(documentId).update({
         'Price Makeup': makeupPrices,
         'Price Hair': hairPrices,
         'Price Nails': nailsPrices,

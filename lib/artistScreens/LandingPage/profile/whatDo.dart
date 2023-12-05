@@ -24,14 +24,10 @@ class _Search1ScreenState extends State<WhatDoScreen> {
   List<String> typeNails = [];
 
   Future<void> updateSkills(String documentId) async {
-    CollectionReference artistCollection = _firestore.collection('Artist');
+    CollectionReference artistCollection = _firestore.collection('Post');
 
     try {
-      await artistCollection
-          .doc(documentId)
-          .collection("Post")
-          .doc(documentId)
-          .update({
+      await artistCollection.doc(documentId).update({
         'Makeup Type': typeMakeup,
         'Hair Type': typeHair,
         'Nails Type': typeNails,

@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/Utils/snackBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,21 +23,18 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
     Colors.green,
   ];
 
-  int currentIndex = 1; // Initialize the index
-  int totalItems = 3; // Set the total number of items
+  int currentIndex = 1;
+  int totalItems = 3;
 
   bool isFavorite = false;
 
   @override
-  void dispose() {
+  void initState() {
+    super.initState();
     _pageController.dispose();
     fetchArtistData();
-    super.dispose();
   }
 
-  // Get Skills Data :-
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   List makeupType = [];
   List nailsType = [];
@@ -46,8 +44,9 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   bool skillHair = false;
   bool skillNails = false;
 
+  List<Map<String, dynamic>> allPostsData = [];
+
   Future<void> fetchArtistData() async {
-    //collection('artist')[index]['Post'][0]['name'];
     try {
       CollectionReference<Map<String, dynamic>> artistCollection =
           _firestore.collection('Artist');
@@ -69,7 +68,13 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
           nailsType = postDocument.get('Nails Type');
           hairType = postDocument.get('Hair Type');
 
-          //
+          Map<String, dynamic> postData = {
+            'Uid': postDocument.get('UID'),
+            'location': postDocument.get('Location'),
+          };
+          allPostsData.add(postData);
+
+          print('-------------- $allPostsData');
 
           if (makeupType.isNotEmpty) {
             skillMakeup = true;
@@ -82,9 +87,6 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
           if (nailsType.isNotEmpty) {
             skillNails = true;
           }
-
-          print(
-              'Makeup Type: $makeupType, Nails Type: $nailsType, Hair Type: $hairType');
         }
       }
     } catch (e) {
@@ -94,11 +96,6 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
 
   @override
   Widget build(BuildContext context) {
-    print(fetchArtistData().toString());
-    print(makeupType);
-
-    print(skillMakeup);
-
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -117,8 +114,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   width: 600,
                   child: Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // Adjust the radius as needed
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,

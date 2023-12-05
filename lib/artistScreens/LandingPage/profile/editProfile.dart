@@ -18,14 +18,15 @@ class PersonalInformationArtist extends StatefulWidget {
 }
 
 class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+  CollectionReference users =
+      FirebaseFirestore.instance.collection('Artist_Data');
 
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
-  late String firstName = "";
+  late String firstName = "Bewtie Artist";
   late String lastName = "";
-  late String email = "";
-  late String number = "";
+  late String email = "bewtie@ap.com";
+  late String number = "+12857662";
   late String image = "";
 
   @override
@@ -38,10 +39,7 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
 
   Future<void> getUserData() async {
     try {
-      final DocumentReference profileDataDoc = users
-          .doc(currentUser!.uid)
-          .collection('Profile_Data')
-          .doc(currentUser!.uid);
+      final DocumentReference profileDataDoc = users.doc(currentUser!.uid);
 
       final DocumentSnapshot userDoc = await profileDataDoc.get();
 
@@ -156,7 +154,7 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                 Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Text(
-                    firstName,
+                    '$firstName $lastName',
                     style: TextStyle(
                       color: Colors.white,
                     ),
