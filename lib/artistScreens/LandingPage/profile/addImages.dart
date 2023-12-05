@@ -191,7 +191,12 @@ class _AddImagesArtistState extends State<AddImagesArtist> {
           downloadUrls.add(downloadUrl);
         }
 
-        await _firestore.collection('user_data').doc(user.uid).set({
+        await _firestore
+            .collection('Artist')
+            .doc(user.uid)
+            .collection('Post')
+            .doc(user.uid)
+            .update({
           'images': downloadUrls,
         });
 
@@ -200,6 +205,7 @@ class _AddImagesArtistState extends State<AddImagesArtist> {
         });
 
         CustomSnackBar(context, const Text('Images uploaded successfully!'));
+        Navigator.pop(context);
       } catch (error) {
         CustomSnackBar(
             context, Text('Error uploading images and saving data: $error'));
