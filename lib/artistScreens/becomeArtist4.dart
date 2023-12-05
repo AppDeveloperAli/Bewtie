@@ -66,6 +66,7 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
       'Price Makeup': widget.makeupPrices,
       'Price Hair': widget.hairPrices,
       'Price Nails': widget.nailsPrices,
+      'UID': auth.currentUser!.uid,
     });
 
     Navigator.of(context)

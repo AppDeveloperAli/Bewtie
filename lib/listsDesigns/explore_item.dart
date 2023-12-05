@@ -2,6 +2,8 @@ import 'dart:isolate';
 
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
@@ -28,11 +30,75 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   @override
   void dispose() {
     _pageController.dispose();
+    fetchArtistData();
     super.dispose();
+  }
+
+  // Get Skills Data :-
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  List makeupType = [];
+  List nailsType = [];
+  List hairType = [];
+
+  bool skillMakeup = false;
+  bool skillHair = false;
+  bool skillNails = false;
+
+  Future<void> fetchArtistData() async {
+    //collection('artist')[index]['Post'][0]['name'];
+    try {
+      CollectionReference<Map<String, dynamic>> artistCollection =
+          _firestore.collection('Artist');
+
+      QuerySnapshot<Map<String, dynamic>> artistSnapshot =
+          await artistCollection.get();
+
+      for (QueryDocumentSnapshot<Map<String, dynamic>> artistDocument
+          in artistSnapshot.docs) {
+        CollectionReference<Map<String, dynamic>> postsCollection =
+            artistDocument.reference.collection('Post');
+
+        QuerySnapshot<Map<String, dynamic>> postsSnapshot =
+            await postsCollection.get();
+
+        for (QueryDocumentSnapshot<Map<String, dynamic>> postDocument
+            in postsSnapshot.docs) {
+          makeupType = postDocument.get('Makeup Type');
+          nailsType = postDocument.get('Nails Type');
+          hairType = postDocument.get('Hair Type');
+
+          //
+
+          if (makeupType.isNotEmpty) {
+            skillMakeup = true;
+          }
+
+          if (hairType.isNotEmpty) {
+            skillHair = true;
+          }
+
+          if (nailsType.isNotEmpty) {
+            skillNails = true;
+          }
+
+          print(
+              'Makeup Type: $makeupType, Nails Type: $nailsType, Hair Type: $hairType');
+        }
+      }
+    } catch (e) {
+      print('Error fetching artist data: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(fetchArtistData().toString());
+    print(makeupType);
+
+    print(skillMakeup);
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -75,36 +141,57 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: AppColors.mackUp),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0, right: 8),
-                        child: Text('Make-up'),
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: AppColors.hair),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0, right: 8),
-                        child: Text('Hair'),
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: AppColors.nails),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0, right: 8),
-                        child: Text('Nails'),
-                      ),
+                      skillMakeup
+                          ? Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.mackUp),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0, right: 8),
+                                  child: Text('Make-up'),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      skillHair
+                          ? Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.hair),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0, right: 8),
+                                  child: Text('Hair'),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      skillNails
+                          ? Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.nails),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0, right: 8),
+                                  child: Text('Nails'),
+                                ),
+                              ],
+                            )
+                          : Container()
                     ],
                   ),
                 ),
