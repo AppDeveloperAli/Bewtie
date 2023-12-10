@@ -1,21 +1,27 @@
-import 'dart:isolate';
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
-import 'package:bewtie/Utils/snackBar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
-  const ExploreItemDesign({Key? key}) : super(key: key);
+  String? location, firstName, lastName;
+  final List<dynamic> imageLinks;
+
+  ExploreItemDesign(
+      {Key? key,
+      required this.location,
+      required this.firstName,
+      required this.lastName,
+      required this.imageLinks})
+      : super(key: key);
 
   @override
   State<ExploreItemDesign> createState() => _ExploreItemDesignState();
 }
 
 class _ExploreItemDesignState extends State<ExploreItemDesign> {
-  PageController _pageController = PageController(viewportFraction: 0.8);
+  final PageController _pageController = PageController(viewportFraction: 1);
 
   List<Color> itemColors = [
     Colors.amber,
@@ -24,7 +30,6 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   ];
 
   int currentIndex = 1;
-  int totalItems = 3;
 
   bool isFavorite = false;
 
@@ -32,10 +37,8 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   void initState() {
     super.initState();
     _pageController.dispose();
-    fetchArtistData();
   }
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   List makeupType = [];
   List nailsType = [];
   List hairType = [];
@@ -43,56 +46,6 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   bool skillMakeup = false;
   bool skillHair = false;
   bool skillNails = false;
-
-  List<Map<String, dynamic>> allPostsData = [];
-
-  Future<void> fetchArtistData() async {
-    try {
-      CollectionReference<Map<String, dynamic>> artistCollection =
-          _firestore.collection('Artist');
-
-      QuerySnapshot<Map<String, dynamic>> artistSnapshot =
-          await artistCollection.get();
-
-      for (QueryDocumentSnapshot<Map<String, dynamic>> artistDocument
-          in artistSnapshot.docs) {
-        CollectionReference<Map<String, dynamic>> postsCollection =
-            artistDocument.reference.collection('Post');
-
-        QuerySnapshot<Map<String, dynamic>> postsSnapshot =
-            await postsCollection.get();
-
-        for (QueryDocumentSnapshot<Map<String, dynamic>> postDocument
-            in postsSnapshot.docs) {
-          makeupType = postDocument.get('Makeup Type');
-          nailsType = postDocument.get('Nails Type');
-          hairType = postDocument.get('Hair Type');
-
-          Map<String, dynamic> postData = {
-            'Uid': postDocument.get('UID'),
-            'location': postDocument.get('Location'),
-          };
-          allPostsData.add(postData);
-
-          print('-------------- $allPostsData');
-
-          if (makeupType.isNotEmpty) {
-            skillMakeup = true;
-          }
-
-          if (hairType.isNotEmpty) {
-            skillHair = true;
-          }
-
-          if (nailsType.isNotEmpty) {
-            skillNails = true;
-          }
-        }
-      }
-    } catch (e) {
-      print('Error fetching artist data: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +64,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
               children: [
                 SizedBox(
                   height: 400,
-                  width: 600,
+                  width: double.infinity,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -125,9 +78,14 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           currentIndex = index + 1;
                         });
                       },
-                      children: itemColors
-                          .map((color) => Container(
-                                color: color,
+                      children: widget.imageLinks
+                          .map((imageUrl) => Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(imageUrl),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ))
                           .toList(),
                     ),
@@ -191,7 +149,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                     ],
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,7 +162,8 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
-                          Text('Name')
+                          Text(
+                              '${widget.firstName.toString()} ${widget.lastName.toString()}')
                         ],
                       ),
                       Column(
@@ -213,7 +172,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           Text(
                             '0 Reviews',
                           ),
-                          Text('Location')
+                          Text(widget.location.toString())
                         ],
                       ),
                     ],
@@ -251,7 +210,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Text(
-                    '$currentIndex / ${itemColors.length}',
+                    '$currentIndex / ${widget.imageLinks.length}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

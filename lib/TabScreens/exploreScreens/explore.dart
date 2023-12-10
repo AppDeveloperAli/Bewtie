@@ -3,8 +3,10 @@ import 'package:bewtie/Components/cardicon.dart';
 import 'package:bewtie/Components/textSelection.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search1.dart';
 import 'package:bewtie/TabScreens/profile/account.dart';
+import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editPhoto.dart';
 import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +20,24 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  final CollectionReference postCollection =
+      FirebaseFirestore.instance.collection('Post');
+
+  final CollectionReference otherCollection =
+      FirebaseFirestore.instance.collection('Artist_Data');
+
+  Future<List<List<DocumentSnapshot>>> getPosts() async {
+    // Use Future.wait to fetch data from both collections concurrently
+    List<Future<QuerySnapshot>> futures = [
+      postCollection.get(),
+      otherCollection.get(),
+    ];
+
+    List<QuerySnapshot> results = await Future.wait(futures);
+
+    return results.map((querySnapshot) => querySnapshot.docs).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +78,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Tell us what you\'re after?'),
+                            const Text('Tell us what you\'re after?'),
                             SvgPicture.asset(
                               'assets/svg/Explore-Icon-Black.svg',
                               height: 20,
@@ -102,12 +122,40 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ),
                 ],
               ),
-              ListView.builder(
-                itemCount: 3,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return const ExploreItemDesign();
+              FutureBuilder<List<List<DocumentSnapshot>>>(
+                future: getPosts(),
+                builder: (
+                  context,
+                  AsyncSnapshot<List<List<DocumentSnapshot>>> snapshot,
+                ) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  List<List<DocumentSnapshot>> allPosts = snapshot.data ?? [];
+                  List<DocumentSnapshot> posts = allPosts[0];
+                  List<DocumentSnapshot> artists = allPosts[1];
+
+                  List<String> imageLinks = (posts.isNotEmpty)
+                      ? (posts[0]['images'] as List<dynamic>).cast<String>()
+                      : [];
+
+                  print(imageLinks);
+
+                  return ListView.builder(
+                    itemCount: posts.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return ExploreItemDesign(
+                        location: posts[index]['Location'].toString(),
+                        firstName: artists[index]['first_name'].toString(),
+                        lastName: artists[index]['last_name'].toString(),
+                        imageLinks: posts[index]['images'],
+                      );
+                    },
+                  );
                 },
               )
             ],
