@@ -1,20 +1,22 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
   final List<String> images;
-  ExploreItemDesign(
-      {super.key,
-      required this.images,
-      required this.imageLinks,
-      required String location,
-      required String firstName,
-      required String lastName});
+  //ExploreItemDesign({super.key, required this.images, required String location, required String firstName, required String lastName, required imageLinks});
+
   String? location, firstName, lastName;
   final List<dynamic> imageLinks;
+
+  ExploreItemDesign(
+      {Key? key,
+      required this.location,
+      required this.firstName,
+      required this.lastName,
+      required this.imageLinks,
+      required this.images})
+      : super(key: key);
 
   @override
   State<ExploreItemDesign> createState() => _ExploreItemDesignState();
@@ -49,8 +51,11 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
 
   @override
   Widget build(BuildContext context) {
+    print(makeupType);
+
     print(skillMakeup);
     print(widget.images);
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
