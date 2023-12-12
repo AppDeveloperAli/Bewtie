@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class CustomCard extends StatefulWidget {
   final String title;
+  void Function()? onTap;
 
-  CustomCard({required this.title});
+  CustomCard({required this.title, this.onTap});
 
   @override
   _CustomCardState createState() => _CustomCardState();
@@ -22,7 +23,10 @@ class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: toggleBorderColor,
+      onTap: () {
+        widget.onTap?.call();
+        toggleBorderColor();
+      },
       child: SizedBox(
         width: double.infinity,
         height: 55,

@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
-  const ExploreItemDesign({Key? key}) : super(key: key);
+  final List<String> images;
+  const ExploreItemDesign({super.key, required this.images});
 
   @override
   State<ExploreItemDesign> createState() => _ExploreItemDesignState();
@@ -98,6 +97,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
     print(makeupType);
 
     print(skillMakeup);
+    print(widget.images);
 
     return GestureDetector(
       onTap: () {
@@ -129,11 +129,20 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           currentIndex = index + 1;
                         });
                       },
-                      children: itemColors
-                          .map((color) => Container(
-                                color: color,
-                              ))
-                          .toList(),
+                      children: [
+                        ListView.builder(
+                          itemCount: widget.images.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Image.network(widget.images[index]);
+                          },
+                        )
+                      ],
+                      //itemColors
+                      //     .map((color) => Container(
+                      //           color: color,
+                      //         ))
+                      //     .toList(),
                     ),
                   ),
                 ),

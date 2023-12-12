@@ -7,7 +7,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Search3Screen extends StatefulWidget {
-  const Search3Screen({super.key});
+  final List<String> typeMakeup;
+  final List<String> typeHair;
+  final List<String> typeNails;
+  Map<String, double> makeupPrices;
+  Map<String, double> hairPrices;
+  Map<String, double> nailsPrices;
+  Search3Screen(
+      {super.key,
+      required this.typeMakeup,
+      required this.typeHair,
+      required this.typeNails,
+      required this.makeupPrices,
+      required this.hairPrices,
+      required this.nailsPrices});
 
   @override
   State<Search3Screen> createState() => _Search3ScreenState();
@@ -16,6 +29,7 @@ class Search3Screen extends StatefulWidget {
 class _Search3ScreenState extends State<Search3Screen> {
   @override
   Widget build(BuildContext context) {
+    print("------${widget.makeupPrices}");
     return Scaffold(
       body: SafeArea(
         child: Column(

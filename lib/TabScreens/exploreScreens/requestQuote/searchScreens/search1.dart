@@ -13,8 +13,13 @@ class Search1Screen extends StatefulWidget {
 }
 
 class _Search1ScreenState extends State<Search1Screen> {
+  List<String> typeMakeup = [];
+  List<String> typeHair = [];
+  List<String> typeNails = [];
+
   @override
   Widget build(BuildContext context) {
+    print("------Service");
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -47,11 +52,61 @@ class _Search1ScreenState extends State<Search1Screen> {
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                 ),
               ),
-              CustomCard(title: 'Bridal'),
-              CustomCard(title: 'Editorial'),
-              CustomCard(title: 'Film & TV'),
-              CustomCard(title: 'Party'),
-              CustomCard(title: 'Special Effects'),
+              CustomCard(
+                title: 'Bridal',
+                onTap: () {
+                  if (typeMakeup.contains("Bridal")) {
+                    typeMakeup.remove("Bridal");
+                  } else {
+                    typeMakeup.add("Bridal");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Editorial',
+                onTap: () {
+                  if (typeMakeup.contains("Editorial")) {
+                    typeMakeup.remove("Editorial");
+                  } else {
+                    typeMakeup.add("Editorial");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Film & TV',
+                onTap: () {
+                  if (typeMakeup.contains("Film & TV")) {
+                    typeMakeup.remove("Film & TV");
+                  } else {
+                    typeMakeup.add("Film & TV");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Party',
+                onTap: () {
+                  if (typeMakeup.contains("Party")) {
+                    typeMakeup.remove("Party");
+                  } else {
+                    typeMakeup.add("Party");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Special Effects',
+                onTap: () {
+                  if (typeMakeup.contains("Special Effects")) {
+                    typeMakeup.remove("Special Effects");
+                  } else {
+                    typeMakeup.add("Special Effects");
+                  }
+                  setState(() {});
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(
                   top: 30,
@@ -62,11 +117,61 @@ class _Search1ScreenState extends State<Search1Screen> {
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                 ),
               ),
-              CustomCard(title: 'Bridal'),
-              CustomCard(title: 'Editorial'),
-              CustomCard(title: 'Film & TV'),
-              CustomCard(title: 'Party'),
-              CustomCard(title: 'Special Effects'),
+              CustomCard(
+                title: 'Bridal',
+                onTap: () {
+                  if (typeHair.contains("Bridal")) {
+                    typeHair.remove("Bridal");
+                  } else {
+                    typeHair.add("Bridal");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Editorial',
+                onTap: () {
+                  if (typeHair.contains("Editorial")) {
+                    typeHair.remove("Editorial");
+                  } else {
+                    typeHair.add("Editorial");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Film & TV',
+                onTap: () {
+                  if (typeHair.contains("Film & TV")) {
+                    typeHair.remove("Film & TV");
+                  } else {
+                    typeHair.add("Film & TV");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Party',
+                onTap: () {
+                  if (typeHair.contains("Party")) {
+                    typeHair.remove("Party");
+                  } else {
+                    typeHair.add("Party");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Special Effects',
+                onTap: () {
+                  if (typeHair.contains("Special Effects")) {
+                    typeHair.remove("Special Effects");
+                  } else {
+                    typeHair.add("Special Effects");
+                  }
+                  setState(() {});
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 30, left: 20),
                 child: Text(
@@ -74,17 +179,71 @@ class _Search1ScreenState extends State<Search1Screen> {
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                 ),
               ),
-              CustomCard(title: 'Bridal'),
-              CustomCard(title: 'Editorial'),
-              CustomCard(title: 'Film & TV'),
-              CustomCard(title: 'Party'),
-              CustomCard(title: 'Special Effects'),
+              CustomCard(
+                title: 'Bridal',
+                onTap: () {
+                  if (typeNails.contains("Bridal")) {
+                    typeNails.remove("Bridal");
+                  } else {
+                    typeNails.add("Bridal");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Editorial',
+                onTap: () {
+                  if (typeNails.contains("Editorial")) {
+                    typeNails.remove("Editorial");
+                  } else {
+                    typeNails.add("Editorial");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Film & TV',
+                onTap: () {
+                  if (typeNails.contains("Film & TV")) {
+                    typeNails.remove("Film & TV");
+                  } else {
+                    typeNails.add("Film & TV");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Party',
+                onTap: () {
+                  if (typeNails.contains("Party")) {
+                    typeNails.remove("Party");
+                  } else {
+                    typeNails.add("Party");
+                  }
+                  setState(() {});
+                },
+              ),
+              CustomCard(
+                title: 'Special Effects',
+                onTap: () {
+                  if (typeNails.contains("Special Effects")) {
+                    typeNails.remove("Special Effects");
+                  } else {
+                    typeNails.add("Special Effects");
+                  }
+                  setState(() {});
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 25, right: 10, left: 10),
                 child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const Search2Screen()));
+                          builder: (context) => Search2Screen(
+                                typeHair: typeHair,
+                                typeMakeup: typeMakeup,
+                                typeNails: typeNails,
+                              )));
                     },
                     child: MyCardButton(title: 'Next')),
               )

@@ -35,9 +35,9 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
   List nailsSliderValues = [];
 
   //
-  List<double> priceMakeupList = [];
-  List<double> priceHairList = [];
-  List<double> priceNailsList = [];
+  // List<double> priceMakeupList = [];
+  // List<double> priceHairList = [];
+  // List<double> priceNailsList = [];
 
   Map<String, double> makeupPrices = {};
   Map<String, double> hairPrices = {};
