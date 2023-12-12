@@ -28,7 +28,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
       FirebaseFirestore.instance.collection('Artist_Data');
 
   Future<List<List<DocumentSnapshot>>> getPosts() async {
-    // Use Future.wait to fetch data from both collections concurrently
     List<Future<QuerySnapshot>> futures = [
       postCollection.get(),
       otherCollection.get(),
@@ -137,12 +136,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   List<DocumentSnapshot> posts = allPosts[0];
                   List<DocumentSnapshot> artists = allPosts[1];
 
-                  List<String> imageLinks = (posts.isNotEmpty)
-                      ? (posts[0]['images'] as List<dynamic>).cast<String>()
-                      : [];
-
-                  print(imageLinks);
-
                   return ListView.builder(
                     itemCount: posts.length,
                     shrinkWrap: true,
@@ -153,7 +146,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         firstName: artists[index]['first_name'].toString(),
                         lastName: artists[index]['last_name'].toString(),
                         imageLinks: posts[index]['images'],
-                        images: [],
+                        artImage: artists[index]['profileimage'],
+                        bio: artists[index]['describe'],
                       );
                     },
                   );

@@ -9,13 +9,25 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreDetailsScreen extends StatefulWidget {
-  const ExploreDetailsScreen({super.key});
+  String? firstName, lastName, location, artImage, Bio;
+  List<dynamic> imageList;
+  ExploreDetailsScreen(
+      {super.key,
+      required this.firstName,
+      required this.lastName,
+      required this.location,
+      required this.artImage,
+      required this.Bio,
+      required this.imageList});
 
   @override
   State<ExploreDetailsScreen> createState() => _ExploreDetailsScreenState();
 }
 
 class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
+  final PageController _pageController = PageController(viewportFraction: 1);
+  int currentIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,24 +38,47 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
             children: [
               Stack(
                 children: [
-                  Container(
-                    width: double.infinity,
+                  SizedBox(
                     height: 400,
-                    color: Colors.grey[300],
+                    width: double.infinity,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            currentIndex = index + 1;
+                          });
+                        },
+                        children: widget.imageList
+                            .map((imageUrl) => Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(imageUrl),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
                   ),
                   Positioned(
                     top: 20,
                     left: 20,
                     child: Container(
-                      width: 60, // Adjust the size as needed
-                      height: 60, // Adjust the size as needed
+                      width: 60,
+                      height: 60,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
                       ),
                       child: InkWell(
-                        borderRadius: BorderRadius.circular(
-                            30), // Half of the container size
+                        borderRadius: BorderRadius.circular(30),
                         onTap: () {
                           Navigator.pop(context);
                         },
@@ -84,6 +119,10 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       width: 60, // Adjust the size as needed
                       height: 60, // Adjust the size as needed
                       decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(widget.artImage.toString()),
+                          fit: BoxFit.cover,
+                        ),
                         shape: BoxShape.circle,
                         color: Colors.grey[300],
                       ),
@@ -91,7 +130,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        'Profile Name ',
+                        '${widget.firstName} ${widget.lastName}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
@@ -113,10 +152,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          'Name',
-                        ),
-                        Text(
-                          'Service',
+                          'Service ',
                         )
                       ],
                     ),
@@ -127,7 +163,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                           '0 Reviews',
                         ),
                         Text(
-                          'Location',
+                          widget.location.toString(),
                         )
                       ],
                     ),
@@ -166,7 +202,9 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        'Bio',
+                        'Bio : ${widget.Bio}',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Padding(

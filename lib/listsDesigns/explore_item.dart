@@ -3,10 +3,7 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
-  final List<String> images;
-  //ExploreItemDesign({super.key, required this.images, required String location, required String firstName, required String lastName, required imageLinks});
-
-  String? location, firstName, lastName;
+  String? location, firstName, lastName, artImage, bio;
   final List<dynamic> imageLinks;
 
   ExploreItemDesign(
@@ -14,8 +11,9 @@ class ExploreItemDesign extends StatefulWidget {
       required this.location,
       required this.firstName,
       required this.lastName,
+      required this.artImage,
       required this.imageLinks,
-      required this.images})
+      required this.bio})
       : super(key: key);
 
   @override
@@ -54,12 +52,19 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
     print(makeupType);
 
     print(skillMakeup);
-    print(widget.images);
+    print(widget.imageLinks);
 
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const ExploreDetailsScreen()));
+            builder: (context) => ExploreDetailsScreen(
+                  lastName: widget.lastName,
+                  firstName: widget.firstName,
+                  location: widget.location,
+                  artImage: widget.artImage,
+                  Bio: widget.bio,
+                  imageList: widget.imageLinks,
+                )));
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -85,30 +90,16 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           currentIndex = index + 1;
                         });
                       },
-                      children: [
-                        ListView.builder(
-                          itemCount: widget.images.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Image.network(widget.images[index]);
-                          },
-                        )
-                      ],
-                      //itemColors
-                      //     .map((color) => Container(
-                      //           color: color,
-                      //         ))
-                      //     .toList(),
-                      // children: widget.imageLinks
-                      //     .map((imageUrl) => Container(
-                      //           decoration: BoxDecoration(
-                      //             image: DecorationImage(
-                      //               image: NetworkImage(imageUrl),
-                      //               fit: BoxFit.cover,
-                      //             ),
-                      //           ),
-                      //         ))
-                      //     .toList(),
+                      children: widget.imageLinks
+                          .map((imageUrl) => Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(imageUrl),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                     ),
                   ),
                 ),

@@ -3,9 +3,8 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
-import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/requestQuote.dart';
-import 'package:bewtie/TabScreens/exploreScreens/reviews.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
 
 class Search4Screen extends StatelessWidget {
@@ -111,8 +110,7 @@ class Search4Screen extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                const ExploreDetailsScreen()));
+                            builder: (context) => const LandingPage()));
                       },
                       child: MyTextCard(title: 'Cancel', fontSize: 15),
                     ),
@@ -121,8 +119,7 @@ class Search4Screen extends StatelessWidget {
                     child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const RequestQuoteScreen()));
+                              builder: (context) => const LandingPage()));
                         },
                         child: MyCardButton(title: 'Search')),
                   ),

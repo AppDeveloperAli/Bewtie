@@ -41,20 +41,19 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                 ),
               ),
-              ListView.builder(
-                itemCount: 4,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ExploreItemDesign(
-                    location: '',
-                    firstName: '',
-                    lastName: '',
-                    imageLinks: [],
-                    images: [],
-                  );
-                },
-              )
+              // ListView.builder(
+              //   itemCount: 4,
+              //   shrinkWrap: true,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   itemBuilder: (context, index) {
+              //     return ExploreItemDesign(
+              //       location: '',
+              //       firstName: '',
+              //       lastName: '',
+              //       imageLinks: [],
+              //     );
+              //   },
+              // )
             ],
           ),
         ),
