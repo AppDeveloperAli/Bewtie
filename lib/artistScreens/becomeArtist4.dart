@@ -50,14 +50,9 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
       isLoading = true;
     });
     FirebaseAuth auth = FirebaseAuth.instance;
-    final CollectionReference artistsCollection =
-        _firestore.collection('Artist');
+    final CollectionReference artistsCollection = _firestore.collection('Post');
 
-    await artistsCollection
-        .doc(auth.currentUser!.uid)
-        .collection("Post")
-        .doc(auth.currentUser!.uid)
-        .set({
+    await artistsCollection.doc(auth.currentUser!.uid).set({
       'Makeup Type': widget.typeMakeup,
       'Hair Type': widget.typeHair,
       'Nails Type': widget.typeNails,

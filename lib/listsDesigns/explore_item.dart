@@ -1,19 +1,35 @@
+<<<<<<< HEAD
+=======
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
+>>>>>>> 3931368145bd6f3c333f839a782bd3a7c227f71f
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
+<<<<<<< HEAD
   final List<String> images;
   const ExploreItemDesign({super.key, required this.images});
+=======
+  String? location, firstName, lastName;
+  final List<dynamic> imageLinks;
+
+  ExploreItemDesign(
+      {Key? key,
+      required this.location,
+      required this.firstName,
+      required this.lastName,
+      required this.imageLinks})
+      : super(key: key);
+>>>>>>> 3931368145bd6f3c333f839a782bd3a7c227f71f
 
   @override
   State<ExploreItemDesign> createState() => _ExploreItemDesignState();
 }
 
 class _ExploreItemDesignState extends State<ExploreItemDesign> {
-  PageController _pageController = PageController(viewportFraction: 0.8);
+  final PageController _pageController = PageController(viewportFraction: 1);
 
   List<Color> itemColors = [
     Colors.amber,
@@ -21,22 +37,16 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
     Colors.green,
   ];
 
-  int currentIndex = 1; // Initialize the index
-  int totalItems = 3; // Set the total number of items
+  int currentIndex = 1;
 
   bool isFavorite = false;
 
   @override
-  void dispose() {
+  void initState() {
+    super.initState();
     _pageController.dispose();
-    fetchArtistData();
-    super.dispose();
   }
 
-  // Get Skills Data :-
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   List makeupType = [];
   List nailsType = [];
   List hairType = [];
@@ -45,60 +55,17 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   bool skillHair = false;
   bool skillNails = false;
 
-  Future<void> fetchArtistData() async {
-    //collection('artist')[index]['Post'][0]['name'];
-    try {
-      CollectionReference<Map<String, dynamic>> artistCollection =
-          _firestore.collection('Artist');
-
-      QuerySnapshot<Map<String, dynamic>> artistSnapshot =
-          await artistCollection.get();
-
-      for (QueryDocumentSnapshot<Map<String, dynamic>> artistDocument
-          in artistSnapshot.docs) {
-        CollectionReference<Map<String, dynamic>> postsCollection =
-            artistDocument.reference.collection('Post');
-
-        QuerySnapshot<Map<String, dynamic>> postsSnapshot =
-            await postsCollection.get();
-
-        for (QueryDocumentSnapshot<Map<String, dynamic>> postDocument
-            in postsSnapshot.docs) {
-          makeupType = postDocument.get('Makeup Type');
-          nailsType = postDocument.get('Nails Type');
-          hairType = postDocument.get('Hair Type');
-
-          //
-
-          if (makeupType.isNotEmpty) {
-            skillMakeup = true;
-          }
-
-          if (hairType.isNotEmpty) {
-            skillHair = true;
-          }
-
-          if (nailsType.isNotEmpty) {
-            skillNails = true;
-          }
-
-          print(
-              'Makeup Type: $makeupType, Nails Type: $nailsType, Hair Type: $hairType');
-        }
-      }
-    } catch (e) {
-      print('Error fetching artist data: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     print(fetchArtistData().toString());
     print(makeupType);
 
     print(skillMakeup);
     print(widget.images);
 
+=======
+>>>>>>> 3931368145bd6f3c333f839a782bd3a7c227f71f
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -114,11 +81,10 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
               children: [
                 SizedBox(
                   height: 400,
-                  width: 600,
+                  width: double.infinity,
                   child: Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // Adjust the radius as needed
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     semanticContainer: true,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -129,6 +95,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           currentIndex = index + 1;
                         });
                       },
+<<<<<<< HEAD
                       children: [
                         ListView.builder(
                           itemCount: widget.images.length,
@@ -143,6 +110,18 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                       //           color: color,
                       //         ))
                       //     .toList(),
+=======
+                      children: widget.imageLinks
+                          .map((imageUrl) => Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(imageUrl),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+>>>>>>> 3931368145bd6f3c333f839a782bd3a7c227f71f
                     ),
                   ),
                 ),
@@ -204,7 +183,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                     ],
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,7 +196,8 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
-                          Text('Name')
+                          Text(
+                              '${widget.firstName.toString()} ${widget.lastName.toString()}')
                         ],
                       ),
                       Column(
@@ -226,7 +206,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           Text(
                             '0 Reviews',
                           ),
-                          Text('Location')
+                          Text(widget.location.toString())
                         ],
                       ),
                     ],
@@ -264,7 +244,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Text(
-                    '$currentIndex / ${itemColors.length}',
+                    '$currentIndex / ${widget.imageLinks.length}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

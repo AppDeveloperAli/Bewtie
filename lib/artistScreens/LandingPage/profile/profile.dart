@@ -28,14 +28,15 @@ class ArtistProfile extends StatefulWidget {
 }
 
 class _ArtistProfileState extends State<ArtistProfile> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+  CollectionReference users =
+      FirebaseFirestore.instance.collection('Artist_Data');
 
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
-  late String firstName = "";
+  late String firstName = "Name";
   late String lastName = "";
-  late String email = "";
-  late String number = "";
+  late String email = "random@gmail.com";
+  late String number = "+23005821";
   late String image = "";
 
   @override
@@ -48,10 +49,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
 
   Future<void> getUserData() async {
     try {
-      final DocumentReference profileDataDoc = users
-          .doc(currentUser!.uid)
-          .collection('Profile_Data')
-          .doc(currentUser!.uid);
+      final DocumentReference profileDataDoc = users.doc(currentUser!.uid);
 
       final DocumentSnapshot userDoc = await profileDataDoc.get();
 

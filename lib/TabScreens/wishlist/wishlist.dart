@@ -46,8 +46,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
+<<<<<<< HEAD
                   return const ExploreItemDesign(
                     images: [],
+=======
+                  return ExploreItemDesign(
+                    location: '',
+                    firstName: '',
+                    lastName: '',
+                    imageLinks: [],
+>>>>>>> 3931368145bd6f3c333f839a782bd3a7c227f71f
                   );
                 },
               )

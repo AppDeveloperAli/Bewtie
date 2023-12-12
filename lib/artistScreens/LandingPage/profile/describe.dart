@@ -17,16 +17,14 @@ class DescribeScreen extends StatefulWidget {
 class _LeaveReviewScreenState extends State<DescribeScreen> {
   TextEditingController controller = TextEditingController();
 
-  CollectionReference users = FirebaseFirestore.instance.collection('Artist');
+  CollectionReference users =
+      FirebaseFirestore.instance.collection('Artist_Data');
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
   Future<void> addUser(BuildContext context) async {
     if (controller.text.isNotEmpty) {
       if (currentUser != null) {
-        final DocumentReference profileDataDoc = users
-            .doc(currentUser!.uid)
-            .collection('Profile_Data')
-            .doc(currentUser!.uid);
+        final DocumentReference profileDataDoc = users.doc(currentUser!.uid);
 
         final DocumentSnapshot userDoc = await profileDataDoc.get();
 
