@@ -9,16 +9,27 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreDetailsScreen extends StatefulWidget {
-  String? firstName, lastName, location, artImage, Bio;
+  String? firstName, lastName, location, artImage, bio, postUid;
   List<dynamic> imageList;
-  ExploreDetailsScreen(
-      {super.key,
-      required this.firstName,
-      required this.lastName,
-      required this.location,
-      required this.artImage,
-      required this.Bio,
-      required this.imageList});
+  List<dynamic> avialibilty;
+  List<dynamic> hair;
+  List<dynamic> mackup;
+  List<dynamic> nails;
+
+  ExploreDetailsScreen({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+    required this.location,
+    required this.artImage,
+    required this.bio,
+    required this.imageList,
+    required this.avialibilty,
+    required this.hair,
+    required this.mackup,
+    required this.nails,
+    required this.postUid,
+  });
 
   @override
   State<ExploreDetailsScreen> createState() => _ExploreDetailsScreenState();
@@ -30,6 +41,15 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.nails);
+
+    print(widget.hair);
+
+    print(widget.mackup);
+
+    Map<String, String> availabilityStatus =
+        getAvailabilityStatus(widget.avialibilty);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -99,10 +119,10 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      child: const Padding(
+                      child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Text(
-                          '1 / 1',
+                          '$currentIndex / ${widget.imageList.length}',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
@@ -152,7 +172,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          'Service ',
+                          'Service : ${checkServices(widget.hair, 'Hairs')} ${checkServices(widget.nails, ' - Nails')} ${checkServices(widget.mackup, ' - Makeup ')}',
                         )
                       ],
                     ),
@@ -178,31 +198,24 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                     Text(
                       'Availability',
                     ),
-                    Text(
-                      'Monday -',
-                    ),
-                    Text(
-                      'Tuesday -',
-                    ),
-                    Text(
-                      'Wednesday -',
-                    ),
-                    Text(
-                      'Thursday -',
-                    ),
-                    Text(
-                      'Friday -',
-                    ),
-                    Text(
-                      'Saturday -',
-                    ),
-                    Text(
-                      'Sunday -',
-                    ),
+                    buildAvailabilityText('Monday -',
+                        availabilityStatus['Mon'] ?? 'not available'),
+                    buildAvailabilityText('Tuesday -',
+                        availabilityStatus['Tue'] ?? 'not available'),
+                    buildAvailabilityText('Wednesday -',
+                        availabilityStatus['Wed'] ?? 'not available'),
+                    buildAvailabilityText('Thursday -',
+                        availabilityStatus['Thu'] ?? 'not available'),
+                    buildAvailabilityText('Friday -',
+                        availabilityStatus['Fri'] ?? 'not available'),
+                    buildAvailabilityText('Saturday -',
+                        availabilityStatus['Sat'] ?? 'not available'),
+                    buildAvailabilityText('Sunday -',
+                        availabilityStatus['Sun'] ?? 'not available'),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        'Bio : ${widget.Bio}',
+                        'Bio : ${widget.bio}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -294,8 +307,9 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                             child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LeaveReviewScreen()));
+                                      builder: (context) => LeaveReviewScreen(
+                                            postUID: widget.postUid.toString(),
+                                          )));
                                 },
                                 child: MyCardButton(title: 'Leave a review')),
                           ),
@@ -310,5 +324,45 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
         ),
       ),
     );
+  }
+
+  Widget buildAvailabilityText(String day, String status) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(day),
+        Text(status),
+      ],
+    );
+  }
+
+  Map<String, String> getAvailabilityStatus(List<dynamic> weekdays) {
+    Map<String, String> availability = {
+      'Sun': 'Not Available',
+      'Mon': 'Not Available',
+      'Tue': 'Not Available',
+      'Wed': 'Not Available',
+      'Thu': 'Not Available',
+      'Fri': 'Not Available',
+      'Sat': 'Not Available',
+    };
+
+    for (dynamic day in weekdays) {
+      String dayString = day.toString();
+      if (availability.containsKey(dayString)) {
+        availability[dayString] = 'Available';
+      }
+    }
+
+    return availability;
+  }
+
+  checkServices(List<dynamic> list, String serviceText) {
+    String available = '';
+    if (list.isNotEmpty) {
+      return available = serviceText;
+    } else {
+      return available = '';
+    }
   }
 }

@@ -3,8 +3,12 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
-  String? location, firstName, lastName, artImage, bio;
+  String? location, firstName, lastName, artImage, bio, postUid;
   final List<dynamic> imageLinks;
+  List<dynamic> avail;
+  List<dynamic> hair;
+  List<dynamic> mackup;
+  List<dynamic> nails;
 
   ExploreItemDesign(
       {Key? key,
@@ -13,7 +17,12 @@ class ExploreItemDesign extends StatefulWidget {
       required this.lastName,
       required this.artImage,
       required this.imageLinks,
-      required this.bio})
+      required this.bio,
+      required this.avail,
+      required this.hair,
+      required this.mackup,
+      required this.nails,
+      required this.postUid})
       : super(key: key);
 
   @override
@@ -62,8 +71,13 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   firstName: widget.firstName,
                   location: widget.location,
                   artImage: widget.artImage,
-                  Bio: widget.bio,
+                  bio: widget.bio,
                   imageList: widget.imageLinks,
+                  avialibilty: widget.avail,
+                  hair: widget.hair,
+                  mackup: widget.mackup,
+                  nails: widget.nails,
+                  postUid: widget.postUid,
                 )));
       },
       child: Padding(

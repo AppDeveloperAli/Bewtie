@@ -148,6 +148,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         imageLinks: posts[index]['images'],
                         artImage: artists[index]['profileimage'],
                         bio: artists[index]['describe'],
+                        avail: posts[index]['availability'],
+                        hair: posts[index]['Hair Type'],
+                        mackup: posts[index]['Makeup Type'],
+                        nails: posts[index]['Nails Type'],
+                        postUid: posts[index]['UID'],
                       );
                     },
                   );
