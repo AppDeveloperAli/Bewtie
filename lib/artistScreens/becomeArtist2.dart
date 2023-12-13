@@ -25,6 +25,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
   double priceMakeup = 0;
   double priceHair = 0;
   double priceNails = 0;
+  double total = 0;
 
   // List<double> priceMakeup = [];
   //List<double> priceHair = [];
@@ -66,6 +67,8 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
     hairPrices = {for (var type in widget.typeHair) type: 0.0};
     nailsPrices = {for (var type in widget.typeNails) type: 0.0};
   }
+
+  // For Total :-
 
   @override
   Widget build(BuildContext context) {

@@ -27,6 +27,7 @@ class Search3Screen extends StatefulWidget {
 }
 
 class _Search3ScreenState extends State<Search3Screen> {
+  late DateTime _dateTime;
   @override
   Widget build(BuildContext context) {
     print("------${widget.makeupPrices}");
@@ -88,7 +89,11 @@ class _Search3ScreenState extends State<Search3Screen> {
                       height: 300,
                       child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
-                        onDateTimeChanged: (dateTime) {},
+                        onDateTimeChanged: (dateTime) {
+                          _dateTime = dateTime;
+                          setState(() {});
+                          print("--------------$_dateTime");
+                        },
                       )),
                 ],
               ),
@@ -98,7 +103,15 @@ class _Search3ScreenState extends State<Search3Screen> {
               child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Search4Screen()));
+                        builder: (context) => Search4Screen(
+                              typeHair: widget.typeHair,
+                              typeMakeup: widget.typeMakeup,
+                              typeNails: widget.typeNails,
+                              hairPrices: widget.hairPrices,
+                              makeupPrices: widget.makeupPrices,
+                              nailsPrices: widget.nailsPrices,
+                              dateTime: _dateTime,
+                            )));
                   },
                   child: MyCardButton(title: 'Next')),
             )

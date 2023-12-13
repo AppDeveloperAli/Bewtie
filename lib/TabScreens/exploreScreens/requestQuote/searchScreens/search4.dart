@@ -7,11 +7,39 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
 
-class Search4Screen extends StatelessWidget {
-  const Search4Screen({super.key});
+class Search4Screen extends StatefulWidget {
+  final List<String> typeMakeup;
+  final List<String> typeHair;
+  final List<String> typeNails;
+  final Map<String, double> makeupPrices;
+  final Map<String, double> hairPrices;
+  final Map<String, double> nailsPrices;
+  final DateTime dateTime;
+
+  Search4Screen(
+      {super.key,
+      required this.typeMakeup,
+      required this.typeHair,
+      required this.typeNails,
+      required this.makeupPrices,
+      required this.hairPrices,
+      required this.nailsPrices,
+      required this.dateTime});
 
   @override
+  State<Search4Screen> createState() => _Search4ScreenState();
+}
+
+class _Search4ScreenState extends State<Search4Screen> {
+  @override
   Widget build(BuildContext context) {
+    print("-------${widget.typeMakeup}");
+    print("-------${widget.typeHair}");
+    print("-------${widget.typeNails}");
+    print("-------${widget.hairPrices}");
+    print("-------${widget.nailsPrices}");
+    print("-------${widget.makeupPrices}");
+    print("-------${widget.dateTime}");
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -27,10 +55,7 @@ class Search4Screen extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Icon(
-                          Icons.close,
-                          size: 40,
-                        ),
+                        child: Icon(Icons.close, size: 40),
                       ),
                     ),
                     Padding(
