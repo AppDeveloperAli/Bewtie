@@ -4,6 +4,7 @@ import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/Utils/snackBar.dart';
+import 'package:bewtie/artistScreens/LandingPage/mainPage.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/addImages.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/availibility.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/delete.dart';
@@ -157,25 +158,41 @@ class _ArtistProfileState extends State<ArtistProfile> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Card(
-                            color: AppColors.primaryPink,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 60,
-                              child: Center(
-                                  child: Text('I’m a Bewtie Artist',
-                                      style: const TextStyle(
-                                          fontFamily: 'Manrope',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15))),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const ArtistMainPage()));
+                          },
+                          child: Card(
+                              color: AppColors.primaryPink,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 60,
+                                child: Center(
+                                    child: Text('I’m a Bewtie Artist',
+                                        style: const TextStyle(
+                                            fontFamily: 'Manrope',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15))),
+                              )),
+                        ),
                       ),
                       Expanded(
-                          child: MyTextCardArtist(
-                              title: 'I need an Artist', fontSize: 15))
+                          child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LandingPage()),
+                            (route) => false,
+                          );
+                        },
+                        child: MyTextCardArtist(
+                            title: 'I need an Artist', fontSize: 15),
+                      ))
                     ],
                   ),
                 ),

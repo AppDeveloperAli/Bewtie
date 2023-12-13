@@ -9,6 +9,7 @@ import 'package:bewtie/TabScreens/profile/pinPit.dart';
 import 'package:bewtie/TabScreens/profile/termsCondition.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/Utils/snackBar.dart';
+import 'package:bewtie/artistScreens/LandingPage/mainPage.dart';
 import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,6 +58,29 @@ class _LoggedInViewState extends State<LoggedInView> {
     if (currentUser != null) {
       getUserData(currentUser!.uid);
     }
+  }
+
+  Future<bool> isDocumentExists(
+      String collectionName, String documentId) async {
+    try {
+      CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection(collectionName);
+
+      DocumentSnapshot documentSnapshot =
+          await collectionReference.doc(documentId).get();
+
+      return documentSnapshot.exists;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> checkDocument() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String collectionName = 'Artist_Data';
+    String documentId = auth.currentUser!.uid;
+    return await isDocumentExists(collectionName, documentId);
   }
 
   Future<void> getUserData(String uid) async {
@@ -181,9 +205,15 @@ class _LoggedInViewState extends State<LoggedInView> {
                   ),
                   Expanded(
                       child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const BecomeArtistScreen()));
+                    onTap: () async {
+                      if (await checkDocument()) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ArtistMainPage()));
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const BecomeArtistScreen()));
+                      }
+                      checkDocument();
                     },
                     child:
                         MyTextCard(title: 'I’m a Betwie Artist', fontSize: 15),

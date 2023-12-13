@@ -3,10 +3,15 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
 import 'package:bewtie/TabScreens/exploreScreens/leaveReview.dart';
+import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/requestQuote.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search1.dart';
 import 'package:bewtie/TabScreens/exploreScreens/reviews.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/listsDesigns/bookingItems.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ExploreDetailsScreen extends StatefulWidget {
   String? firstName, lastName, location, artImage, bio, postUid;
@@ -136,8 +141,8 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                 child: Row(
                   children: [
                     Container(
-                      width: 60, // Adjust the size as needed
-                      height: 60, // Adjust the size as needed
+                      width: 60,
+                      height: 60,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(widget.artImage.toString()),
@@ -227,7 +232,11 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                     GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Search1Screen()));
+                              builder: (context) => RequestQuoteScreen(
+                                    hair: widget.hair,
+                                    nails: widget.nails,
+                                    mack: widget.mackup,
+                                  )));
                         },
                         child: MyCardButton(title: 'Request a quote')),
                     Padding(
@@ -238,56 +247,87 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                         color: AppColors.lightPink,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        '0 Reviews',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ),
-                    ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                width: 60, // Adjust the size as needed
-                                height: 60, // Adjust the size as needed
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey[300],
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('Post')
+                            .doc(widget.postUid)
+                            .collection('PostReviews')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return CircularProgressIndicator();
+                          }
+
+                          var data = snapshot.data!.docs;
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  '${data.length} Reviews',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                'Name or reviewer',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  var review = data[index];
+                                  Timestamp timestamp =
+                                      data[index]['timestamp'];
+                                  DateTime dateTime = timestamp.toDate();
+                                  String formattedDate =
+                                      DateFormat('yyyy/MM/dd - HH:mm:ss')
+                                          .format(dateTime);
+
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: CircleAvatar(
+                                            radius: 30.0,
+                                            backgroundImage: NetworkImage(
+                                                review['userImage']),
+                                            backgroundColor: Colors.transparent,
+                                          )),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          review['name'],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          formattedDate,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, top: 10),
+                                        child: Text(
+                                          review['text'],
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                },
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                'Date',
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10, top: 10),
-                              child: Text('xxxxxxxxx'),
-                            )
-                          ],
-                        );
-                      },
-                    ),
+                            ],
+                          );
+                        }),
                     Padding(
                       padding: const EdgeInsets.only(top: 30, bottom: 10),
                       child: Row(
@@ -296,8 +336,9 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ReviewsScreen()));
+                                    builder: (context) => ReviewsScreen(
+                                          postUid: widget.postUid!,
+                                        )));
                               },
                               child: MyTextCard(
                                   title: 'Show all reviews', fontSize: 15),

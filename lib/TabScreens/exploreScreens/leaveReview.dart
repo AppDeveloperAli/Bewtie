@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Utils/snackBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +17,7 @@ class LeaveReviewScreen extends StatefulWidget {
 class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController controller = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +70,14 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   if (auth.currentUser != null) {
                     uploadReview(controller.text);
                   }
                 },
-                child: MyCardButton(title: 'Send')),
+                child: isLoading
+                    ? CircularProgressIndicator()
+                    : MyCardButton(title: 'Send')),
           )
         ],
       )),
@@ -80,41 +85,55 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
   }
 
   Future<void> uploadReview(String reviewText) async {
+    setState(() {
+      isLoading = true;
+    });
+    String image = '';
+    String firstName = '';
+    String lastName = '';
     try {
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('Users');
+
       CollectionReference reviews = FirebaseFirestore.instance
           .collection('Post')
           .doc(widget.postUID)
           .collection('PostReviews');
 
-      await reviews.add({
-        'text': reviewText,
-        'timestamp': FieldValue.serverTimestamp(),
-        'userImage': 
-      });
-
-      CustomSnackBar(context, Text('Review uploaded successfully.'));
-
-    } catch (e) {
-      CustomSnackBar(context, Text('Error uploading review: $e'));
-    }
-  }
-
- Future<void> retrieveUserData() async {
-    try {
-      CollectionReference users = FirebaseFirestore.instance.collection('user');
-
       QuerySnapshot querySnapshot = await users.get();
 
       for (QueryDocumentSnapshot document in querySnapshot.docs) {
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        Map<String, dynamic>? data = document.data() as Map<String, dynamic>?;
 
-        String email = data['email'];
-
-        print(' Email: $email');
+        if (data != null) {
+          image = data['profileimage'] ?? 'N/A';
+          firstName = data['first_name'] ?? 'N/A';
+          lastName = data['last_name'] ?? 'N/A';
+        } else {
+          CustomSnackBar(
+              context, Text('Data is null for document ID: ${document.id}'));
+        }
       }
+
+      await reviews.add({
+        'name': '$firstName $lastName',
+        'text': reviewText,
+        'timestamp': FieldValue.serverTimestamp(),
+        'userImage': image
+      });
+
+      controller.clear();
+      Navigator.pop(context);
+
+      CustomSnackBar(context, Text('Review uploaded successfully.'));
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
-      print('Error retrieving user data: $e');
+      setState(() {
+        isLoading = false;
+      });
+      CustomSnackBar(context, Text('Error uploading review: $e'));
     }
   }
-
 }

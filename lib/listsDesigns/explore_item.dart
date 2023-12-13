@@ -44,8 +44,14 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
 
   @override
   void initState() {
+    _pageController.initialPage;
     super.initState();
+  }
+
+  @override
+  void dispose() {
     _pageController.dispose();
+    super.dispose();
   }
 
   List makeupType = [];
