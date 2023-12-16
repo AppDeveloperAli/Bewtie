@@ -28,6 +28,16 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
+  String selectedPaymentMethod = '';
+
+  void _onPaymentMethodChanged(String? newPaymentMethod) {
+    if (newPaymentMethod != null) {
+      setState(() {
+        selectedPaymentMethod = newPaymentMethod;
+      });
+    }
+  }
+
   List<File> selectedImages = [];
   bool isLoading = false;
 
@@ -138,7 +148,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          'Apple pay',
+                          selectedPaymentMethod,
                         ),
                       ),
                     ],
@@ -146,9 +156,20 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ChangePayment()));
+                      onTap: () async {
+                        final result =
+                            await Navigator.of(context).push<String?>(
+                          MaterialPageRoute(
+                            builder: (context) => ChangePayment(
+                              onPaymentMethodChanged: _onPaymentMethodChanged,
+                            ),
+                          ),
+                        );
+
+                        if (result != null) {
+                          _onPaymentMethodChanged(result);
+                        }
+                        print(result);
                       },
                       child: Text(
                         'Change',

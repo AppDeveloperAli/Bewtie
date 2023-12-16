@@ -36,6 +36,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return results.map((querySnapshot) => querySnapshot.docs).toList();
   }
 
+  bool isLoading = false;
+
+  String? countryTitle;
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  String getCurrentUserId() {
+    User? user = _auth.currentUser;
+    return user!.uid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,27 +140,45 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
+
                   List<List<DocumentSnapshot>> allPosts = snapshot.data ?? [];
                   List<DocumentSnapshot> posts = allPosts[0];
                   List<DocumentSnapshot> artists = allPosts[1];
 
-                  return ListView.builder(
-                    itemCount: posts.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return ExploreItemDesign(
-                        location: posts[index]['Location'].toString(),
-                        firstName: artists[index]['first_name'].toString(),
-                        lastName: artists[index]['last_name'].toString(),
-                        imageLinks: posts[index]['images'],
-                        artImage: artists[index]['profileimage'],
-                        bio: artists[index]['describe'],
-                        avail: posts[index]['availability'],
-                        hair: posts[index]['Hair Type'],
-                        mackup: posts[index]['Makeup Type'],
-                        nails: posts[index]['Nails Type'],
-                        postUid: posts[index]['UID'],
+                  return FutureBuilder<QuerySnapshot>(
+                    future: posts[0].reference.collection('PostReviews').get(),
+                    builder: (context, subCollectionSnapshot) {
+                      if (subCollectionSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (subCollectionSnapshot.hasError) {
+                        return Text('Error: ${subCollectionSnapshot.error}');
+                      }
+
+                      List<DocumentSnapshot> subCollectionDocuments =
+                          subCollectionSnapshot.data?.docs ?? [];
+
+                      return ListView.builder(
+                        itemCount: posts.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ExploreItemDesign(
+                            location: posts[index]['Location'].toString(),
+                            firstName: artists[index]['first_name'].toString(),
+                            lastName: artists[index]['last_name'].toString(),
+                            imageLinks: posts[index]['images'],
+                            artImage: artists[index]['profileimage'],
+                            bio: artists[index]['describe'],
+                            avail: posts[index]['availability'],
+                            hair: posts[index]['Hair Type'],
+                            mackup: posts[index]['Makeup Type'],
+                            nails: posts[index]['Nails Type'],
+                            postUid: posts[index]['UID'],
+                            reviewCount:
+                                subCollectionDocuments.length.toString(),
+                          );
+                        },
                       );
                     },
                   );

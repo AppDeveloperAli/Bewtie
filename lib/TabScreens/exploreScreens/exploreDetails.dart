@@ -14,27 +14,27 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ExploreDetailsScreen extends StatefulWidget {
-  String? firstName, lastName, location, artImage, bio, postUid;
+  String? firstName, lastName, location, artImage, bio, postUid, reviewCount;
   List<dynamic> imageList;
   List<dynamic> avialibilty;
   List<dynamic> hair;
   List<dynamic> mackup;
   List<dynamic> nails;
 
-  ExploreDetailsScreen({
-    super.key,
-    required this.firstName,
-    required this.lastName,
-    required this.location,
-    required this.artImage,
-    required this.bio,
-    required this.imageList,
-    required this.avialibilty,
-    required this.hair,
-    required this.mackup,
-    required this.nails,
-    required this.postUid,
-  });
+  ExploreDetailsScreen(
+      {super.key,
+      required this.firstName,
+      required this.lastName,
+      required this.location,
+      required this.artImage,
+      required this.bio,
+      required this.imageList,
+      required this.avialibilty,
+      required this.hair,
+      required this.mackup,
+      required this.nails,
+      required this.postUid,
+      required this.reviewCount});
 
   @override
   State<ExploreDetailsScreen> createState() => _ExploreDetailsScreenState();
@@ -185,7 +185,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '0 Reviews',
+                          '${widget.reviewCount} Reviews',
                         ),
                         Text(
                           widget.location.toString(),

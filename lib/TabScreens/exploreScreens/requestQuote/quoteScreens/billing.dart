@@ -77,7 +77,7 @@ class _BillingScreenState extends State<BillingScreen> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
                           size: 40,
                         ),
@@ -93,11 +93,12 @@ class _BillingScreenState extends State<BillingScreen> {
                       TextInputFeildWidget(
                         labelText: 'Card Name',
                         controller: cardName,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.name,
                       ),
                       TextInputFeildWidget(
                         labelText: 'Card Number',
                         controller: cardNmber,
+                        maxLines: 16,
                         keyboardType: TextInputType.number,
                       ),
                       Row(
@@ -105,6 +106,7 @@ class _BillingScreenState extends State<BillingScreen> {
                           Expanded(
                               child: TextInputFeildWidget(
                             labelText: 'Expiration',
+                            maxLines: 4,
                             controller: expireNmber,
                             keyboardType: TextInputType.number,
                           )),
@@ -112,6 +114,7 @@ class _BillingScreenState extends State<BillingScreen> {
                               child: TextInputFeildWidget(
                             labelText: 'CVV',
                             controller: cvvNmber,
+                            maxLines: 3,
                             keyboardType: TextInputType.number,
                           )),
                         ],
@@ -120,6 +123,7 @@ class _BillingScreenState extends State<BillingScreen> {
                         labelText: 'Postal Code',
                         keyboardType: TextInputType.number,
                         controller: postNmber,
+                        maxLines: 10,
                       ),
                       GestureDetector(
                         onTap: () {
