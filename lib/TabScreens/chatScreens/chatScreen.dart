@@ -265,10 +265,15 @@ class _ChatScreenState extends State<ChatScreen> {
                       return Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
                         child: ListTile(
-                          leading: ClipOval(
-                            child: Image(
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: const Image(
+                                width: 50,
+                                height: 50,
                                 image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bHV4dXJ5JTIwY2FyfGVufDB8fDB8fHww")),
+                                  "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bHV4dXJ5JTIwY2FyfGVufDB8fDB8fHww",
+                                ),
+                                fit: BoxFit.fill),
                           ),
                           title: Align(
                               alignment: Alignment.centerLeft,
