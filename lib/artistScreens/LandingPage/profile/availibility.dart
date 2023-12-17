@@ -232,4 +232,6 @@ class _AvailibilityArtistState extends State<AvailibilityArtist> {
             )),
           );
   }
+
+  get() {}
 }
