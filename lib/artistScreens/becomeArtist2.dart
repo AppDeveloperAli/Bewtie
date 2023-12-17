@@ -26,6 +26,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
   double priceHair = 0;
   double priceNails = 0;
   double total = 0;
+  double packageTotal = 0;
 
   // List<double> priceMakeup = [];
   //List<double> priceHair = [];
@@ -43,6 +44,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
   Map<String, double> makeupPrices = {};
   Map<String, double> hairPrices = {};
   Map<String, double> nailsPrices = {};
+  Map<String, double> totalPrices = {};
 
   @override
   void initState() {
@@ -69,6 +71,31 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
   }
 
   // For Total :-
+
+// Combine all three maps into a list
+
+  void calculateTotal() {
+    List<Map<String, double>> allPrices = [
+      makeupPrices,
+      nailsPrices,
+      hairPrices
+    ];
+
+    allPrices.forEach((priceMap) {
+      priceMap.forEach((product, price) {
+        totalPrices.update(product, (value) => value + price,
+            ifAbsent: () => price);
+      });
+    });
+
+    print('Total Prices: $totalPrices');
+
+    //
+    Map<String, double> categoryPrices = totalPrices;
+
+// Calculate the total sum of all prices
+    packageTotal = categoryPrices.values.fold(0, (sum, price) => sum + price);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -504,6 +531,10 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                   onTap: () {
+                    calculateTotal();
+                    print("=========={$totalPrices}");
+                    print("========$packageTotal");
+
                     //
 
                     print("Price Makeup: ${makeupPrices}");
@@ -518,6 +549,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                               makeupPrices: makeupPrices,
                               hairPrices: hairPrices,
                               nailsPrices: nailsPrices,
+                              packageTotal: packageTotal,
                             )));
                   },
                   child: MyCardButton(title: 'Next')),

@@ -12,6 +12,7 @@ class BecomeArtist3 extends StatefulWidget {
   final List<String> typeMakeup;
   final List<String> typeHair;
   final List<String> typeNails;
+  final double packageTotal;
   Map<String, double> makeupPrices;
   Map<String, double> hairPrices;
   Map<String, double> nailsPrices;
@@ -26,7 +27,8 @@ class BecomeArtist3 extends StatefulWidget {
       required this.nailsPrices,
       required this.typeMakeup,
       required this.typeHair,
-      required this.typeNails});
+      required this.typeNails,
+      required this.packageTotal});
 
   @override
   State<BecomeArtist3> createState() => _Search3ScreenState();
@@ -104,6 +106,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                     ),
                   ),
                   CustomCardArtist(
+                    dataList: [],
                     title: 'Mon',
                     onTap: () {
                       if (availability.contains("Mon")) {
@@ -115,6 +118,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                     },
                   ),
                   CustomCardArtist(
+                    dataList: [],
                     title: 'Tue',
                     onTap: () {
                       if (availability.contains("Tue")) {
@@ -126,6 +130,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                     },
                   ),
                   CustomCardArtist(
+                    dataList: [],
                     title: 'Wed',
                     onTap: () {
                       if (availability.contains("Wed")) {
@@ -137,6 +142,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                     },
                   ),
                   CustomCardArtist(
+                    dataList: [],
                     title: 'Thu',
                     onTap: () {
                       if (availability.contains("Thu")) {
@@ -148,6 +154,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                     },
                   ),
                   CustomCardArtist(
+                    dataList: [],
                     title: 'Fri',
                     onTap: () {
                       if (availability.contains("Fri")) {
@@ -159,6 +166,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                     },
                   ),
                   CustomCardArtist(
+                    dataList: [],
                     title: 'Sat',
                     onTap: () {
                       if (availability.contains("Sat")) {
@@ -170,6 +178,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                     },
                   ),
                   CustomCardArtist(
+                    dataList: [],
                     title: 'Sun',
                     onTap: () {
                       if (availability.contains("Sun")) {
@@ -196,6 +205,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
                               makeupPrices: widget.makeupPrices,
                               hairPrices: widget.hairPrices,
                               nailsPrices: widget.nailsPrices,
+                              packageTotal: widget.packageTotal,
                               availability: availability,
                             )));
                   },

@@ -159,92 +159,94 @@ class _InboxScreenState extends State<InboxScreen> {
                       color: AppColors.lightPink,
                     ),
                   ),
-                  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    //itemCount: splittedUIDs.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ChatScreen(
-                                        uid: splittedUIDs[index],
-                                      )));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          width:
-                                              60, // Adjust the size as needed
-                                          height:
-                                              60, // Adjust the size as needed
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.grey[300],
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: Container(
+                  Expanded(
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      //itemCount: splittedUIDs.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ChatScreen(
+                                          uid: splittedUIDs[index],
+                                        )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Stack(
+                                        children: [
+                                          Container(
                                             width:
-                                                15, // Adjust the size as needed
+                                                60, // Adjust the size as needed
                                             height:
-                                                15, // Adjust the size as needed
+                                                60, // Adjust the size as needed
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: AppColors.primaryPink,
+                                              color: Colors.grey[300],
                                             ),
+                                          ),
+                                          Positioned(
+                                            top: 0,
+                                            right: 0,
+                                            child: Container(
+                                              width:
+                                                  15, // Adjust the size as needed
+                                              height:
+                                                  15, // Adjust the size as needed
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColors.primaryPink,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            splittedUIDs[index],
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            'Date last message sent',
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          splittedUIDs[index],
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          'Date last message sent',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            height: 0.5,
-                            color: AppColors.lightPink,
-                          ),
-                        ],
-                      );
-                    },
+                            Container(
+                              width: double.infinity,
+                              height: 0.5,
+                              color: AppColors.lightPink,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

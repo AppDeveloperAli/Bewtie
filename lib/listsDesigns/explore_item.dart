@@ -3,7 +3,8 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
-  String? location, firstName, lastName, artImage, bio, postUid;
+  String? location, firstName, lastName, artImage, bio;
+  String postUid;
   final List<dynamic> imageLinks;
   List<dynamic> avail;
   List<dynamic> hair;

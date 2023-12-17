@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class CustomCardArtist extends StatefulWidget {
   final String title;
   void Function()? onTap;
+  final List<String> dataList;
 
-  CustomCardArtist({required this.title, this.onTap});
+  CustomCardArtist({required this.title, this.onTap, required this.dataList});
 
   @override
   _CustomCardState createState() => _CustomCardState();
@@ -22,6 +23,7 @@ class _CustomCardState extends State<CustomCardArtist> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDaySelected = widget.dataList.contains(widget.title);
     return GestureDetector(
       onTap: () {
         widget.onTap?.call();
@@ -38,7 +40,9 @@ class _CustomCardState extends State<CustomCardArtist> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
               side: BorderSide(
-                color: isClicked ? AppColors.primaryPink : Colors.white,
+                color: isClicked || isDaySelected
+                    ? AppColors.primaryPink
+                    : Colors.white,
                 width: 0.5,
               ),
             ),

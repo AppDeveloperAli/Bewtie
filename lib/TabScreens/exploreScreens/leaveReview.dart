@@ -89,17 +89,16 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
       await reviews.add({
         'text': reviewText,
         'timestamp': FieldValue.serverTimestamp(),
-        'userImage': 
+        'userImage': ""
       });
 
       CustomSnackBar(context, Text('Review uploaded successfully.'));
-
     } catch (e) {
       CustomSnackBar(context, Text('Error uploading review: $e'));
     }
   }
 
- Future<void> retrieveUserData() async {
+  Future<void> retrieveUserData() async {
     try {
       CollectionReference users = FirebaseFirestore.instance.collection('user');
 
@@ -116,5 +115,4 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
       print('Error retrieving user data: $e');
     }
   }
-
 }

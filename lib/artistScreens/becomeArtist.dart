@@ -63,6 +63,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 ),
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Bridal',
                 onTap: () {
                   if (typeMakeup.contains("Bridal")) {
@@ -74,6 +75,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Editorial',
                 onTap: () {
                   if (typeMakeup.contains("Editorial")) {
@@ -85,6 +87,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Film & TV',
                 onTap: () {
                   if (typeMakeup.contains("Film & TV")) {
@@ -96,6 +99,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Party',
                 onTap: () {
                   if (typeMakeup.contains("Party")) {
@@ -107,6 +111,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Special Effects',
                 onTap: () {
                   if (typeMakeup.contains("Special Effects")) {
@@ -129,6 +134,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 ),
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Bridal',
                 onTap: () {
                   if (typeHair.contains("Bridal")) {
@@ -140,6 +146,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Editorial',
                 onTap: () {
                   if (typeHair.contains("Editorial")) {
@@ -151,6 +158,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Film & TV',
                 onTap: () {
                   if (typeHair.contains("Film & TV")) {
@@ -162,6 +170,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Party',
                 onTap: () {
                   if (typeHair.contains("Party")) {
@@ -173,6 +182,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Special Effects',
                 onTap: () {
                   if (typeHair.contains("Special Effects")) {
@@ -195,6 +205,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 ),
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Bridal',
                 onTap: () {
                   if (typeNails.contains("Bridal")) {
@@ -206,6 +217,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Editorial',
                 onTap: () {
                   if (typeNails.contains("Editorial")) {
@@ -217,6 +229,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Film & TV',
                 onTap: () {
                   if (typeNails.contains("Film & TV")) {
@@ -228,6 +241,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Party',
                 onTap: () {
                   if (typeNails.contains("Party")) {
@@ -239,6 +253,7 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                 },
               ),
               CustomCardArtist(
+                dataList: [],
                 title: 'Special Effects',
                 onTap: () {
                   if (typeNails.contains("Special Effects")) {

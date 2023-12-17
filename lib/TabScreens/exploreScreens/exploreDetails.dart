@@ -2,6 +2,7 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
+import 'package:bewtie/TabScreens/chatScreens/chatScreen.dart';
 import 'package:bewtie/TabScreens/exploreScreens/leaveReview.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search1.dart';
 import 'package:bewtie/TabScreens/exploreScreens/reviews.dart';
@@ -9,7 +10,8 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class ExploreDetailsScreen extends StatefulWidget {
-  String? firstName, lastName, location, artImage, bio, postUid;
+  String? firstName, lastName, location, artImage, bio;
+  String postUid;
   List<dynamic> imageList;
   List<dynamic> avialibilty;
   List<dynamic> hair;
@@ -46,6 +48,8 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
     print(widget.hair);
 
     print(widget.mackup);
+
+    print("-----${widget.postUid}");
 
     Map<String, String> availabilityStatus =
         getAvailabilityStatus(widget.avialibilty);
@@ -220,10 +224,22 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    //
                     Padding(
-                      padding: const EdgeInsets.only(top: 30, bottom: 10),
-                      child: MyTextCard(title: 'Send a message', fontSize: 18),
+                      padding: EdgeInsets.only(top: 30, bottom: 10),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  ChatScreen(uid: widget.postUid),
+                            ));
+                          },
+                          child: MyTextCard(
+                              title: 'Send a message', fontSize: 18)),
                     ),
+
+                    //
+
                     GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(

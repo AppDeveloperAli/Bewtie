@@ -25,6 +25,7 @@ class BecomeArtistScreen4 extends StatefulWidget {
 
   // From 3rd Screen :-
   final List<String> availability;
+  final double packageTotal;
 
   BecomeArtistScreen4(
       {super.key,
@@ -34,7 +35,8 @@ class BecomeArtistScreen4 extends StatefulWidget {
       required this.makeupPrices,
       required this.hairPrices,
       required this.nailsPrices,
-      required this.availability});
+      required this.availability,
+      required this.packageTotal});
 
   @override
   State<BecomeArtistScreen4> createState() => _BecomeArtistScreen4State();
@@ -62,6 +64,7 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
       'Price Hair': widget.hairPrices,
       'Price Nails': widget.nailsPrices,
       'UID': auth.currentUser!.uid,
+      'Package Total': widget.packageTotal
     });
 
     Navigator.of(context)
