@@ -1,11 +1,19 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:bewtie/Utils/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class ReviewsScreen extends StatelessWidget {
-  const ReviewsScreen({super.key});
+class ReviewsScreen extends StatefulWidget {
+  String postUid;
+  ReviewsScreen({super.key, required this.postUid});
 
+  @override
+  State<ReviewsScreen> createState() => _ReviewsScreenState();
+}
+
+class _ReviewsScreenState extends State<ReviewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,69 +34,86 @@ class ReviewsScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Reviews',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-              ),
-            ),
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Container(
-                        width: double.infinity,
-                        height: 0.5,
-                        color: AppColors.lightPink,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              width: 60, // Adjust the size as needed
-                              height: 60, // Adjust the size as needed
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey[300],
+              padding: const EdgeInsets.all(10),
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('Post')
+                      .doc(widget.postUid)
+                      .collection('PostReviews')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return CircularProgressIndicator();
+                    }
+
+                    var data = snapshot.data!.docs;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            '${data.length} Reviews',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        ),
+                        ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            var review = data[index];
+                            Timestamp timestamp = data[index]['timestamp'];
+                            DateTime dateTime = timestamp.toDate();
+                            String formattedDate =
+                                DateFormat('yyyy/MM/dd - HH:mm:ss')
+                                    .format(dateTime);
+
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: CircleAvatar(
+                                        radius: 30.0,
+                                        backgroundImage:
+                                            NetworkImage(review['userImage']),
+                                        backgroundColor: Colors.transparent,
+                                      )),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      review['name'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      formattedDate,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 10),
+                                    child: Text(
+                                      review['text'],
+                                    ),
+                                  )
+                                ],
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Name or reviewer',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Date',
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, top: 10),
-                            child: Text('xxxxxxxxx'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  }),
             ),
           ],
         ),

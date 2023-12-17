@@ -1,10 +1,11 @@
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
-  String? location, firstName, lastName, artImage, bio;
-  String postUid;
+  String? location, firstName, lastName, artImage, bio, postUid, reviewCount;
   final List<dynamic> imageLinks;
   List<dynamic> avail;
   List<dynamic> hair;
@@ -23,7 +24,8 @@ class ExploreItemDesign extends StatefulWidget {
       required this.hair,
       required this.mackup,
       required this.nails,
-      required this.postUid})
+      required this.postUid,
+      required this.reviewCount})
       : super(key: key);
 
   @override
@@ -45,8 +47,15 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
 
   @override
   void initState() {
+    _pageController.initialPage;
+    checkInitialFavoriteStatus();
     super.initState();
+  }
+
+  @override
+  void dispose() {
     _pageController.dispose();
+    super.dispose();
   }
 
   List makeupType = [];
@@ -57,13 +66,32 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   bool skillHair = false;
   bool skillNails = false;
 
+  final CollectionReference _collection =
+      FirebaseFirestore.instance.collection('Users');
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  String getCurrentUserId() {
+    User? user = _auth.currentUser;
+    return user!.uid;
+  }
+
+  void checkInitialFavoriteStatus() async {
+    String documentId = getCurrentUserId();
+    String postUid = widget.postUid.toString();
+
+    DocumentSnapshot doc = await _collection.doc(documentId).get();
+    Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+    List<dynamic> favourites = data?['favourite'] ?? [];
+    bool isFavourite = favourites.contains(postUid);
+
+    setState(() {
+      isFavorite = isFavourite;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(makeupType);
-
-    print(skillMakeup);
-    print(widget.imageLinks);
-
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -78,7 +106,8 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   hair: widget.hair,
                   mackup: widget.mackup,
                   nails: widget.nails,
-                  postUid: widget.postUid,
+                  postUid: widget.postUid.toString(),
+                  reviewCount: widget.reviewCount,
                 )));
       },
       child: Padding(
@@ -177,14 +206,14 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Price',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
@@ -197,7 +226,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '0 Reviews',
+                            '${widget.reviewCount} Reviews',
                           ),
                           Text(widget.location.toString())
                         ],
@@ -215,14 +244,8 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   isFavorite ? Icons.favorite : Icons.favorite_border,
                   color: isFavorite ? AppColors.primaryPink : null,
                 ),
-                onPressed: () {
-                  setState(() {
-                    if (isFavorite == true) {
-                      isFavorite = false;
-                    } else {
-                      isFavorite = true;
-                    }
-                  });
+                onPressed: () async {
+                  toggleFavouriteStatus();
                 },
               ),
             ),
@@ -250,5 +273,30 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
         ),
       ),
     );
+  }
+
+  void toggleFavouriteStatus() async {
+    String documentId = getCurrentUserId();
+    String postUid = widget.postUid.toString();
+
+    DocumentSnapshot doc = await _collection.doc(documentId).get();
+    Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+    List<dynamic> favourites = data?['favourite'] ?? [];
+    bool isFavourite = favourites.contains(postUid);
+
+    if (isFavourite) {
+      await _collection.doc(documentId).update({
+        'favourite': FieldValue.arrayRemove([postUid]),
+      });
+    } else {
+      await _collection.doc(documentId).update({
+        'favourite': FieldValue.arrayUnion([postUid]),
+      });
+    }
+
+    setState(() {
+      isFavorite = !isFavourite;
+    });
   }
 }

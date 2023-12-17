@@ -1,4 +1,3 @@
-import 'package:bewtie/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class MyTextCardArtist extends StatelessWidget {
@@ -13,7 +12,7 @@ class MyTextCardArtist extends StatelessWidget {
         color: Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.white, // Outline color
             width: 1.0, // Outline width
           ),

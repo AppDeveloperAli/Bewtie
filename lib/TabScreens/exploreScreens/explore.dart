@@ -1,9 +1,7 @@
 import 'package:bewtie/Components/cardButton.dart';
-import 'package:bewtie/Components/cardicon.dart';
 import 'package:bewtie/Components/textSelection.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search1.dart';
 import 'package:bewtie/TabScreens/profile/account.dart';
-import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editPhoto.dart';
 import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,6 +34,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
     List<QuerySnapshot> results = await Future.wait(futures);
 
     return results.map((querySnapshot) => querySnapshot.docs).toList();
+  }
+
+  bool isLoading = false;
+
+  String? countryTitle;
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  String getCurrentUserId() {
+    User? user = _auth.currentUser;
+    return user!.uid;
   }
 
   @override
@@ -132,27 +140,45 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
+
                   List<List<DocumentSnapshot>> allPosts = snapshot.data ?? [];
                   List<DocumentSnapshot> posts = allPosts[0];
                   List<DocumentSnapshot> artists = allPosts[1];
 
-                  return ListView.builder(
-                    itemCount: posts.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return ExploreItemDesign(
-                        location: posts[index]['Location'].toString(),
-                        firstName: artists[index]['first_name'].toString(),
-                        lastName: artists[index]['last_name'].toString(),
-                        imageLinks: posts[index]['images'],
-                        artImage: artists[index]['profileimage'],
-                        bio: artists[index]['describe'],
-                        avail: posts[index]['availability'],
-                        hair: posts[index]['Hair Type'],
-                        mackup: posts[index]['Makeup Type'],
-                        nails: posts[index]['Nails Type'],
-                        postUid: posts[index]['UID'],
+                  return FutureBuilder<QuerySnapshot>(
+                    future: posts[0].reference.collection('PostReviews').get(),
+                    builder: (context, subCollectionSnapshot) {
+                      if (subCollectionSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (subCollectionSnapshot.hasError) {
+                        return Text('Error: ${subCollectionSnapshot.error}');
+                      }
+
+                      List<DocumentSnapshot> subCollectionDocuments =
+                          subCollectionSnapshot.data?.docs ?? [];
+
+                      return ListView.builder(
+                        itemCount: posts.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return ExploreItemDesign(
+                            location: posts[index]['Location'].toString(),
+                            firstName: artists[index]['first_name'].toString(),
+                            lastName: artists[index]['last_name'].toString(),
+                            imageLinks: posts[index]['images'],
+                            artImage: artists[index]['profileimage'],
+                            bio: artists[index]['describe'],
+                            avail: posts[index]['availability'],
+                            hair: posts[index]['Hair Type'],
+                            mackup: posts[index]['Makeup Type'],
+                            nails: posts[index]['Nails Type'],
+                            postUid: posts[index]['UID'],
+                            reviewCount:
+                                subCollectionDocuments.length.toString(),
+                          );
+                        },
                       );
                     },
                   );

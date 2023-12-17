@@ -1,24 +1,52 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
 import 'package:bewtie/Components/cardButton.dart';
-import 'package:bewtie/Components/pickImage.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/billing.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/paymentScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/landingPage1.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class RequestQuoteScreen extends StatefulWidget {
-  const RequestQuoteScreen({super.key});
+  List<dynamic> mack, hair, nails;
+  RequestQuoteScreen(
+      {super.key, required this.hair, required this.mack, required this.nails});
 
   @override
   State<RequestQuoteScreen> createState() => _RequestQuoteScreenState();
 }
 
 class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
+  String selectedPaymentMethod = '';
+
+  void _onPaymentMethodChanged(String? newPaymentMethod) {
+    if (newPaymentMethod != null) {
+      setState(() {
+        selectedPaymentMethod = newPaymentMethod;
+      });
+    }
+  }
+
+  List<File> selectedImages = [];
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -52,28 +80,28 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   'Services',
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Make-up Bridal',
+                  'Makeup - ${widget.mack.join(', ')}',
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  'Hair Bridal',
+                  'Hair - ${widget.hair.join(', ')}',
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  'Nails Bridal',
+                  'Nails - ${widget.nails.join(', ')}',
                 ),
               ),
               Padding(
@@ -86,7 +114,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  'Mon 01 Aug',
+                  formattedDate,
                 ),
               ),
               Padding(
@@ -120,7 +148,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          'Apple pay',
+                          selectedPaymentMethod,
                         ),
                       ),
                     ],
@@ -128,9 +156,20 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ChangePayment()));
+                      onTap: () async {
+                        final result =
+                            await Navigator.of(context).push<String?>(
+                          MaterialPageRoute(
+                            builder: (context) => ChangePayment(
+                              onPaymentMethodChanged: _onPaymentMethodChanged,
+                            ),
+                          ),
+                        );
+
+                        if (result != null) {
+                          _onPaymentMethodChanged(result);
+                        }
+                        print(result);
                       },
                       child: Text(
                         'Change',
@@ -158,7 +197,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          'Xxxxxxxxxxxx',
+                          'Add a new card for payment',
                         ),
                       ),
                     ],
@@ -206,12 +245,12 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                       Padding(
                           padding: const EdgeInsets.only(right: 20, top: 20),
                           child: Text(
-                            '€0',
+                            '€ 0',
                           )),
                       Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Text(
-                            '€0',
+                            '€ 0',
                           )),
                     ],
                   ),
@@ -235,7 +274,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Text(
-                  'Tell XXXX what you’re after, what time and where you’d like to meet. Be as descriptive as possible, it’ll help our Bewtie Artists with their decision.',
+                  'Tell Us what you’re after, what time and where you’d like to meet. Be as descriptive as possible, it’ll help our Bewtie Artists with their decision.',
                 ),
               ),
               Container(
@@ -268,14 +307,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(15),
-                child: Row(
-                  children: [
-                    Expanded(child: PickImageCardWidget(isPicked: true)),
-                    Expanded(
-                        child: SvgPicture.asset(
-                            'assets/svg/Add-Image-Icon-Black.svg')),
-                  ],
-                ),
+                child: _buildImageGrid(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -314,12 +346,6 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                child: Text(
-                  'By selecting the below button xxxxxxxxx',
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: GestureDetector(
                     onTap: () {
@@ -333,5 +359,116 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildImageGrid() {
+    List<Widget> imageWidgets = selectedImages.map((image) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.file(
+          image,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+      );
+    }).toList();
+
+    imageWidgets.add(const ClipRRect());
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+        ),
+        itemCount: imageWidgets.length,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          if (index == imageWidgets.length - 1) {
+            return Stack(
+              children: [
+                Container(),
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: () {
+                      _pickImages();
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: const BorderSide(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                      ),
+                      child: Image.asset(
+                        'assets/icons/Add-Image-Icon-Black.png',
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return imageWidgets[index];
+          }
+        },
+      ),
+    );
+  }
+
+  Future<void> _pickImages() async {
+    List<XFile>? result = await ImagePicker().pickMultiImage();
+    if (result.isNotEmpty) {
+      setState(() {
+        selectedImages = result.map((xFile) => File(xFile.path)).toList();
+      });
+    }
+  }
+
+  Future<void> _uploadImagesAndSaveData() async {
+    setState(() {
+      isLoading = true;
+    });
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+      try {
+        Reference storageReference =
+            _storage.ref().child('post_images/${user.uid}');
+
+        List<String> downloadUrls = [];
+
+        for (File image in selectedImages) {
+          String imageName = DateTime.now().millisecondsSinceEpoch.toString();
+          UploadTask uploadTask =
+              storageReference.child('$imageName.jpg').putFile(image);
+
+          String downloadUrl = await (await uploadTask).ref.getDownloadURL();
+          downloadUrls.add(downloadUrl);
+        }
+
+        await _firestore.collection('Post').doc(user.uid).update({
+          'images': downloadUrls,
+        });
+
+        setState(() {
+          isLoading = false;
+        });
+
+        CustomSnackBar(context, const Text('Images uploaded successfully!'));
+        Navigator.pop(context);
+      } catch (error) {
+        CustomSnackBar(
+            context, Text('Error uploading images and saving data: $error'));
+      }
+    }
   }
 }

@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 
 class TextInputFeildWidget extends StatefulWidget {
   TextEditingController? controller;
+  int? maxLines;
   String labelText;
   TextInputType? keyboardType;
   TextInputFeildWidget(
-      {super.key, required this.labelText, this.controller, this.keyboardType});
+      {super.key,
+      required this.labelText,
+      this.controller,
+      this.keyboardType,
+      this.maxLines});
 
   @override
   State<TextInputFeildWidget> createState() => _TextInputFeildWidgetState();
@@ -20,6 +25,7 @@ class _TextInputFeildWidgetState extends State<TextInputFeildWidget> {
         height: 50,
         margin: const EdgeInsets.all(5),
         child: TextFormField(
+          maxLength: widget.maxLines,
           validator: (value) {
             if (value!.isEmpty) {
               return 'Will not be empty..';
@@ -28,6 +34,7 @@ class _TextInputFeildWidgetState extends State<TextInputFeildWidget> {
           },
           controller: widget.controller,
           decoration: InputDecoration(
+            counterText: '',
             enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(

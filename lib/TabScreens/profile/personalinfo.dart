@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:bewtie/TabScreens/profile/editPhone.dart';
 import 'package:bewtie/TabScreens/profile/editPhoto.dart';
 import 'package:bewtie/TabScreens/profile/emailEdit.dart';
@@ -42,7 +44,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
         Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
 
         setState(() {
-          firstName = userData['first_name'] ?? "Name";
+          firstName = userData['first_name'] ?? "Artist Name";
           lastName = userData['last_name'] ?? "";
           email = userData['email'] ?? "Email Address";
           number = userData['number'] ?? "Phone Number";
