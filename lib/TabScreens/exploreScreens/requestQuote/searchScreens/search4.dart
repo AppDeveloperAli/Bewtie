@@ -3,9 +3,12 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
+import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/searchScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Search4Screen extends StatefulWidget {
   final List<String> typeMakeup;
@@ -15,6 +18,7 @@ class Search4Screen extends StatefulWidget {
   final Map<String, double> hairPrices;
   final Map<String, double> nailsPrices;
   final DateTime dateTime;
+  String? title, result;
 
   Search4Screen(
       {super.key,
@@ -24,7 +28,9 @@ class Search4Screen extends StatefulWidget {
       required this.makeupPrices,
       required this.hairPrices,
       required this.nailsPrices,
-      required this.dateTime});
+      required this.dateTime,
+      required this.title,
+      required this.result});
 
   @override
   State<Search4Screen> createState() => _Search4ScreenState();
@@ -40,6 +46,13 @@ class _Search4ScreenState extends State<Search4Screen> {
     print("-------${widget.nailsPrices}");
     print("-------${widget.makeupPrices}");
     print("-------${widget.dateTime}");
+
+    DateTime widgetDateTime = widget.dateTime;
+
+    String formattedDate = DateFormat('EEEE d MMMM').format(widgetDateTime);
+
+    TextEditingController controller = TextEditingController();
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -61,7 +74,9 @@ class _Search4ScreenState extends State<Search4Screen> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        'Make-up (Bridal)...',
+                        widget.title.toString(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 20),
                       ),
@@ -74,7 +89,9 @@ class _Search4ScreenState extends State<Search4Screen> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        'Make-up (€0)...',
+                        widget.result.toString(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 20),
                       ),
@@ -87,7 +104,7 @@ class _Search4ScreenState extends State<Search4Screen> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        'Monday 01 August...',
+                        formattedDate,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 20),
                       ),
@@ -108,6 +125,7 @@ class _Search4ScreenState extends State<Search4Screen> {
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: TextField(
+                        controller: controller,
                         decoration: InputDecoration(
                           hintText: 'Enter your destination here...',
                           contentPadding:
@@ -143,8 +161,24 @@ class _Search4ScreenState extends State<Search4Screen> {
                   Expanded(
                     child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const LandingPage()));
+                          if (controller.text.isNotEmpty) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SearchScreen(
+                                      typeHair: widget.typeHair,
+                                      typeMakeup: widget.typeMakeup,
+                                      typeNails: widget.typeNails,
+                                      hairPrices: widget.hairPrices,
+                                      makeupPrices: widget.makeupPrices,
+                                      nailsPrices: widget.nailsPrices,
+                                      date: formattedDate,
+                                      result: widget.result,
+                                      title: widget.title.toString(),
+                                      location: controller.text,
+                                    )));
+                          } else {
+                            CustomSnackBar(
+                                context, Text('Please give a destination...'));
+                          }
                         },
                         child: MyCardButton(title: 'Search')),
                   ),

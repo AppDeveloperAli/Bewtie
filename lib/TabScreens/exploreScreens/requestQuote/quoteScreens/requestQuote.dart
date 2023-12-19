@@ -16,8 +16,16 @@ import 'package:intl/intl.dart';
 
 class RequestQuoteScreen extends StatefulWidget {
   List<dynamic> mack, hair, nails;
+  String? price, name, location, postUid;
   RequestQuoteScreen(
-      {super.key, required this.hair, required this.mack, required this.nails});
+      {super.key,
+      required this.hair,
+      required this.mack,
+      required this.nails,
+      required this.price,
+      required this.name,
+      required this.location,
+      required this.postUid});
 
   @override
   State<RequestQuoteScreen> createState() => _RequestQuoteScreenState();
@@ -41,11 +49,40 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
   List<File> selectedImages = [];
   bool isLoading = false;
 
+  String name = '';
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromFirestore();
+  }
+
+  Future<void> fetchDataFromFirestore() async {
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(auth.currentUser!.uid);
+
+    DocumentSnapshot documentSnapshot = await documentReference.get();
+
+    String first = documentSnapshot['first_name'];
+    String last = documentSnapshot['last_name'];
+
+    setState(() {
+      name = '$first $last';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
+
+    String hairStatus = isListEmpty(widget.hair) ? '' : 'Hair';
+    String makeStatus = isListEmpty(widget.mack) ? '' : 'Makeup';
+    String nailsStatus = isListEmpty(widget.nails) ? '' : 'Nails';
 
     return Scaffold(
       body: SafeArea(
@@ -241,16 +278,17 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                     ],
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Padding(
                           padding: const EdgeInsets.only(right: 20, top: 20),
                           child: Text(
-                            '€ 0',
+                            '${convertStringToInteger(widget.price.toString()).toString()} €',
                           )),
                       Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: Text(
-                            '€ 0',
+                            '0 €',
                           )),
                     ],
                   ),
@@ -349,16 +387,63 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LandingPage()));
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      Map<String, dynamic> data = {
+                        'artname': widget.name,
+                        'name': name,
+                        'service': '$makeStatus $hairStatus $nailsStatus',
+                        'location': widget.location,
+                        'price': widget.price,
+                        'date': getCurrentDate(),
+                        'orderID': '${widget.postUid}_${auth.currentUser!.uid}'
+                      };
+
+                      addDataToFirestore(data).whenComplete(() {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const LandingPage()));
+                      });
+
+                      setState(() {
+                        isLoading = false;
+                      });
                     },
-                    child: MyCardButton(title: 'Request to book')),
+                    child: isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : MyCardButton(title: 'Request to book')),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  bool isListEmpty(List<dynamic> list) {
+    return list == null || list.isEmpty;
+  }
+
+  Future<void> addDataToFirestore(Map<String, dynamic> data) async {
+    CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection('Orders');
+
+    await collectionReference
+        .doc('${auth.currentUser!.uid}_${widget.postUid}')
+        .set(data);
+
+    print('Data added to Firestore!');
+  }
+
+  int convertStringToInteger(String stringValue) {
+    double doubleValue = double.tryParse(stringValue) ?? 0.0;
+    int integerValue = doubleValue.toInt();
+    return integerValue;
+  }
+
+  getCurrentDate() {
+    return DateFormat('yyyy-MM-dd - kk:mm').format(DateTime.now());
   }
 
   Widget _buildImageGrid() {

@@ -164,19 +164,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ExploreItemDesign(
-                            location: posts[index]['Location'].toString(),
-                            firstName: artists[index]['first_name'].toString(),
-                            lastName: artists[index]['last_name'].toString(),
-                            imageLinks: posts[index]['images'],
-                            artImage: artists[index]['profileimage'],
-                            bio: artists[index]['describe'],
-                            avail: posts[index]['availability'],
-                            hair: posts[index]['Hair Type'],
-                            mackup: posts[index]['Makeup Type'],
-                            nails: posts[index]['Nails Type'],
-                            postUid: posts[index]['UID'],
+                            location: posts[index]['Location'] ?? '',
+                            firstName: artists[index]['first_name'] ?? '',
+                            lastName: artists[index]['last_name'] ?? '',
+                            imageLinks: posts[index]['images'] ?? '',
+                            artImage: artists[index]['profileimage'] ?? '',
+                            bio: artists[index]['describe'] ?? '',
+                            avail: posts[index]['availability'] ?? '',
+                            hair: posts[index]['Hair Type'] ?? '',
+                            mackup: posts[index]['Makeup Type'] ?? '',
+                            nails: posts[index]['Nails Type'] ?? '',
+                            postUid: posts[index]['UID'] ?? '',
                             reviewCount:
                                 subCollectionDocuments.length.toString(),
+                            price:
+                                posts[index]['Package Total']?.toString() ?? '',
                           );
                         },
                       );

@@ -12,7 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ExploreDetailsScreen extends StatefulWidget {
-  String? firstName, lastName, location, artImage, bio, postUid, reviewCount;
+  String? firstName,
+      lastName,
+      location,
+      artImage,
+      bio,
+      postUid,
+      reviewCount,
+      price;
   List<dynamic> imageList;
   List<dynamic> avialibilty;
   List<dynamic> hair;
@@ -22,6 +29,7 @@ class ExploreDetailsScreen extends StatefulWidget {
   ExploreDetailsScreen(
       {super.key,
       required this.firstName,
+      required this.price,
       required this.lastName,
       required this.location,
       required this.artImage,
@@ -54,6 +62,12 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
 
     Map<String, String> availabilityStatus =
         getAvailabilityStatus(widget.avialibilty);
+
+    int convertStringToInteger(String stringValue) {
+      double doubleValue = double.tryParse(stringValue) ?? 0.0;
+      int integerValue = doubleValue.toInt();
+      return integerValue;
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -172,7 +186,8 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Price',
+                          convertStringToInteger(widget.price.toString())
+                              .toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
@@ -248,6 +263,11 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                                     hair: widget.hair,
                                     nails: widget.nails,
                                     mack: widget.mackup,
+                                    price: widget.price,
+                                    location: widget.location,
+                                    postUid: widget.postUid,
+                                    name:
+                                        '${widget.firstName} ${widget.lastName}',
                                   )));
                         },
                         child: MyCardButton(title: 'Request a quote')),

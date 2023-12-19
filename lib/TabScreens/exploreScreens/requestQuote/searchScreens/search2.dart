@@ -55,7 +55,35 @@ class _Search2ScreenState extends State<Search2Screen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.typeMakeup);
+    String originalString =
+        'Make up ${(widget.typeMakeup)}, Nails ${widget.typeNails}, Hair ${widget.typeHair}';
+
+// Replace '[]' with '()' for the entire string
+    originalString = originalString.replaceAll('[]', '()');
+
+    if (widget.typeMakeup.isEmpty) {
+      originalString = originalString.replaceAll(RegExp(r'Make up \(\),?'), '');
+    } else {
+      originalString = originalString.replaceFirst(
+          RegExp(r'Make up \[\]'), 'Make up (${widget.typeMakeup})');
+    }
+
+    if (widget.typeNails.isEmpty) {
+      originalString = originalString.replaceAll(RegExp(r'Nails \(\),?'), '');
+    } else {
+      originalString = originalString.replaceFirst(
+          RegExp(r'Nails \[\]'), 'Nails (${widget.typeNails})');
+    }
+
+    if (widget.typeHair.isEmpty) {
+      originalString = originalString.replaceAll(RegExp(r'Hair \(\),?'), '');
+    } else {
+      originalString = originalString.replaceFirst(
+          RegExp(r'Hair \[\]'), 'Hair (${widget.typeHair})');
+    }
+
+    originalString = originalString.replaceAll('[', '(').replaceAll(']', ')');
+
     double _currentSliderValue = 0;
     return Scaffold(
       body: SafeArea(
@@ -80,9 +108,11 @@ class _Search2ScreenState extends State<Search2Screen> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Make-up (Bridal)...',
+                      originalString.toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Container(
@@ -466,6 +496,7 @@ class _Search2ScreenState extends State<Search2Screen> {
                               typeHair: widget.typeHair,
                               typeMakeup: widget.typeMakeup,
                               typeNails: widget.typeNails,
+                              title: originalString,
                             )));
                   },
                   child: MyCardButton(title: 'Next')),

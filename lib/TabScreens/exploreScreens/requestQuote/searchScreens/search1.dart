@@ -19,7 +19,6 @@ class _Search1ScreenState extends State<Search1Screen> {
 
   @override
   Widget build(BuildContext context) {
-    print("------Service");
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

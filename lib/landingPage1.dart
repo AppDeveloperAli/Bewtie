@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, deprecated_member_use
 
 import 'package:bewtie/TabScreens/booking/booking.dart';
 import 'package:bewtie/TabScreens/chatScreens/inboxScreen.dart';

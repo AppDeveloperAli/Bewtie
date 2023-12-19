@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search4.dart';
 import 'package:bewtie/Utils/colors.dart';
@@ -13,6 +11,7 @@ class Search3Screen extends StatefulWidget {
   Map<String, double> makeupPrices;
   Map<String, double> hairPrices;
   Map<String, double> nailsPrices;
+  String? title;
   Search3Screen(
       {super.key,
       required this.typeMakeup,
@@ -20,17 +19,49 @@ class Search3Screen extends StatefulWidget {
       required this.typeNails,
       required this.makeupPrices,
       required this.hairPrices,
-      required this.nailsPrices});
+      required this.nailsPrices,
+      required this.title});
 
   @override
   State<Search3Screen> createState() => _Search3ScreenState();
 }
 
 class _Search3ScreenState extends State<Search3Screen> {
-  late DateTime _dateTime;
+  String filterPrices(Map<String, double> prices) {
+    var filteredPrices =
+        prices.entries.where((entry) => entry.value > 0.0).toList();
+
+    var result = filteredPrices.map((entry) {
+      var categoryName = entry.key;
+      var price = entry.value % 1 == 0
+          ? entry.value.toInt().toString()
+          : entry.value
+              .toStringAsFixed(2)
+              .replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "");
+      return '$categoryName: $price';
+    }).join(', ');
+
+    return result;
+  }
+
+  DateTime _dateTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    print("------${widget.makeupPrices}");
+    var makeupPrices = widget.makeupPrices;
+    var hairPrices = widget.hairPrices;
+    var nailsPrices = widget.nailsPrices;
+
+    var results = <String>[
+      filterPrices(makeupPrices),
+      filterPrices(hairPrices),
+      filterPrices(nailsPrices),
+    ];
+
+    var result = results.where((item) => item.isNotEmpty).join(', ');
+
+    // Print the final result
+    print(result);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -43,8 +74,8 @@ class _Search3ScreenState extends State<Search3Screen> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
                       child: Icon(
                         Icons.close,
                         size: 40,
@@ -54,9 +85,11 @@ class _Search3ScreenState extends State<Search3Screen> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Make-up (Bridal)...',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                      widget.title.toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 20),
                     ),
                   ),
                   Container(
@@ -67,9 +100,13 @@ class _Search3ScreenState extends State<Search3Screen> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Make-up (€0)...',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                      result,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                   Container(
@@ -77,8 +114,8 @@ class _Search3ScreenState extends State<Search3Screen> {
                     height: 0.5,
                     color: AppColors.lightPink,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
+                  const Padding(
+                    padding: EdgeInsets.all(20.0),
                     child: Text(
                       'When',
                       style:
@@ -111,6 +148,8 @@ class _Search3ScreenState extends State<Search3Screen> {
                               makeupPrices: widget.makeupPrices,
                               nailsPrices: widget.nailsPrices,
                               dateTime: _dateTime,
+                              result: result,
+                              title: widget.title.toString(),
                             )));
                   },
                   child: MyCardButton(title: 'Next')),

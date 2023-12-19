@@ -5,7 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ExploreItemDesign extends StatefulWidget {
-  String? location, firstName, lastName, artImage, bio, postUid, reviewCount;
+  String? location,
+      firstName,
+      lastName,
+      artImage,
+      bio,
+      postUid,
+      reviewCount,
+      price;
   final List<dynamic> imageLinks;
   List<dynamic> avail;
   List<dynamic> hair;
@@ -14,6 +21,7 @@ class ExploreItemDesign extends StatefulWidget {
 
   ExploreItemDesign(
       {Key? key,
+      required this.price,
       required this.location,
       required this.firstName,
       required this.lastName,
@@ -90,6 +98,12 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
     });
   }
 
+  int convertStringToInteger(String stringValue) {
+    double doubleValue = double.tryParse(stringValue) ?? 0.0;
+    int integerValue = doubleValue.toInt();
+    return integerValue;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -108,6 +122,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   nails: widget.nails,
                   postUid: widget.postUid.toString(),
                   reviewCount: widget.reviewCount,
+                  price: widget.price,
                 )));
       },
       child: Padding(
@@ -151,7 +166,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      skillMakeup
+                      makeupType.isEmpty
                           ? Row(
                               children: [
                                 Container(
@@ -168,7 +183,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                               ],
                             )
                           : Container(),
-                      skillHair
+                      hairType.isEmpty
                           ? Row(
                               children: [
                                 Container(
@@ -185,7 +200,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                               ],
                             )
                           : Container(),
-                      skillNails
+                      nailsType.isEmpty
                           ? Row(
                               children: [
                                 Container(
@@ -213,9 +228,10 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Price',
-                            style: TextStyle(
+                          Text(
+                            convertStringToInteger(widget.price.toString())
+                                .toString(),
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Text(

@@ -156,6 +156,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                 mackup: posts[index]['Makeup Type'],
                                 nails: posts[index]['Nails Type'],
                                 postUid: posts[index]['UID'],
+                                price: posts[index]['Package Total'].toString(),
                                 reviewCount:
                                     subCollectionDocuments.length.toString(),
                               );

@@ -3,10 +3,49 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/Utils/snackBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class BookingOrdersArtist extends StatelessWidget {
-  const BookingOrdersArtist({super.key});
+class BookingOrdersArtist extends StatefulWidget {
+  String? date, name, service, location, price, orderID, artName;
+
+  BookingOrdersArtist(
+      {super.key,
+      required this.date,
+      required this.location,
+      required this.name,
+      required this.artName,
+      required this.price,
+      required this.orderID,
+      required this.service});
+
+  @override
+  State<BookingOrdersArtist> createState() => _BookingOrdersArtistState();
+}
+
+class _BookingOrdersArtistState extends State<BookingOrdersArtist> {
+  int convertStringToInteger(String stringValue) {
+    double doubleValue = double.tryParse(stringValue) ?? 0.0;
+    int integerValue = doubleValue.toInt();
+    return integerValue;
+  }
+
+  Future<void> deleteOrderForCurrentUser(String documentId) async {
+    try {
+      CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('Orders');
+
+      DocumentReference documentReference = collectionReference.doc(documentId);
+
+      await documentReference.delete();
+
+      CustomSnackBar(context, Text('order Cancelled Successfully'));
+    } catch (error) {
+      CustomSnackBar(
+          context, Text('Error deleting document from Firestore: $error'));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +70,62 @@ class BookingOrdersArtist extends StatelessWidget {
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                    const Text(
-                      'Name',
-                      style: TextStyle(fontSize: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Name',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          widget.name.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ],
                     ),
-                    const Text(
-                      'Service',
-                      style: TextStyle(fontSize: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Service',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          widget.service.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ],
                     ),
-                    const Text(
-                      'Location',
-                      style: TextStyle(fontSize: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Location',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          widget.location.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ],
                     ),
-                    const Text(
-                      'Price',
-                      style: TextStyle(fontSize: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Price',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          convertStringToInteger(widget.price.toString())
+                              .toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10),
@@ -111,8 +191,13 @@ class BookingOrdersArtist extends StatelessWidget {
                                                     Expanded(
                                                       child: GestureDetector(
                                                           onTap: () {
-                                                            Navigator.pop(
-                                                                context);
+                                                            deleteOrderForCurrentUser(
+                                                                    widget
+                                                                        .orderID
+                                                                        .toString())
+                                                                .whenComplete(() =>
+                                                                    Navigator.pop(
+                                                                        context));
                                                           },
                                                           child: MyTextCard(
                                                               title: 'Yes',
@@ -209,8 +294,13 @@ class BookingOrdersArtist extends StatelessWidget {
                                                     Expanded(
                                                       child: GestureDetector(
                                                           onTap: () {
-                                                            Navigator.pop(
-                                                                context);
+                                                            deleteOrderForCurrentUser(
+                                                                    widget
+                                                                        .orderID
+                                                                        .toString())
+                                                                .whenComplete(() =>
+                                                                    Navigator.pop(
+                                                                        context));
                                                           },
                                                           child: MyTextCard(
                                                               title: 'Yes',
