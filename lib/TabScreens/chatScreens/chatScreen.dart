@@ -38,7 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (user != null) {
       setState(() {
         _user = user;
-        _chatroomId = '${_user!.uid}_${receiverUid}';
+        _chatroomId = '${receiverUid}_${_user!.uid}';
         // _chatroomId = widget.uid;
         print("--------------------------   $_chatroomId");
         //_chatroomId = _user!.uid;

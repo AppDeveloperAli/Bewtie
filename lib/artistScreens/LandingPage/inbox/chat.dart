@@ -8,7 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreenArtist extends StatefulWidget {
-  const ChatScreenArtist({super.key});
+  final String uid;
+
+  const ChatScreenArtist({super.key, required this.uid});
 
   @override
   State<ChatScreenArtist> createState() => _ChatScreenState();
@@ -49,7 +51,7 @@ class _ChatScreenState extends State<ChatScreenArtist> {
     await _createMessagesCollection();
   }
 
-  String get receiverUid => "siHs9q6iCLaAeJIdPFnwn5hTrI22";
+  String get receiverUid => widget.uid;
 
   Future<void> _createMessagesCollection() async {
     final messagesCollection = _firestore.collection('Messages');

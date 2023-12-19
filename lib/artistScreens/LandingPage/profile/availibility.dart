@@ -206,28 +206,32 @@ class _AvailibilityArtistState extends State<AvailibilityArtist> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      print("--------$availability");
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: MyTextCardArtist(
+                                  title: 'Cancel', fontSize: 18))),
+                      Expanded(
+                          child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          print("--------$availability");
 
-                      availability.isNotEmpty
-                          ? updateAvailability(_auth.currentUser!.uid)
-                          : "";
-                    },
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: MyTextCardArtist(
-                                title: 'Cancel', fontSize: 18)),
-                        Expanded(
-                            child: MyCardButton(
+                          availability.isNotEmpty
+                              ? updateAvailability(_auth.currentUser!.uid)
+                              : "";
+                        },
+                        child: MyCardButton(
                           title: 'Save',
-                        ))
-                      ],
-                    ),
+                        ),
+                      ))
+                    ],
                   ),
-                )
+                ),
               ],
             )),
           );
@@ -235,3 +239,30 @@ class _AvailibilityArtistState extends State<AvailibilityArtist> {
 
   get() {}
 }
+
+
+
+  // Padding(
+  //                 padding: const EdgeInsets.all(20),
+  //                 child: GestureDetector(
+  //                   onTap: () {
+  //                     Navigator.pop(context);
+  //                     print("--------$availability");
+
+  //                     availability.isNotEmpty
+  //                         ? updateAvailability(_auth.currentUser!.uid)
+  //                         : "";
+  //                   },
+  //                   child: Row(
+  //                     children: [
+  //                       Expanded(
+  //                           child: MyTextCardArtist(
+  //                               title: 'Cancel', fontSize: 18)),
+  //                       Expanded(
+  //                           child: MyCardButton(
+  //                         title: 'Save',
+  //                       ))
+  //                     ],
+  //                   ),
+  //                 ),
+  //               )

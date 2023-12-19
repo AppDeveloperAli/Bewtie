@@ -14,16 +14,18 @@ class CustomCardArtist extends StatefulWidget {
 
 class _CustomCardState extends State<CustomCardArtist> {
   bool isClicked = false;
+  bool isDaySelected = false;
 
   void toggleBorderColor() {
     setState(() {
       isClicked = !isClicked;
+      isDaySelected = !isDaySelected;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isDaySelected = widget.dataList.contains(widget.title);
+    isDaySelected = widget.dataList.contains(widget.title);
     return GestureDetector(
       onTap: () {
         widget.onTap?.call();
@@ -40,6 +42,7 @@ class _CustomCardState extends State<CustomCardArtist> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
               side: BorderSide(
+                //color: isClicked ? Colors.white : AppColors.primaryPink,
                 color: isClicked || isDaySelected
                     ? AppColors.primaryPink
                     : Colors.white,
@@ -52,8 +55,9 @@ class _CustomCardState extends State<CustomCardArtist> {
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                    color: isClicked ? AppColors.primaryPink : Colors.white,
-                  ),
+                      color: isClicked || isDaySelected
+                          ? AppColors.primaryPink
+                          : Colors.white),
                 ),
               ),
             ),
