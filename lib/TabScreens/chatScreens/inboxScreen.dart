@@ -42,6 +42,7 @@ class _InboxScreenState extends State<InboxScreen> {
       await getOtherUserUIDs();
       await fetchMessages();
       await getUsersDetails(splittedUIDs);
+      await getLastMessages(otherUserUIDs, _auth.currentUser!.uid);
 
       getUID();
       setState(() {
@@ -212,24 +213,96 @@ class _InboxScreenState extends State<InboxScreen> {
   }
 
   //
-  List<String> lastMessages = [];
+  // List<String> lastMessages = [];
 
-  Future<List<String>> getLastMessages(List<String> documentIds) async {
-    for (String documentId in documentIds) {
-      QuerySnapshot<Map<String, dynamic>> chatSnapshot = await FirebaseFirestore
-          .instance
-          .collection("Messages")
-          .doc(documentId)
-          .collection("chats")
-          .orderBy('timestamp', descending: true)
-          .limit(1)
-          .get();
+  // Future<List<String>> getLastMessages(List<String> documentIds) async {
+  //   for (String documentId in documentIds) {
+  //     QuerySnapshot<Map<String, dynamic>> chatSnapshot = await FirebaseFirestore
+  //         .instance
+  //         .collection("Messages")
+  //         .doc(documentId)
+  //         .collection("chats")
+  //         .orderBy('timestamp', descending: true)
+  //         .limit(1)
+  //         .get();
 
-      if (chatSnapshot.docs.isNotEmpty) {
-        String lastMessageText = chatSnapshot.docs.first.get('text');
-        lastMessages.add(lastMessageText);
-      } else {
-        lastMessages.add('No messages');
+  //     print(chatSnapshot.docs.first.get("text").toString());
+
+  //     if (chatSnapshot.docs.isNotEmpty) {
+  //       String lastMessageText = chatSnapshot.docs.first.get('text');
+  //       lastMessages.add(lastMessageText);
+  //     } else {
+  //       lastMessages.add('No messages');
+  //     }
+  //   }
+
+  //   return lastMessages;
+  // }
+
+  // Last Message :-
+  // final Map<String, Message> lastMessages = {};
+
+  // Future<Map<String, Message>> getLastMessages(List<String> chatIds) async {
+  //   for (String chatId in chatIds) {
+  //     QuerySnapshot<Map<String, dynamic>> chatSnapshot = await FirebaseFirestore
+  //         .instance
+  //         .collection("Messages")
+  //         .doc(chatId)
+  //         .collection("chats")
+  //         .orderBy('timestamp', descending: true)
+  //         .limit(1)
+  //         .get();
+
+  //     if (chatSnapshot.docs.isNotEmpty) {
+  //       Map<String, dynamic> messageData = chatSnapshot.docs.first.data()!;
+  //       Message lastMessage = Message.fromMap(messageData);
+  //       lastMessages[chatId] = lastMessage;
+  //     } else {
+  //       lastMessages[chatId] = Message(
+  //         text: 'No messages',
+  //         sender: '',
+  //         timestamp: Timestamp.now(),
+  //         receiver: '',
+  //       );
+  //     }
+  //   }
+
+  //   return lastMessages;
+  // }
+
+  //
+  final Map<String, Message> lastMessages = {};
+
+  Future<Map<String, Message>> getLastMessages(
+      List<String> chatIds, String currentUserUid) async {
+    for (String chatId in chatIds) {
+      // Split the chatId to get the second part
+      List<String> parts = chatId.split('_');
+      String chatUid = parts.length >= 2 ? parts[1] : '';
+
+      // Check if the chatUid matches the currentUserUid
+      if (chatUid == currentUserUid) {
+        QuerySnapshot<Map<String, dynamic>> chatSnapshot =
+            await FirebaseFirestore.instance
+                .collection("Messages")
+                .doc(chatId)
+                .collection("chats")
+                .orderBy('timestamp', descending: true)
+                .limit(1)
+                .get();
+
+        if (chatSnapshot.docs.isNotEmpty) {
+          Map<String, dynamic> messageData = chatSnapshot.docs.first.data()!;
+          Message lastMessage = Message.fromMap(messageData);
+          lastMessages[chatId] = lastMessage;
+        } else {
+          lastMessages[chatId] = Message(
+            text: 'No messages',
+            sender: '',
+            timestamp: Timestamp.now(),
+            receiver: '',
+          );
+        }
       }
     }
 
@@ -238,20 +311,28 @@ class _InboxScreenState extends State<InboxScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //
-
-    print(getOtherUserUIDs());
-    print(otherUserUIDs.length);
-    print(otherUserUIDs.toString());
-    print("--------$desiredParts");
-    print('Splitted UIDs: $splittedUIDs');
-    print(splittedUIDs.length);
-    print("++++++++++++");
+    // print("--------$desiredParts");
+    // print('Splitted UIDs: $splittedUIDs');
+    // print(splittedUIDs.length);
+    // print("++++++++++++");
     print(getUsersDetails(splittedUIDs));
-    print(">>>>>>>>>$usersDetails");
+    // print(">>>>>>>>>$usersDetails");
     // print("++++++${getUsersDetails(splittedUIDs).toString()}");
     // print("++++++${usersDetails.length}");
     //print("++++++${usersDetails[0].firstName.toString()}");
+    print(getLastMessages(otherUserUIDs, _auth.currentUser!.uid));
+    print(lastMessages[
+            "bkRGIdyFItcXW9oVuK3DoTVxf5K2_bkRGIdyFItcXW9oVuK3DoTVxf5K2"]
+        ?.text
+        .toString());
+
+    print(lastMessages[_auth.currentUser!.uid + "_" + splittedUIDs[1]]
+        ?.text
+        .toString());
+    print(getOtherUserUIDs());
+    print(otherUserUIDs.length);
+    print(otherUserUIDs.toString());
+    print("Splitted : $splittedUIDs");
 
     return Scaffold(
       body: isLoading
@@ -298,6 +379,128 @@ class _InboxScreenState extends State<InboxScreen> {
                       color: AppColors.lightPink,
                     ),
                   ),
+                  // FutureBuilder(
+                  //   future: fetchDataAndProcess(),
+                  //   builder: (context, snapshot) {
+                  //     Expanded(
+                  //       child: ListView.builder(
+                  //         physics: NeverScrollableScrollPhysics(),
+                  //         shrinkWrap: true,
+                  //         //itemCount: 5,
+                  //         itemCount: usersDetails.length,
+                  //         itemBuilder: (context, index) {
+                  //           if (!snapshot.hasData) {
+                  //             return Container();
+                  //           } else {
+                  //             return Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 GestureDetector(
+                  //                   onTap: () {
+                  //                     Navigator.of(context)
+                  //                         .push(MaterialPageRoute(
+                  //                             builder: (context) => ChatScreen(
+                  //                                   uid: splittedUIDs[1],
+                  //                                 )));
+                  //                   },
+                  //                   child: Padding(
+                  //                     padding: const EdgeInsets.all(15.0),
+                  //                     child: Row(
+                  //                       children: [
+                  //                         Padding(
+                  //                             padding:
+                  //                                 const EdgeInsets.all(10.0),
+                  //                             child: ClipOval(
+                  //                               child: CircleAvatar(
+                  //                                 radius: 30,
+                  //                                 backgroundImage: NetworkImage(
+                  //                                     userProfilePic[index]),
+                  //                               ),
+                  //                             )
+                  //                             // Stack(
+                  //                             //   children: [
+                  //                             //     Container(
+                  //                             //       width:
+                  //                             //           60, // Adjust the size as needed
+                  //                             //       height:
+                  //                             //           60, // Adjust the size as needed
+                  //                             //       decoration: BoxDecoration(
+                  //                             //         shape: BoxShape.circle,
+                  //                             //         color: Colors.grey[300],
+                  //                             //       ),
+                  //                             //     ),
+                  //                             //     Positioned(
+                  //                             //       top: 0,
+                  //                             //       right: 0,
+                  //                             //       child: Container(
+                  //                             //         width:
+                  //                             //             15, // Adjust the size as needed
+                  //                             //         height:
+                  //                             //             15, // Adjust the size as needed
+                  //                             //         decoration: BoxDecoration(
+                  //                             //           shape: BoxShape.circle,
+                  //                             //           color: AppColors.primaryPink,
+                  //                             //         ),
+                  //                             //       ),
+                  //                             //     ),
+                  //                             //   ],
+                  //                             // ),
+                  //                             ),
+                  //                         Column(
+                  //                           crossAxisAlignment:
+                  //                               CrossAxisAlignment.start,
+                  //                           children: [
+                  //                             Padding(
+                  //                               padding: const EdgeInsets.only(
+                  //                                   left: 10),
+                  //                               child: Text(
+                  //                                 //"${usersDetails[index].firstName} ${usersDetails[index].lastName}",
+                  //                                 //splittedUIDs[index],
+                  //                                 usersDetails[index],
+                  //                                 style: TextStyle(
+                  //                                   fontWeight: FontWeight.bold,
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                             Padding(
+                  //                               padding:
+                  //                                   EdgeInsets.only(left: 10),
+                  //                               child: Text(lastMessages[_auth
+                  //                                                   .currentUser!
+                  //                                                   .uid +
+                  //                                               "_" +
+                  //                                               splittedUIDs[1]]
+                  //                                           ?.text
+                  //                                           .toString() ??
+                  //                                       'No messages'
+                  //                                   // lastMessages[
+                  //                                   //               "bkRGIdyFItcXW9oVuK3DoTVxf5K2_bkRGIdyFItcXW9oVuK3DoTVxf5K2"]
+                  //                                   //           ?.text
+                  //                                   //           .toString() ??
+                  //                                   //       'No messages'
+                  //                                   // 'Date last message sent',
+                  //                                   ),
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 Container(
+                  //                   width: double.infinity,
+                  //                   height: 0.5,
+                  //                   color: AppColors.lightPink,
+                  //                 ),
+                  //               ],
+                  //             );
+                  //           }
+                  //         },
+                  //       ),
+                  //     );
+                  //     return Container();
+                  //   },
+
                   Expanded(
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -312,7 +515,7 @@ class _InboxScreenState extends State<InboxScreen> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => ChatScreen(
-                                          uid: splittedUIDs[index],
+                                          uid: splittedUIDs[1],
                                         )));
                               },
                               child: Padding(
@@ -374,11 +577,22 @@ class _InboxScreenState extends State<InboxScreen> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Date last message sent',
-                                          ),
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(lastMessages[_auth
+                                                              .currentUser!
+                                                              .uid +
+                                                          "_" +
+                                                          splittedUIDs[1]]
+                                                      ?.text
+                                                      .toString() ??
+                                                  'No messages'
+                                              // lastMessages[
+                                              //               "bkRGIdyFItcXW9oVuK3DoTVxf5K2_bkRGIdyFItcXW9oVuK3DoTVxf5K2"]
+                                              //           ?.text
+                                              //           .toString() ??
+                                              //       'No messages'
+                                              // 'Date last message sent',
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -396,6 +610,7 @@ class _InboxScreenState extends State<InboxScreen> {
                       },
                     ),
                   ),
+                  //),
                 ],
               ),
             ),

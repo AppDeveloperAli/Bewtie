@@ -38,7 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (user != null) {
       setState(() {
         _user = user;
-        _chatroomId = '${receiverUid}_${_user!.uid}';
+        _chatroomId = '${_user!.uid}_${receiverUid}';
         // _chatroomId = widget.uid;
         print("--------------------------   $_chatroomId");
         //_chatroomId = _user!.uid;
@@ -213,7 +213,8 @@ class _ChatScreenState extends State<ChatScreen> {
               child: StreamBuilder(
                 stream: _firestore
                     .collection("Messages")
-                    .doc("${_auth.currentUser!.uid}_$receiverUid")
+                    .doc(_chatroomId)
+                    //.doc("${_auth.currentUser!.uid}_$receiverUid")
                     .collection("chats")
                     .orderBy("timestamp")
                     .snapshots(),

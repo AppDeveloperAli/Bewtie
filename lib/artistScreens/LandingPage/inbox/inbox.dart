@@ -39,6 +39,9 @@ class _InboxScreenState extends State<InboxScreenArtist> {
   Future<void> fetchDataAndProcess() async {
     try {
       await getOtherUserUIDs();
+      await fetchMessages();
+      await getUsersDetails(splittedUIDs);
+      await getLastMessages(otherUserUIDs, _auth.currentUser!.uid);
 
       getUID();
       await fetchMessages();
@@ -244,6 +247,46 @@ class _InboxScreenState extends State<InboxScreenArtist> {
     return usersDetails;
   }
 
+  // Get the last Message :-
+
+  final Map<String, Message> lastMessages = {};
+
+  Future<Map<String, Message>> getLastMessages(
+      List<String> chatIds, String currentUserUid) async {
+    for (String chatId in chatIds) {
+      // Split the chatId to get the second part
+      List<String> parts = chatId.split('_');
+      String chatUid = parts.length >= 2 ? parts[1] : '';
+
+      // Check if the chatUid matches the currentUserUid
+      // if (chatUid == currentUserUid) {
+      QuerySnapshot<Map<String, dynamic>> chatSnapshot = await FirebaseFirestore
+          .instance
+          .collection("Messages")
+          .doc(chatId)
+          .collection("chats")
+          .orderBy('timestamp', descending: true)
+          .limit(1)
+          .get();
+
+      if (chatSnapshot.docs.isNotEmpty) {
+        Map<String, dynamic> messageData = chatSnapshot.docs.first.data();
+        Message lastMessage = Message.fromMap(messageData);
+        lastMessages[chatId] = lastMessage;
+      } else {
+        lastMessages[chatId] = Message(
+          text: 'No messages',
+          sender: '',
+          timestamp: Timestamp.now(),
+          receiver: '',
+        );
+      }
+      //}
+    }
+
+    return lastMessages;
+  }
+
   @override
   Widget build(BuildContext context) {
     print("==========");
@@ -260,6 +303,9 @@ class _InboxScreenState extends State<InboxScreenArtist> {
     // print(">>>>>>>>>>>$userProfilePic");
     // print(">>>>>>>>>>${fetchMessages()}");
     // print(">>>>>>>>>>>$messageIds");
+    print(getLastMessages(otherUserUIDs, _auth.currentUser!.uid));
+    print(
+        "=========${lastMessages[_auth.currentUser!.uid + "_" + splittedUIDs[0]]!.text.toString()}");
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -364,7 +410,18 @@ class _InboxScreenState extends State<InboxScreenArtist> {
                                         padding:
                                             const EdgeInsets.only(left: 10),
                                         child: Text(
-                                          'Date last message sent',
+                                          // lastMessages[
+                                          //             "bkRGIdyFItcXW9oVuK3DoTVxf5K2_0Bsc6DbKL9Ya94a5ToBAsJJ2Iiy1"]
+                                          //         ?.text
+                                          //         .toString() ??
+                                          //     'No messages',
+                                          lastMessages[_auth.currentUser!.uid +
+                                                      "_" +
+                                                      splittedUIDs[index]]
+                                                  ?.text
+                                                  .toString() ??
+                                              'No messages',
+                                          //'Date last message sent',
                                           style: TextStyle(
                                               fontFamily: 'Manrope',
                                               color: Colors.white),
