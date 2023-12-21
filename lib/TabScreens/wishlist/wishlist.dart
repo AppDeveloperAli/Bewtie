@@ -150,7 +150,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                     artists[index]['last_name'].toString(),
                                 imageLinks: posts[index]['images'],
                                 artImage: artists[index]['profileimage'],
-                                bio: artists[index]['describe'],
+                                bio: getValueOrEmpty(
+                                    artists[index] as DocumentSnapshot<
+                                        Map<String, dynamic>>,
+                                    'describe'),
                                 avail: posts[index]['availability'],
                                 hair: posts[index]['Hair Type'],
                                 mackup: posts[index]['Makeup Type'],
@@ -170,5 +173,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
         ),
       ),
     );
+  }
+
+  String? getValueOrEmpty(
+      DocumentSnapshot<Map<String, dynamic>> snapshot, String key) {
+    Map<String, dynamic>? data = snapshot.data();
+
+    if (data != null && data.containsKey(key)) {
+      return data[key]?.toString();
+    } else {
+      return '';
+    }
   }
 }

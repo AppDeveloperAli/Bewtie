@@ -3,6 +3,7 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardSelection.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search2.dart';
+import 'package:bewtie/Utils/snackBar.dart';
 import 'package:flutter/material.dart';
 
 class Search1Screen extends StatefulWidget {
@@ -237,12 +238,19 @@ class _Search1ScreenState extends State<Search1Screen> {
                 padding: const EdgeInsets.only(top: 25, right: 10, left: 10),
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Search2Screen(
-                                typeHair: typeHair,
-                                typeMakeup: typeMakeup,
-                                typeNails: typeNails,
-                              )));
+                      if (typeHair.isNotEmpty ||
+                          typeMakeup.isNotEmpty ||
+                          typeNails.isNotEmpty) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Search2Screen(
+                                  typeHair: typeHair,
+                                  typeMakeup: typeMakeup,
+                                  typeNails: typeNails,
+                                )));
+                      } else {
+                        CustomSnackBar(
+                            context, Text('Select at least one Type..'));
+                      }
                     },
                     child: MyCardButton(title: 'Next')),
               )

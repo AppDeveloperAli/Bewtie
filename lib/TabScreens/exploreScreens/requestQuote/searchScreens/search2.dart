@@ -58,7 +58,6 @@ class _Search2ScreenState extends State<Search2Screen> {
     String originalString =
         'Make up ${(widget.typeMakeup)}, Nails ${widget.typeNails}, Hair ${widget.typeHair}';
 
-// Replace '[]' with '()' for the entire string
     originalString = originalString.replaceAll('[]', '()');
 
     if (widget.typeMakeup.isEmpty) {
@@ -84,424 +83,374 @@ class _Search2ScreenState extends State<Search2Screen> {
 
     originalString = originalString.replaceAll('[', '(').replaceAll(']', ')');
 
-    double _currentSliderValue = 0;
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                        Icons.close,
-                        size: 40,
-                      ),
-                    ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.close,
+                    size: 40,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      originalString.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 0.5,
-                    color: AppColors.lightPink,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'How much',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      'Make-up',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  //
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: widget.typeMakeup.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10, right: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Text(
-                                      widget.typeMakeup[index],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Text(
-                                      '${makeupSliderValues[index].toInt()} €',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CupertinoSlider(
-                                  value: makeupSliderValues[index],
-                                  min: 0,
-                                  max: 500,
-                                  divisions: 50,
-                                  thumbColor: AppColors.primaryPink,
-
-                                  onChanged: (value) {
-                                    setState(() {
-                                      makeupPrices[widget.typeMakeup[index]] =
-                                          value;
-                                      makeupSliderValues[index] = value;
-                                    });
-                                  },
-                                  // onChanged: (value) {
-                                  //   priceMakeup = value;
-                                  //   setState(() =>
-                                  //       makeupSliderValues[index] = value);
-                                  // },
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 10, right: 20),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 20.0),
-                  //         child: Text(
-                  //           'Bridal',
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 20.0),
-                  //         child: Text(
-                  //           '0 €',
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: CupertinoSlider(
-                  //       value: _currentSliderValue,
-                  //       thumbColor: AppColors.primaryPink,
-                  //       // label: _currentSliderValue.round().toString(),
-                  //       onChanged: (value) {
-                  //         setState(() => _currentSliderValue = value);
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, top: 20),
-                    child: Text(
-                      'Hair',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  //
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: widget.typeHair.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10, right: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Text(
-                                      widget.typeHair[index],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Text(
-                                      '${hairSliderValues[index].toInt()} €',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CupertinoSlider(
-                                  value: hairSliderValues[index],
-                                  min: 0,
-                                  max: 500,
-                                  divisions: 50,
-                                  thumbColor: AppColors.primaryPink,
-                                  // onChanged: (value) {
-                                  //   priceHair = value;
-                                  //   setState(
-                                  //       () => hairSliderValues[index] = value);
-                                  // },
-
-                                  onChanged: (value) {
-                                    setState(() {
-                                      hairPrices[widget.typeHair[index]] =
-                                          value;
-                                      hairSliderValues[index] = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 10, right: 20),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 20.0),
-                  //         child: Text(
-                  //           'Bridal',
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 20.0),
-                  //         child: Text(
-                  //           '0 €',
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: CupertinoSlider(
-                  //       value: _currentSliderValue,
-                  //       thumbColor: AppColors.primaryPink,
-                  //       // label: _currentSliderValue.round().toString(),
-                  //       onChanged: (value) {
-                  //         setState(() => _currentSliderValue = value);
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, top: 20),
-                    child: Text(
-                      'Nails',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  //
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: widget.typeNails.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10, right: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Text(
-                                      widget.typeNails[index],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Text(
-                                      '${nailsSliderValues[index].toInt()} €',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CupertinoSlider(
-                                  value: nailsSliderValues[index],
-                                  min: 0,
-                                  max: 500,
-                                  divisions: 50,
-                                  thumbColor: AppColors.primaryPink,
-                                  // onChanged: (value) {
-                                  //   setState(() {
-                                  //     priceNailsList[index] = value;
-                                  //     nailsSliderValues[index] = value;
-                                  //   });
-                                  // },
-
-                                  onChanged: (value) {
-                                    setState(() {
-                                      nailsPrices[widget.typeNails[index]] =
-                                          value;
-                                      nailsSliderValues[index] = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 10, right: 20),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 20.0),
-                  //         child: Text(
-                  //           'Bridal',
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 20.0),
-                  //         child: Text(
-                  //           '0 €',
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: CupertinoSlider(
-                  //       value: _currentSliderValue,
-                  //       thumbColor: AppColors.primaryPink,
-                  //       // label: _currentSliderValue.round().toString(),
-                  //       onChanged: (value) {
-                  //         setState(() => _currentSliderValue = value);
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-                ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Search3Screen(
-                              hairPrices: hairPrices,
-                              makeupPrices: makeupPrices,
-                              nailsPrices: nailsPrices,
-                              typeHair: widget.typeHair,
-                              typeMakeup: widget.typeMakeup,
-                              typeNails: widget.typeNails,
-                              title: originalString,
-                            )));
-                  },
-                  child: MyCardButton(title: 'Next')),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  originalString.toString(),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 0.5,
+                color: AppColors.lightPink,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  'How much',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                ),
+              ),
+              widget.typeMakeup.isEmpty
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        'Make-up',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.typeMakeup.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                widget.typeMakeup[index],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                '${makeupSliderValues[index].toInt()} €',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CupertinoSlider(
+                            value: makeupSliderValues[index],
+                            min: 0,
+                            max: 500,
+                            divisions: 50,
+                            thumbColor: AppColors.primaryPink,
+
+                            onChanged: (value) {
+                              setState(() {
+                                makeupPrices[widget.typeMakeup[index]] = value;
+                                makeupSliderValues[index] = value;
+                              });
+                            },
+                            // onChanged: (value) {
+                            //   priceMakeup = value;
+                            //   setState(() =>
+                            //       makeupSliderValues[index] = value);
+                            // },
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 10, right: 20),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Padding(
+              //         padding: const EdgeInsets.only(left: 20.0),
+              //         child: Text(
+              //           'Bridal',
+              //           style: TextStyle(
+              //             fontWeight: FontWeight.w600,
+              //           ),
+              //         ),
+              //       ),
+              //       Padding(
+              //         padding: const EdgeInsets.only(left: 20.0),
+              //         child: Text(
+              //           '0 €',
+              //           style: TextStyle(
+              //             fontWeight: FontWeight.w600,
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: CupertinoSlider(
+              //       value: _currentSliderValue,
+              //       thumbColor: AppColors.primaryPink,
+              //       // label: _currentSliderValue.round().toString(),
+              //       onChanged: (value) {
+              //         setState(() => _currentSliderValue = value);
+              //       },
+              //     ),
+              //   ),
+              // ),
+              widget.typeHair.isEmpty
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 20),
+                      child: Text(
+                        'Hair',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+              //
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.typeHair.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                widget.typeHair[index],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                '${hairSliderValues[index].toInt()} €',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CupertinoSlider(
+                            value: hairSliderValues[index],
+                            min: 0,
+                            max: 500,
+                            divisions: 50,
+                            thumbColor: AppColors.primaryPink,
+                            // onChanged: (value) {
+                            //   priceHair = value;
+                            //   setState(
+                            //       () => hairSliderValues[index] = value);
+                            // },
+
+                            onChanged: (value) {
+                              setState(() {
+                                hairPrices[widget.typeHair[index]] = value;
+                                hairSliderValues[index] = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 10, right: 20),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Padding(
+              //         padding: const EdgeInsets.only(left: 20.0),
+              //         child: Text(
+              //           'Bridal',
+              //           style: TextStyle(
+              //             fontWeight: FontWeight.w600,
+              //           ),
+              //         ),
+              //       ),
+              //       Padding(
+              //         padding: const EdgeInsets.only(left: 20.0),
+              //         child: Text(
+              //           '0 €',
+              //           style: TextStyle(
+              //             fontWeight: FontWeight.w600,
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: CupertinoSlider(
+              //       value: _currentSliderValue,
+              //       thumbColor: AppColors.primaryPink,
+              //       // label: _currentSliderValue.round().toString(),
+              //       onChanged: (value) {
+              //         setState(() => _currentSliderValue = value);
+              //       },
+              //     ),
+              //   ),
+              // ),
+              widget.typeNails.isEmpty
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 20),
+                      child: Text(
+                        'Nails',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+              //
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.typeNails.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                widget.typeNails[index],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                '${nailsSliderValues[index].toInt()} €',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CupertinoSlider(
+                            value: nailsSliderValues[index],
+                            min: 0,
+                            max: 500,
+                            divisions: 50,
+                            thumbColor: AppColors.primaryPink,
+                            // onChanged: (value) {
+                            //   setState(() {
+                            //     priceNailsList[index] = value;
+                            //     nailsSliderValues[index] = value;
+                            //   });
+                            // },
+
+                            onChanged: (value) {
+                              setState(() {
+                                nailsPrices[widget.typeNails[index]] = value;
+                                nailsSliderValues[index] = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Search3Screen(
+                                hairPrices: hairPrices,
+                                makeupPrices: makeupPrices,
+                                nailsPrices: nailsPrices,
+                                typeHair: widget.typeHair,
+                                typeMakeup: widget.typeMakeup,
+                                typeNails: widget.typeNails,
+                                title: originalString,
+                              )));
+                    },
+                    child: MyCardButton(title: 'Next')),
+              )
+            ],
+          ),
         ),
       ),
     );

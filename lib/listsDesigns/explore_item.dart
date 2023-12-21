@@ -115,7 +115,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   firstName: widget.firstName,
                   location: widget.location,
                   artImage: widget.artImage,
-                  bio: widget.bio,
+                  bio: widget.bio.toString().isEmpty ? '' : widget.bio,
                   imageList: widget.imageLinks ?? [],
                   avialibilty: widget.avail ?? [],
                   hair: widget.hair ?? [],

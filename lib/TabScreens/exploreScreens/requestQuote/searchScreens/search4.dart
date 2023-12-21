@@ -89,7 +89,9 @@ class _Search4ScreenState extends State<Search4Screen> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        widget.result.toString(),
+                        widget.result!.isEmpty
+                            ? 'Free'
+                            : widget.result.toString(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

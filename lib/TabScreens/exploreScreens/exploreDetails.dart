@@ -244,14 +244,16 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                         availabilityStatus['Sat'] ?? 'not available'),
                     buildAvailabilityText('Sunday -',
                         availabilityStatus['Sun'] ?? 'not available'),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Text(
-                        'Bio : ${widget.bio}',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                    widget.bio == ''
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              'Bio : ${widget.bio}',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                     //
                     Padding(
                       padding: EdgeInsets.only(top: 30, bottom: 10),

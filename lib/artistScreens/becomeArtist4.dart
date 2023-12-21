@@ -7,6 +7,7 @@ import 'package:bewtie/artistScreens/LandingPage/mainPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BecomeArtistScreen4 extends StatefulWidget {
   // From 1st Screen :-
@@ -46,6 +47,7 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
   bool isLoading = false;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _location = TextEditingController();
+  String formattedDate = DateFormat('EEEE d MMMM').format(DateTime.now());
 
   void _createArtistCollection(String location) async {
     setState(() {
@@ -80,6 +82,63 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
     print("--------${widget.typeMakeup}");
     print("--------${widget.makeupPrices}");
     print("--------${widget.availability}");
+
+    String originalString =
+        'Make up ${(widget.typeMakeup)}, Nails ${widget.typeNails}, Hair ${widget.typeHair}';
+
+// Replace '[]' with '()' for the entire string
+    originalString = originalString.replaceAll('[]', '()');
+
+    if (widget.typeMakeup.isEmpty) {
+      originalString = originalString.replaceAll(RegExp(r'Make up \(\),?'), '');
+    } else {
+      originalString = originalString.replaceFirst(
+          RegExp(r'Make up \[\]'), 'Make up (${widget.typeMakeup})');
+    }
+
+    if (widget.typeNails.isEmpty) {
+      originalString = originalString.replaceAll(RegExp(r'Nails \(\),?'), '');
+    } else {
+      originalString = originalString.replaceFirst(
+          RegExp(r'Nails \[\]'), 'Nails (${widget.typeNails})');
+    }
+
+    if (widget.typeHair.isEmpty) {
+      originalString = originalString.replaceAll(RegExp(r'Hair \(\),?'), '');
+    } else {
+      originalString = originalString.replaceFirst(
+          RegExp(r'Hair \[\]'), 'Hair (${widget.typeHair})');
+    }
+
+    originalString = originalString.replaceAll('[', '(').replaceAll(']', ')');
+    String filterPrices(Map<String, double> prices) {
+      var filteredPrices =
+          prices.entries.where((entry) => entry.value > 0.0).toList();
+
+      var result = filteredPrices.map((entry) {
+        var categoryName = entry.key;
+        var price = entry.value % 1 == 0
+            ? entry.value.toInt().toString()
+            : entry.value
+                .toStringAsFixed(2)
+                .replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "");
+        return '$categoryName: $price';
+      }).join(', ');
+
+      return result;
+    }
+
+    var makeupPrices = widget.makeupPrices;
+    var hairPrices = widget.hairPrices;
+    var nailsPrices = widget.nailsPrices;
+    var results = <String>[
+      filterPrices(makeupPrices),
+      filterPrices(hairPrices),
+      filterPrices(nailsPrices),
+    ];
+
+    var result = results.where((item) => item.isNotEmpty).join(', ');
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -106,7 +165,9 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        'Make-up (Bridal)...',
+                        originalString,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 20,
@@ -122,7 +183,9 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        'Make-up (€0)...',
+                        result,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 20,
@@ -138,7 +201,7 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        'Monday 01s August...',
+                        formattedDate,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 20,

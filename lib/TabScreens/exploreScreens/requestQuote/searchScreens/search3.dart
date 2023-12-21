@@ -100,7 +100,7 @@ class _Search3ScreenState extends State<Search3Screen> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      result,
+                      result.isEmpty ? 'Free' : result,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
