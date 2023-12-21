@@ -6,9 +6,13 @@ import 'package:bewtie/TabScreens/chatScreens/chatScreen.dart';
 import 'package:bewtie/TabScreens/exploreScreens/leaveReview.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/requestQuote.dart';
 import 'package:bewtie/TabScreens/exploreScreens/reviews.dart';
+import 'package:bewtie/TabScreens/profile/account.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:bewtie/Utils/snackBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class ExploreDetailsScreen extends StatefulWidget {
@@ -52,6 +56,8 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
     print(widget.nails);
 
     print(widget.hair);
@@ -86,24 +92,26 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       ),
                       semanticContainer: true,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (index) {
-                          setState(() {
-                            currentIndex = index + 1;
-                          });
-                        },
-                        children: widget.imageList
-                            .map((imageUrl) => Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(imageUrl),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
+                      child: widget.imageList.isEmpty
+                          ? SvgPicture.asset('assets/images/B Mark.svg')
+                          : PageView(
+                              controller: _pageController,
+                              onPageChanged: (index) {
+                                setState(() {
+                                  currentIndex = index + 1;
+                                });
+                              },
+                              children: widget.imageList
+                                  .map((imageUrl) => Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(imageUrl),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                            ),
                     ),
                   ),
                   Positioned(
@@ -133,20 +141,24 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                   Positioned(
                     bottom: 5,
                     right: 5,
-                    child: Card(
-                      color: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: Text(
-                          '$currentIndex / ${widget.imageList.length}',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
+                    child: widget.imageList.isEmpty
+                        ? Container()
+                        : Card(
+                            color: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: Text(
+                                '$currentIndex / ${widget.imageList.length}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),
@@ -254,21 +266,25 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                               title: 'Send a message', fontSize: 18)),
                     ),
 
-                    //
-
                     GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RequestQuoteScreen(
-                                    hair: widget.hair,
-                                    nails: widget.nails,
-                                    mack: widget.mackup,
-                                    price: widget.price,
-                                    location: widget.location,
-                                    postUid: widget.postUid,
-                                    name:
-                                        '${widget.firstName} ${widget.lastName}',
-                                  )));
+                          if (auth.currentUser != null) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => RequestQuoteScreen(
+                                      hair: widget.hair,
+                                      nails: widget.nails,
+                                      mack: widget.mackup,
+                                      price: widget.price,
+                                      location: widget.location,
+                                      postUid: widget.postUid,
+                                      name:
+                                          '${widget.firstName} ${widget.lastName}',
+                                    )));
+                          } else {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AccountScreen(),
+                            ));
+                          }
                         },
                         child: MyCardButton(title: 'Request a quote')),
                     Padding(

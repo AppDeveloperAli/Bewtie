@@ -106,6 +106,9 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     print("----------${widget.uid}");
+
+    _messages[0];
+
     return Scaffold(
       body: SafeArea(
         child: Column(

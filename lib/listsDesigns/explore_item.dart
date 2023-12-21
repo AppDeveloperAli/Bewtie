@@ -3,6 +3,7 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ExploreItemDesign extends StatefulWidget {
   String? location,
@@ -13,11 +14,11 @@ class ExploreItemDesign extends StatefulWidget {
       postUid,
       reviewCount,
       price;
-  final List<dynamic> imageLinks;
-  List<dynamic> avail;
-  List<dynamic> hair;
-  List<dynamic> mackup;
-  List<dynamic> nails;
+  final List<dynamic>? imageLinks;
+  final List<dynamic>? avail;
+  final List<dynamic>? hair;
+  final List<dynamic>? mackup;
+  final List<dynamic>? nails;
 
   ExploreItemDesign(
       {Key? key,
@@ -115,11 +116,11 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   location: widget.location,
                   artImage: widget.artImage,
                   bio: widget.bio,
-                  imageList: widget.imageLinks,
-                  avialibilty: widget.avail,
-                  hair: widget.hair,
-                  mackup: widget.mackup,
-                  nails: widget.nails,
+                  imageList: widget.imageLinks ?? [],
+                  avialibilty: widget.avail ?? [],
+                  hair: widget.hair ?? [],
+                  mackup: widget.mackup ?? [],
+                  nails: widget.nails ?? [],
                   postUid: widget.postUid.toString(),
                   reviewCount: widget.reviewCount,
                   price: widget.price,
@@ -149,16 +150,26 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           currentIndex = index + 1;
                         });
                       },
-                      children: widget.imageLinks
-                          .map((imageUrl) => Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(imageUrl),
-                                    fit: BoxFit.cover,
-                                  ),
+                      children: (widget.imageLinks != null &&
+                              widget.imageLinks!.isNotEmpty)
+                          ? widget.imageLinks!
+                              .map((imageUrl) => Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(imageUrl),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ))
+                              .toList()
+                          : [
+                              Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: SvgPicture.asset(
+                                  'assets/images/B Mark.svg',
                                 ),
-                              ))
-                          .toList(),
+                              )
+                            ],
                     ),
                   ),
                 ),
@@ -166,7 +177,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      makeupType.isEmpty
+                      makeupType.isNotEmpty
                           ? Row(
                               children: [
                                 Container(
@@ -183,7 +194,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                               ],
                             )
                           : Container(),
-                      hairType.isEmpty
+                      hairType.isNotEmpty
                           ? Row(
                               children: [
                                 Container(
@@ -200,7 +211,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                               ],
                             )
                           : Container(),
-                      nailsType.isEmpty
+                      nailsType.isNotEmpty
                           ? Row(
                               children: [
                                 Container(
@@ -235,7 +246,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Text(
-                              '${widget.firstName.toString()} ${widget.lastName.toString()}')
+                              '${widget.firstName ?? 'Unknown'} ${widget.lastName ?? 'Artist'}')
                         ],
                       ),
                       Column(
@@ -244,7 +255,9 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                           Text(
                             '${widget.reviewCount} Reviews',
                           ),
-                          Text(widget.location.toString())
+                          Text(widget.location != null
+                              ? widget.location!
+                              : 'Unknow Location')
                         ],
                       ),
                     ],
@@ -276,7 +289,7 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Text(
-                    '$currentIndex / ${widget.imageLinks.length}',
+                    '${widget.imageLinks != null ? currentIndex : 0} / ${widget.imageLinks != null ? widget.imageLinks!.length : 0}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

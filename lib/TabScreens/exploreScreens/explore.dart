@@ -164,21 +164,57 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ExploreItemDesign(
-                            location: posts[index]['Location'] ?? '',
-                            firstName: artists[index]['first_name'] ?? '',
-                            lastName: artists[index]['last_name'] ?? '',
-                            imageLinks: posts[index]['images'] ?? '',
-                            artImage: artists[index]['profileimage'] ?? '',
-                            bio: artists[index]['describe'] ?? '',
-                            avail: posts[index]['availability'] ?? '',
-                            hair: posts[index]['Hair Type'] ?? '',
-                            mackup: posts[index]['Makeup Type'] ?? '',
-                            nails: posts[index]['Nails Type'] ?? '',
-                            postUid: posts[index]['UID'] ?? '',
+                            location: getValue(
+                                    posts[index]
+                                        as QueryDocumentSnapshot<Object?>,
+                                    'Location')
+                                ?.toString(),
+                            firstName: getValue(
+                              artists[index] as QueryDocumentSnapshot<Object?>,
+                              'first_name',
+                            ).toString(),
+                            lastName: getValue(
+                                    artists[index]
+                                        as QueryDocumentSnapshot<Object?>,
+                                    'last_name')
+                                ?.toString(),
+                            imageLinks: getArrayValue(
+                                posts[index] as QueryDocumentSnapshot<Object?>,
+                                'images'),
+                            artImage: getValue(
+                                    artists[index]
+                                        as QueryDocumentSnapshot<Object?>,
+                                    'profileimage')
+                                ?.toString(),
+                            bio: getValue(
+                                    artists[index]
+                                        as QueryDocumentSnapshot<Object?>,
+                                    'describe')
+                                ?.toString(),
+                            avail: getArrayValue(
+                                posts[index] as QueryDocumentSnapshot<Object?>,
+                                'availability'),
+                            hair: getArrayValue(
+                                posts[index] as QueryDocumentSnapshot<Object?>,
+                                'Hair Type'),
+                            mackup: getArrayValue(
+                                posts[index] as QueryDocumentSnapshot<Object?>,
+                                'Makeup Type'),
+                            nails: getArrayValue(
+                                posts[index] as QueryDocumentSnapshot<Object?>,
+                                'Nails Type'),
+                            postUid: getValue(
+                                    posts[index]
+                                        as QueryDocumentSnapshot<Object?>,
+                                    'UID')
+                                ?.toString(),
                             reviewCount:
                                 subCollectionDocuments.length.toString(),
-                            price:
-                                posts[index]['Package Total']?.toString() ?? '',
+                            price: getValue(
+                                    posts[index]
+                                        as QueryDocumentSnapshot<Object?>,
+                                    'Package Total')
+                                ?.toString(),
                           );
                         },
                       );
@@ -191,5 +227,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ),
       ),
     );
+  }
+
+  dynamic getValue(QueryDocumentSnapshot<Object?> document, String key) {
+    final data = document.data() as Map<String, dynamic>?;
+
+    if (data != null && data.containsKey(key)) {
+      return data[key];
+    }
+
+    return ''; // Replace '' with the default value you want to use when the key is not found or document is null
+  }
+
+  List<dynamic>? getArrayValue(QueryDocumentSnapshot document, String key) {
+    final data = document.data()
+        as Map<String, dynamic>?; // Explicit cast to Map<String, dynamic>
+    if (data != null) {
+      final value = data[key];
+      if (value is List<dynamic>) {
+        return List<dynamic>.from(value);
+      }
+    }
+    return null;
   }
 }

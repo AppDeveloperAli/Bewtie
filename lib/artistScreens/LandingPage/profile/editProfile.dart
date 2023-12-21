@@ -1,6 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editPhone.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editName.dart';
 import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editPhoto.dart';
@@ -9,57 +6,45 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class PersonalInformationArtist extends StatefulWidget {
-  PersonalInformationArtist({super.key});
+class PersonalInformationArtist extends StatelessWidget {
+  const PersonalInformationArtist({Key? key});
 
   @override
-  State<PersonalInformationArtist> createState() =>
-      _PersonalInformationArtistState();
+  Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('Artist_Data')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const Scaffold(
+            body: SnackBar(content: Text('User Data not available')),
+          );
+        }
+
+        Map<String, dynamic> userData =
+            snapshot.data!.data() as Map<String, dynamic>;
+
+        return PersonalInformationWidget(userData: userData);
+      },
+    );
+  }
 }
 
-class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
-  CollectionReference users =
-      FirebaseFirestore.instance.collection('Artist_Data');
+class PersonalInformationWidget extends StatelessWidget {
+  final Map<String, dynamic> userData;
 
-  final User? currentUser = FirebaseAuth.instance.currentUser;
-
-  late String firstName = "Bewtie Artist";
-  late String lastName = "";
-  late String email = "bewtie@ap.com";
-  late String number = "+12857662";
-  late String image = "";
-
-  @override
-  void initState() {
-    super.initState();
-    if (currentUser != null) {
-      getUserData();
-    }
-  }
-
-  Future<void> getUserData() async {
-    try {
-      final DocumentReference profileDataDoc = users.doc(currentUser!.uid);
-
-      final DocumentSnapshot userDoc = await profileDataDoc.get();
-
-      if (userDoc.exists) {
-        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
-
-        setState(() {
-          firstName = userData['first_name'] ?? "Name";
-          lastName = userData['last_name'] ?? "";
-          email = userData['Email'] ?? "Email Address";
-          number = userData['number'] ?? "Phone Number";
-          image = userData['profileimage'] ?? "";
-        });
-      } else {
-        CustomSnackBar(context, Text('User Data not available'));
-      }
-    } catch (e) {
-      CustomSnackBar(context, Text('Error fetching user data: $e'));
-    }
-  }
+  const PersonalInformationWidget({Key? key, required this.userData})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +58,8 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
                 child: Icon(
                   Icons.arrow_back,
                   size: 35,
@@ -82,7 +67,7 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15.0),
               child: Text(
                 'Edit personal information',
@@ -105,7 +90,7 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                       shape: BoxShape.circle,
                       color: Colors.grey[300],
                       image: DecorationImage(
-                        image: NetworkImage(image),
+                        image: NetworkImage(userData['profileimage'] ?? ""),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -116,8 +101,8 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const EditPhotoArtist()));
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 20),
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 20),
                     child: Text(
                       'Edit',
                       style: TextStyle(
@@ -137,7 +122,7 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                 color: Colors.white,
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 15, top: 20),
               child: Text(
                 'Name',
@@ -152,10 +137,10 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    '$firstName $lastName',
-                    style: TextStyle(
+                    '${userData['first_name'] ?? 'Full'} ${userData['last_name'] ?? 'Name'}',
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
@@ -165,56 +150,7 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => NameEditScreenArtist()));
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 20),
-                    child: Text(
-                      'Edit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                width: double.infinity,
-                height: 0.5,
-                color: Colors.white,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, top: 20),
-              child: Text(
-                'Email',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Text(
-                    email,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => EmailEditScreenArtist()));
-                  },
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(left: 10, right: 20),
                     child: Text(
                       'Edit',
@@ -235,7 +171,56 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                 color: Colors.white,
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, top: 20),
+              child: Text(
+                'Email',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    userData['Email'] ?? 'No email found!',
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => EmailEditScreenArtist()));
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 20),
+                    child: Text(
+                      'Edit',
+                      style: TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Container(
+                width: double.infinity,
+                height: 0.5,
+                color: Colors.white,
+              ),
+            ),
+            const Padding(
               padding: EdgeInsets.only(left: 15, top: 20),
               child: Text(
                 'Phone Number',
@@ -250,10 +235,10 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    number,
-                    style: TextStyle(
+                    userData['number'] ?? 'No Number Found!',
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
@@ -261,9 +246,9 @@ class _PersonalInformationArtistState extends State<PersonalInformationArtist> {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => EditPhoneScreenArtist()));
+                        builder: (context) => const EditPhoneScreenArtist()));
                   },
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(left: 10, right: 20),
                     child: Text(
                       'Edit',

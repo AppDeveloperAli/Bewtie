@@ -5,8 +5,14 @@ class CustomCardArtist extends StatefulWidget {
   final String title;
   void Function()? onTap;
   final List<String> dataList;
+  late bool isHighlighted;
 
-  CustomCardArtist({required this.title, this.onTap, required this.dataList});
+  CustomCardArtist({
+    required this.title,
+    this.onTap,
+    required this.dataList,
+    this.isHighlighted = false,
+  });
 
   @override
   _CustomCardState createState() => _CustomCardState();
@@ -16,16 +22,11 @@ class _CustomCardState extends State<CustomCardArtist> {
   bool isClicked = false;
   bool isDaySelected = false;
 
-  void toggleBorderColor() {
-    setState(() {
-      isClicked = !isClicked;
-      isDaySelected = !isDaySelected;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    isDaySelected = widget.dataList.contains(widget.title);
+    isDaySelected =
+        widget.dataList.contains(widget.title) || widget.isHighlighted;
+
     return GestureDetector(
       onTap: () {
         widget.onTap?.call();
@@ -42,8 +43,7 @@ class _CustomCardState extends State<CustomCardArtist> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
               side: BorderSide(
-                //color: isClicked ? Colors.white : AppColors.primaryPink,
-                color: isClicked || isDaySelected
+                color: isClicked || widget.isHighlighted
                     ? AppColors.primaryPink
                     : Colors.white,
                 width: 0.5,
@@ -55,9 +55,10 @@ class _CustomCardState extends State<CustomCardArtist> {
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                      color: isClicked || isDaySelected
-                          ? AppColors.primaryPink
-                          : Colors.white),
+                    color: isClicked || isDaySelected
+                        ? AppColors.primaryPink
+                        : Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -65,5 +66,13 @@ class _CustomCardState extends State<CustomCardArtist> {
         ),
       ),
     );
+  }
+
+  void toggleBorderColor() {
+    setState(() {
+      isClicked = !isClicked;
+      isDaySelected = !isDaySelected;
+      widget.isHighlighted = !widget.isHighlighted;
+    });
   }
 }

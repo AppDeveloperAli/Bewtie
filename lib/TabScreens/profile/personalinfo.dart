@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
 
 import 'package:bewtie/TabScreens/profile/editPhone.dart';
@@ -11,52 +9,45 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class PersonalInformation extends StatefulWidget {
-  const PersonalInformation({super.key});
+class PersonalInformation extends StatelessWidget {
+  const PersonalInformation({Key? key});
 
   @override
-  State<PersonalInformation> createState() => _PersonalInformationState();
+  Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('Users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const Scaffold(
+            body: SnackBar(content: Text('User Data not available')),
+          );
+        }
+
+        Map<String, dynamic> userData =
+            snapshot.data!.data() as Map<String, dynamic>;
+
+        return PersonalInformationWidget(userData: userData);
+      },
+    );
+  }
 }
 
-class _PersonalInformationState extends State<PersonalInformation> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  final User? currentUser = FirebaseAuth.instance.currentUser;
+class PersonalInformationWidget extends StatelessWidget {
+  final Map<String, dynamic> userData;
 
-  late String firstName = "";
-  late String lastName = "";
-  late String email = "";
-  late String number = "";
-  late String image = "";
-
-  @override
-  void initState() {
-    super.initState();
-    if (currentUser != null) {
-      getUserData(currentUser!.uid);
-    }
-  }
-
-  Future<void> getUserData(String uid) async {
-    try {
-      DocumentSnapshot userDoc = await users.doc(uid).get();
-
-      if (userDoc.exists) {
-        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
-
-        setState(() {
-          firstName = userData['first_name'] ?? "Artist Name";
-          lastName = userData['last_name'] ?? "";
-          email = userData['email'] ?? "Email Address";
-          number = userData['number'] ?? "Phone Number";
-          image = userData['profileimage'] ?? "";
-        });
-      } else {
-        print("User document does not exist");
-      }
-    } catch (e) {
-      print("Error fetching user data: $e");
-    }
-  }
+  const PersonalInformationWidget({Key? key, required this.userData})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +60,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Icon(
                   Icons.arrow_back,
@@ -77,7 +68,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(15.0),
               child: Text(
                 'Edit personal information',
@@ -96,7 +87,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                       shape: BoxShape.circle,
                       color: Colors.grey[300],
                       image: DecorationImage(
-                        image: NetworkImage(image),
+                        image: NetworkImage(userData['profileimage'] ?? ""),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -107,89 +98,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const EditPhoto()));
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 20),
-                    child: Text(
-                      'Edit',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                width: double.infinity,
-                height: 0.5,
-                color: AppColors.lightPink,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, top: 20),
-              child: Text(
-                'Name',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Text(
-                    '${firstName} ${lastName}',
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => NameEditScreen()));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 20),
-                    child: Text(
-                      'Edit',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                width: double.infinity,
-                height: 0.5,
-                color: AppColors.lightPink,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15, top: 20),
-              child: Text(
-                'Email',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Text(
-                    '$email',
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => EmailEditScreen()));
-                  },
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(left: 10, right: 20),
                     child: Text(
                       'Edit',
@@ -209,7 +118,89 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 color: AppColors.lightPink,
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, top: 20),
+              child: Text(
+                'Name',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    '${userData['first_name'] ?? ''} ${userData['last_name'] ?? ''}',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => NameEditScreen()));
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 20),
+                    child: Text(
+                      'Edit',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Container(
+                width: double.infinity,
+                height: 0.5,
+                color: AppColors.lightPink,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, top: 20),
+              child: Text(
+                'Email',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    '${userData['email'] ?? ''}',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => EmailEditScreen()));
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 20),
+                    child: Text(
+                      'Edit',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Container(
+                width: double.infinity,
+                height: 0.5,
+                color: AppColors.lightPink,
+              ),
+            ),
+            const Padding(
               padding: EdgeInsets.only(left: 15, top: 20),
               child: Text(
                 'Phone Number',
@@ -220,9 +211,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    '$number',
+                    '${userData['number'] ?? ''}',
                   ),
                 ),
                 GestureDetector(
@@ -230,7 +221,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => EditPhoneScreen()));
                   },
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(left: 10, right: 20),
                     child: Text(
                       'Edit',

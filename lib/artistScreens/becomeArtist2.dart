@@ -28,18 +28,9 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
   double total = 0;
   double packageTotal = 0;
 
-  // List<double> priceMakeup = [];
-  //List<double> priceHair = [];
-  // List<double> priceNails = [];
-
   List makeupSliderValues = [];
   List hairSliderValues = [];
   List nailsSliderValues = [];
-
-  //
-  // List<double> priceMakeupList = [];
-  // List<double> priceHairList = [];
-  // List<double> priceNailsList = [];
 
   Map<String, double> makeupPrices = {};
   Map<String, double> hairPrices = {};
@@ -54,25 +45,21 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
       widget.typeMakeup.length,
       (index) => 0.0,
     );
-    //
+
     hairSliderValues = List.generate(
       widget.typeHair.length,
       (index) => 0.0,
     );
-    //
+
     nailsSliderValues = List.generate(
       widget.typeNails.length,
       (index) => 0.0,
     );
-    //
+
     makeupPrices = {for (var type in widget.typeMakeup) type: 0.0};
     hairPrices = {for (var type in widget.typeHair) type: 0.0};
     nailsPrices = {for (var type in widget.typeNails) type: 0.0};
   }
-
-  // For Total :-
-
-// Combine all three maps into a list
 
   void calculateTotal() {
     List<Map<String, double>> allPrices = [
@@ -90,10 +77,8 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
 
     print('Total Prices: $totalPrices');
 
-    //
     Map<String, double> categoryPrices = totalPrices;
 
-// Calculate the total sum of all prices
     packageTotal = categoryPrices.values.fold(0, (sum, price) => sum + price);
   }
 
@@ -105,6 +90,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
     print("Nails : ${widget.typeNails}");
 
     double _currentSliderValue = 0;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(

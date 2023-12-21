@@ -105,21 +105,24 @@ class _EditPhotoState extends State<EditPhoto> {
                                 ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 20),
-                        child: GestureDetector(
-                          onTap: () {
-                            _uploadImage();
-                          },
-                          child: Text(
-                            'Edit',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontFamily: 'Manrope',
+                      _uploading
+                          ? CircularProgressIndicator()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 20),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _uploadImage();
+                                },
+                                child: Text(
+                                  'Edit',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    fontFamily: 'Manrope',
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ],
@@ -132,7 +135,7 @@ class _EditPhotoState extends State<EditPhoto> {
                   _uploadImage();
                 },
                 child: MyCardButton(
-                  title: _uploading ? 'Uploading...' : 'Done',
+                  title: _uploading ? 'Uploading...' : 'Pick a Photo',
                 ),
               ),
             )

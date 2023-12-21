@@ -363,19 +363,25 @@ class _Search1ScreenState extends State<WhatDoScreen> {
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 25, right: 10, left: 10),
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            updateSkills(_auth.currentUser!.uid);
-                          },
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: MyTextCardArtist(
-                                      title: 'Cancel', fontSize: 18)),
-                              Expanded(child: MyCardButton(title: 'Next')),
-                            ],
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child:
+                                MyTextCardArtist(title: 'Cancel', fontSize: 18),
                           )),
+                          Expanded(
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    updateSkills(_auth.currentUser!.uid);
+                                  },
+                                  child: MyCardButton(title: 'Next'))),
+                        ],
+                      ),
                     )
                   ],
                 ),

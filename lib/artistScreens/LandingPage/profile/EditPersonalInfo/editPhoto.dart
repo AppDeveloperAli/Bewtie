@@ -112,21 +112,24 @@ class _EditPhotoState extends State<EditPhotoArtist> {
                                 ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 20),
-                        child: GestureDetector(
-                          onTap: () {
-                            _uploadImage();
-                          },
-                          child: Text(
-                            'Edit',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontFamily: 'Manrope',
-                                color: Colors.white),
-                          ),
-                        ),
-                      ),
+                      _uploading
+                          ? CircularProgressIndicator()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 20),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _uploadImage();
+                                },
+                                child: Text(
+                                  'Edit',
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontFamily: 'Manrope',
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ],
@@ -139,7 +142,7 @@ class _EditPhotoState extends State<EditPhotoArtist> {
                   _uploadImage();
                 },
                 child: MyCardButton(
-                  title: _uploading ? 'Uploading...' : 'Done',
+                  title: _uploading ? 'Uploading...' : 'Pick a Photo',
                 ),
               ),
             )

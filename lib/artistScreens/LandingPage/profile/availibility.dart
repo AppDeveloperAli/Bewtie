@@ -77,9 +77,7 @@ class _AvailibilityArtistState extends State<AvailibilityArtist> {
 
   @override
   Widget build(BuildContext context) {
-    print(getListFromFirebase().toString());
-    print("++++$dataList");
-    print("++++${dataList.length}");
+    List<String> firebaseDataList = ['Mon'];
 
     return dataList.isEmpty
         ? const Center(
@@ -121,6 +119,8 @@ class _AvailibilityArtistState extends State<AvailibilityArtist> {
                     CustomCardArtist(
                       dataList: dataList,
                       title: 'Mon',
+                      isHighlighted:
+                          firebaseDataList.contains(dataList.toString()),
                       onTap: () {
                         if (availability.contains("Mon")) {
                           availability.remove("Mon");
