@@ -2,6 +2,7 @@ import 'package:bewtie/landingPage1.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class _SearchScreenState extends State<SearchScreen> {
               onTap: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => LandingPage()),
+                  CupertinoPageRoute(builder: (context) => LandingPage()),
                   (route) => false,
                 );
               },

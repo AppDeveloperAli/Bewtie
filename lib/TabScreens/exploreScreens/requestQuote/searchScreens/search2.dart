@@ -436,7 +436,7 @@ class _Search2ScreenState extends State<Search2Screen> {
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(CupertinoPageRoute(
                           builder: (context) => Search3Screen(
                                 hairPrices: hairPrices,
                                 makeupPrices: makeupPrices,

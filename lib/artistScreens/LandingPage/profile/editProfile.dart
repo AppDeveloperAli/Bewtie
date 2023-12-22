@@ -4,6 +4,7 @@ import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/editPh
 import 'package:bewtie/artistScreens/LandingPage/profile/EditPersonalInfo/emailEdit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PersonalInformationArtist extends StatelessWidget {
@@ -98,7 +99,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => const EditPhotoArtist()));
                   },
                   child: const Padding(
@@ -147,7 +148,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => NameEditScreenArtist()));
                   },
                   child: const Padding(
@@ -196,7 +197,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => EmailEditScreenArtist()));
                   },
                   child: const Padding(
@@ -245,7 +246,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => const EditPhoneScreenArtist()));
                   },
                   child: const Padding(

@@ -4,6 +4,7 @@ import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/landingPage1.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DeleteAccountArtist extends StatelessWidget {
@@ -61,7 +62,7 @@ class DeleteAccountArtist extends StatelessWidget {
                       child: MyTextCardArtist(title: 'No', fontSize: 18)),
                   GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const LandingPage()));
                       },
                       child: MyCardButton(title: 'Yes'))

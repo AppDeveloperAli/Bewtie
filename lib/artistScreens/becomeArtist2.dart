@@ -381,7 +381,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                     onTap: () {
                       calculateTotal();
 
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(CupertinoPageRoute(
                           builder: (context) => BecomeArtist3(
                                 typeMakeup: widget.typeMakeup,
                                 typeHair: widget.typeHair,

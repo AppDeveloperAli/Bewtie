@@ -2,6 +2,7 @@ import 'package:bewtie/landingPage1.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WishlistScreen extends StatefulWidget {
@@ -80,7 +81,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const LandingPage()),
+                  CupertinoPageRoute(builder: (context) => const LandingPage()),
                 );
               },
               child: const Padding(

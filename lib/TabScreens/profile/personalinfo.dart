@@ -7,6 +7,7 @@ import 'package:bewtie/TabScreens/profile/nameEdit.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PersonalInformation extends StatelessWidget {
@@ -95,7 +96,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => const EditPhoto()));
                   },
                   child: const Padding(
@@ -136,7 +137,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => NameEditScreen()));
                   },
                   child: const Padding(
@@ -177,7 +178,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => EmailEditScreen()));
                   },
                   child: const Padding(
@@ -218,7 +219,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => EditPhoneScreen()));
                   },
                   child: const Padding(

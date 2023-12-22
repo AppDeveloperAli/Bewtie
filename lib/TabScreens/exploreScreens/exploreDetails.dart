@@ -11,6 +11,7 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/Utils/snackBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -259,7 +260,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       padding: EdgeInsets.only(top: 30, bottom: 10),
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(CupertinoPageRoute(
                               builder: (context) =>
                                   ChatScreen(uid: widget.postUid.toString()),
                             ));
@@ -271,7 +272,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                     GestureDetector(
                         onTap: () {
                           if (auth.currentUser != null) {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(CupertinoPageRoute(
                                 builder: (context) => RequestQuoteScreen(
                                       hair: widget.hair,
                                       nails: widget.nails,
@@ -283,7 +284,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                                           '${widget.firstName} ${widget.lastName}',
                                     )));
                           } else {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(CupertinoPageRoute(
                               builder: (context) => AccountScreen(),
                             ));
                           }
@@ -385,7 +386,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
+                                Navigator.of(context).push(CupertinoPageRoute(
                                     builder: (context) => ReviewsScreen(
                                           postUid: widget.postUid!,
                                         )));
@@ -397,7 +398,7 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                           Expanded(
                             child: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
+                                  Navigator.of(context).push(CupertinoPageRoute(
                                       builder: (context) => LeaveReviewScreen(
                                             postUID: widget.postUid.toString(),
                                           )));

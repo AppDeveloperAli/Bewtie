@@ -15,6 +15,7 @@ import 'package:bewtie/landingPage1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -114,7 +115,7 @@ class _LoggedInViewState extends State<LoggedInView> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => LandingPage()),
+                CupertinoPageRoute(builder: (context) => LandingPage()),
               );
             },
             child: Padding(
@@ -183,7 +184,7 @@ class _LoggedInViewState extends State<LoggedInView> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const LandingPage()));
                       },
                       child: Card(
@@ -207,10 +208,10 @@ class _LoggedInViewState extends State<LoggedInView> {
                       child: GestureDetector(
                     onTap: () async {
                       if (await checkDocument()) {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const ArtistMainPage()));
                       } else {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const BecomeArtistScreen()));
                       }
                       checkDocument();
@@ -232,7 +233,7 @@ class _LoggedInViewState extends State<LoggedInView> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(CupertinoPageRoute(
                   builder: (context) => const PersonalInformation()));
             },
             child: Padding(
@@ -257,7 +258,7 @@ class _LoggedInViewState extends State<LoggedInView> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(CupertinoPageRoute(
                   builder: (context) => const PaymentsScreen()));
             },
             child: Padding(
@@ -288,7 +289,7 @@ class _LoggedInViewState extends State<LoggedInView> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const TermsCondition()));
                 },
                 child: MyTextCard(title: 'Terms & conditions', fontSize: 16)),
@@ -297,7 +298,7 @@ class _LoggedInViewState extends State<LoggedInView> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const TermsCondition()));
                 },
                 child: MyTextCard(title: 'Privacy Policy', fontSize: 16)),
@@ -319,7 +320,7 @@ class _LoggedInViewState extends State<LoggedInView> {
             child: GestureDetector(
                 onTap: () {
                   auth.signOut().whenComplete(() {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => const LandingPage()));
                   });
                 },
@@ -386,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
       codeSent: (String verificationId, [int? forceResendingToken]) {
         _verificationId = verificationId;
         Navigator.of(context).push(
-          MaterialPageRoute(
+          CupertinoPageRoute(
               builder: (context) => PinPutScreen(
                     otp: _verificationId,
                     phoneNumber: numbr,
@@ -415,7 +416,7 @@ class _MyHomePageState extends State<MyHomePage> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => LandingPage()),
+                CupertinoPageRoute(builder: (context) => LandingPage()),
               );
             },
             child: Padding(

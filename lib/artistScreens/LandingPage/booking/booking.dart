@@ -6,6 +6,7 @@ import 'package:bewtie/landingPage1.dart';
 import 'package:bewtie/listsDesigns/bookingItems.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BookingScreenArtist extends StatefulWidget {
@@ -57,7 +58,7 @@ class _BookingScreenState extends State<BookingScreenArtist> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const LandingPage()),
+                  CupertinoPageRoute(builder: (context) => const LandingPage()),
                   (route) => false,
                 );
               },

@@ -3,6 +3,7 @@
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardSelectionArtist.dart';
 import 'package:bewtie/artistScreens/becomeArtist2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BecomeArtistScreen extends StatefulWidget {
@@ -275,14 +276,14 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                       if (typeMakeup.isEmpty) {
                         print("Select a Skill");
                       } else {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => BecomeArtistScreen2(
                                   typeMakeup: typeMakeup,
                                   typeHair: typeHair,
                                   typeNails: typeNails,
                                 )));
                       }
-                      // Navigator.of(context).push(MaterialPageRoute(
+                      // Navigator.of(context).push(CupertinoPageRoute(
                       //     builder: (context) => BecomeArtistScreen2(
                       //           choiceMakeup: typeMakeup[0],
                       //         )));

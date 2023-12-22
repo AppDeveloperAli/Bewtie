@@ -7,6 +7,7 @@ import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/sear
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/landingPage1.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -154,7 +155,7 @@ class _Search4ScreenState extends State<Search4Screen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const LandingPage()));
                       },
                       child: MyTextCard(title: 'Cancel', fontSize: 15),
@@ -164,7 +165,7 @@ class _Search4ScreenState extends State<Search4Screen> {
                     child: GestureDetector(
                         onTap: () {
                           if (controller.text.isNotEmpty) {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(CupertinoPageRoute(
                                 builder: (context) => SearchScreen(
                                       typeHair: widget.typeHair,
                                       typeMakeup: widget.typeMakeup,

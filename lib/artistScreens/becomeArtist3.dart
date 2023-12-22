@@ -257,7 +257,7 @@ class _Search3ScreenState extends State<BecomeArtist3> {
               child: GestureDetector(
                   onTap: () {
                     print("---------$availability");
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => BecomeArtistScreen4(
                               typeMakeup: widget.typeMakeup,
                               typeHair: widget.typeHair,

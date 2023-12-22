@@ -4,6 +4,7 @@ import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardSelection.dart';
 import 'package:bewtie/TabScreens/exploreScreens/requestQuote/searchScreens/search2.dart';
 import 'package:bewtie/Utils/snackBar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Search1Screen extends StatefulWidget {
@@ -241,7 +242,7 @@ class _Search1ScreenState extends State<Search1Screen> {
                       if (typeHair.isNotEmpty ||
                           typeMakeup.isNotEmpty ||
                           typeNails.isNotEmpty) {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => Search2Screen(
                                   typeHair: typeHair,
                                   typeMakeup: typeMakeup,

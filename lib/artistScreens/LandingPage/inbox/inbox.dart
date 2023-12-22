@@ -7,6 +7,7 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/LandingPage/inbox/chat.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -275,7 +276,7 @@ class _InboxScreenState extends State<InboxScreenArtist> {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const LandingPage()),
                         (route) => false,
                       );
@@ -345,7 +346,7 @@ class _InboxScreenState extends State<InboxScreenArtist> {
                                         isLoading = true;
                                       });
                                       await Navigator.of(context).push(
-                                        MaterialPageRoute(
+                                        CupertinoPageRoute(
                                           builder: (context) =>
                                               ChatScreenArtist(
                                             uid: splittedUIDs[index],

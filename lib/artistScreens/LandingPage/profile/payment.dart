@@ -7,6 +7,7 @@ import 'package:bewtie/TabScreens/exploreScreens/requestQuote/quoteScreens/billi
 import 'package:bewtie/Utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PaymentsScreenArtist extends StatefulWidget {
@@ -171,7 +172,7 @@ class _PaymentsScreenState extends State<PaymentsScreenArtist> {
                         flex: 3,
                         child: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).push(CupertinoPageRoute(
                                   builder: (context) => const BillingScreen()));
                             },
                             child: MyTextCardArtist(

@@ -10,6 +10,7 @@ import 'package:bewtie/landingPage1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -196,7 +197,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                       onTap: () async {
                         final result =
                             await Navigator.of(context).push<String?>(
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                             builder: (context) => ChangePayment(
                               onPaymentMethodChanged: _onPaymentMethodChanged,
                             ),
@@ -243,7 +244,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const BillingScreen()));
                       },
                       child: Text(
@@ -402,7 +403,7 @@ class _RequestQuoteScreenState extends State<RequestQuoteScreen> {
                       };
 
                       addDataToFirestore(data).whenComplete(() {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const LandingPage()));
                       });
 

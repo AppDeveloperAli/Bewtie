@@ -19,6 +19,7 @@ import 'package:bewtie/artistScreens/LandingPage/profile/whatDo.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ArtistProfile extends StatefulWidget {
@@ -82,7 +83,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                         builder: (context) => const LandingPage()),
                     (route) => false,
                   );
@@ -160,7 +161,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(CupertinoPageRoute(
                                 builder: (context) => const ArtistMainPage()));
                           },
                           child: Card(
@@ -185,7 +186,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
                         onTap: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
+                            CupertinoPageRoute(
                                 builder: (context) => LandingPage()),
                             (route) => false,
                           );
@@ -207,7 +208,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => PersonalInformationArtist()));
                 },
                 child: Padding(
@@ -237,7 +238,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const PaymentsScreenArtist()));
                 },
                 child: Padding(
@@ -267,7 +268,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const DescribeScreen()));
                 },
                 child: Padding(
@@ -297,7 +298,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => AddImagesArtist()));
                 },
                 child: Padding(
@@ -327,7 +328,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const WhatDoScreen()));
                 },
                 child: Padding(
@@ -357,7 +358,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const HowCharge()));
                 },
                 child: Padding(
@@ -387,7 +388,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => AvailibilityArtist()));
                 },
                 child: Padding(
@@ -417,7 +418,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const LocationArtist()));
                 },
                 child: Padding(
@@ -447,7 +448,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const TransactonArtist()));
                 },
                 child: Padding(
@@ -490,7 +491,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(CupertinoPageRoute(
                           builder: (context) => const TermsConditionArtist()));
                     },
                     child: MyTextCardArtist(
@@ -500,7 +501,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(CupertinoPageRoute(
                           builder: (context) => const TermsConditionArtist()));
                     },
                     child: MyTextCardArtist(
@@ -524,7 +525,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
                     onTap: () {
                       FirebaseAuth auth = FirebaseAuth.instance;
                       auth.signOut().whenComplete(() {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const LandingPage()));
                       });
                     },
@@ -543,7 +544,7 @@ class _ArtistProfileState extends State<ArtistProfile> {
                     left: 10, right: 10, top: 20, bottom: 20),
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(CupertinoPageRoute(
                           builder: (context) => const DeleteAccountArtist()));
                     },
                     child: MyTextCardArtist(

@@ -6,6 +6,7 @@ import 'package:bewtie/artistScreens/becomeArtist.dart';
 import 'package:bewtie/listsDesigns/explore_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -62,10 +63,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   child: GestureDetector(
                     onTap: () {
                       if (auth.currentUser != null) {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const Search1Screen()));
                       } else {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const AccountScreen()));
                       }
                     },
@@ -101,10 +102,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   child: GestureDetector(
                     onTap: () {
                       if (auth.currentUser != null) {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const BecomeArtistScreen()));
                       } else {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const AccountScreen()));
                       }
                     },

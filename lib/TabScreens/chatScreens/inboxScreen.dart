@@ -7,6 +7,7 @@ import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -259,7 +260,7 @@ class _InboxScreenState extends State<InboxScreen> {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => LandingPage()),
+                        CupertinoPageRoute(builder: (context) => LandingPage()),
                       );
                     },
                     child: Padding(
@@ -327,7 +328,7 @@ class _InboxScreenState extends State<InboxScreen> {
                                           isLoading = true;
                                         });
                                         await Navigator.of(context).push(
-                                          MaterialPageRoute(
+                                          CupertinoPageRoute(
                                             builder: (context) => ChatScreen(
                                               uid: splittedUIDs[index],
                                             ),

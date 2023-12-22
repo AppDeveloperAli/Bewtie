@@ -2,6 +2,7 @@ import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/landingPage1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -98,7 +99,7 @@ class _PinPutScreenState extends State<PinPutScreen> {
 
       if (auth.currentUser != null) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LandingPage()),
+          CupertinoPageRoute(builder: (context) => LandingPage()),
         );
       }
     } on FirebaseAuthException catch (e) {
