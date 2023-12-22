@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:bewtie/TabScreens/chatScreens/chatScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/artistScreens/LandingPage/inbox/chat.dart';
@@ -25,18 +27,26 @@ class _InboxScreenState extends State<InboxScreenArtist> {
   List<String> otherUserUIDs = [];
   List<String> splittedUIDs = [];
   bool isLoading = true;
+  //
+  Map<String, dynamic> data = {};
 
   @override
   void initState() {
     super.initState();
-    fetchDataAndProcess();
+    fetchDataAndProcess().then((result) {
+      setState(() {
+        data = result;
+        isLoading = false;
+      });
+    });
     getUID();
-    fetchMessages();
+    Timer(Duration(seconds: 7), () {
+      setState(() {});
+    });
   }
-
   //
 
-  Future<void> fetchDataAndProcess() async {
+  Future<Map<String, dynamic>> fetchDataAndProcess() async {
     try {
       await getOtherUserUIDs();
       await fetchMessages();
@@ -44,30 +54,19 @@ class _InboxScreenState extends State<InboxScreenArtist> {
       await getLastMessages(otherUserUIDs, _auth.currentUser!.uid);
 
       getUID();
-      await fetchMessages();
-      setState(() {
-        isLoading = false;
-      });
 
       print('Splitted UIDs: $splittedUIDs');
+
+      return {
+        'usersDetails': usersDetails,
+        'userProfilePic': userProfilePic,
+        'lastMessages': lastMessages,
+      };
     } catch (e) {
       print('Error: $e');
+      throw e;
     }
   }
-
-  // void getUID() {
-  //   for (String inputString in otherUserUIDs) {
-  //     List<String> parts = inputString.split('_');
-  //     List<String> desiredParts = parts.skip(1).toList();
-
-  //     if (desiredParts.isNotEmpty) {
-  //       String desiredPart = desiredParts.first;
-  //       splittedUIDs.add(desiredPart);
-  //     } else {
-  //       print('Input string does not contain an underscore.');
-  //     }
-  //   }
-  // }
 
   //
   void getUID() {
@@ -162,35 +161,7 @@ class _InboxScreenState extends State<InboxScreenArtist> {
   // To get Name of Chat :-
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('Users');
-  //    List<String> usersDetails = [];
 
-  // Future<List<String>> getUsersDetails(List<String> uids) async {
-  //   for (String uid in uids) {
-  //     QuerySnapshot querySnapshot = await usersCollection
-  //         .where(FieldPath.documentId, isEqualTo: uid)
-  //         .get();
-
-  //     print("========${querySnapshot.toString()}");
-
-  //     if (querySnapshot.docs.isNotEmpty) {
-  //       Map<String, dynamic> userData =
-  //           querySnapshot.docs.first.data() as Map<String, dynamic>;
-  //       String firstName = userData['first_name'] ?? '';
-  //       String lastName = userData['last_name'] ?? '';
-
-  //       // print("======${userData.toString()}");
-
-  //       usersDetails = querySnapshot.docs
-  //           .map((doc) => '${doc['first_name']} ${doc['last_name']}')
-  //           .toList();
-
-  //       //print("=======${usersDetails[1].firstName + " " + lastName}");
-  //     }
-  //   }
-
-  //   return usersDetails;
-  // }
-  //
   List<String> usersDetails = [];
   List<String> userProfilePic = [];
 
@@ -289,24 +260,8 @@ class _InboxScreenState extends State<InboxScreenArtist> {
 
   @override
   Widget build(BuildContext context) {
-    print("==========");
-    print("===============${fetchMessages().toString()}");
-    print("==================$messageIds");
-    print("+++++++++++");
-    print(getOtherUserUIDs());
-    print('Splitted UIDs: $splittedUIDs');
-    print(splittedUIDs.length);
-    print("---------${usersDetails.length}");
-    print(getUsersDetails(splittedUIDs));
-    // print("+++++++++${usersDetails.toString()}");
-    // print("+++++++++${usersDetails.length}");
-    // print(">>>>>>>>>>>$userProfilePic");
-    // print(">>>>>>>>>>${fetchMessages()}");
-    // print(">>>>>>>>>>>$messageIds");
-    print(getLastMessages(otherUserUIDs, _auth.currentUser!.uid));
-    print(
-        "=========${lastMessages[_auth.currentUser!.uid + "_" + splittedUIDs[0]]!.text.toString()}");
-
+    getUsersDetails(splittedUIDs);
+    getLastMessages(otherUserUIDs, _auth.currentUser!.uid);
     return Scaffold(
       backgroundColor: Colors.black,
       body: isLoading
@@ -361,86 +316,120 @@ class _InboxScreenState extends State<InboxScreenArtist> {
                         height: 0.5,
                         color: Colors.white),
                   ),
-                  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: usersDetails.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ChatScreenArtist(
-                                        uid: splittedUIDs[index],
-                                      )));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: CircleAvatar(
-                                        radius: 30,
-                                        child: ClipOval(
-                                            child: Image.network(
-                                                userProfilePic[index])),
-                                      )),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          //'Name',
-                                          //splittedUIDs[index],
-                                          "${usersDetails[index]}",
+                  FutureBuilder(
+                    future: Future.value(data),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        var data = snapshot.data!;
+                        List<String> usersDetails = data['usersDetails'];
+                        List<String> userProfilePic = data['userProfilePic'];
+                        Map<String, Message> lastMessages =
+                            data['lastMessages'];
 
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Manrope',
-                                              color: Colors.white),
+                        return Expanded(
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: usersDetails.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChatScreenArtist(
+                                            uid: splittedUIDs[index],
+                                          ),
                                         ),
+                                      );
+                                      fetchDataAndProcess().then((result) {
+                                        setState(() {
+                                          data = result;
+                                          isLoading = false;
+                                        });
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: CircleAvatar(
+                                                radius: 30,
+                                                child: ClipOval(
+                                                    child: Image.network(
+                                                  userProfilePic[index],
+                                                  fit: BoxFit.fill,
+                                                )),
+                                              )),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10),
+                                                child: Text(
+                                                  //'Name',
+                                                  //splittedUIDs[index],
+                                                  "${usersDetails[index]}",
+
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily: 'Manrope',
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10),
+                                                child: Text(
+                                                  lastMessages[_auth
+                                                                  .currentUser!
+                                                                  .uid +
+                                                              "_" +
+                                                              splittedUIDs[
+                                                                  index]]
+                                                          ?.text
+                                                          .toString() ??
+                                                      'No messages',
+                                                  //'Date last message sent',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Manrope',
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          // lastMessages[
-                                          //             "bkRGIdyFItcXW9oVuK3DoTVxf5K2_0Bsc6DbKL9Ya94a5ToBAsJJ2Iiy1"]
-                                          //         ?.text
-                                          //         .toString() ??
-                                          //     'No messages',
-                                          lastMessages[_auth.currentUser!.uid +
-                                                      "_" +
-                                                      splittedUIDs[index]]
-                                                  ?.text
-                                                  .toString() ??
-                                              'No messages',
-                                          //'Date last message sent',
-                                          style: TextStyle(
-                                              fontFamily: 'Manrope',
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
+                                  Container(
+                                      width: double.infinity,
+                                      height: 0.5,
+                                      color: Colors.white),
                                 ],
-                              ),
-                            ),
+                              );
+                            },
                           ),
-                          Container(
-                              width: double.infinity,
-                              height: 0.5,
-                              color: Colors.white),
-                        ],
-                      );
+                        );
+                      }
                     },
-                  ),
+                  )
                 ],
               ),
             ),

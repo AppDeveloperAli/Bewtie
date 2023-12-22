@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:bewtie/Components/cardButton.dart';
+import 'package:bewtie/Components/textFieldArtist.dart';
 import 'package:bewtie/Components/textFieldInput.dart';
+import 'package:bewtie/TabScreens/chatScreens/chatScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,11 +11,14 @@ import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
   final String uid;
+
   const ChatScreen({super.key, required this.uid});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
+
+// Artist Chat Screen :-
 
 class _ChatScreenState extends State<ChatScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -39,7 +46,6 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {
         _user = user;
         _chatroomId = '${_user!.uid}_${receiverUid}';
-        // _chatroomId = widget.uid;
         print("--------------------------   $_chatroomId");
         //_chatroomId = _user!.uid;
       });
@@ -58,15 +64,12 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _sendMessage(String messageText, String recieverUid) async {
-    await _firestore
-        .collection('Messages')
-        .doc(_chatroomId)
-        .collection('chats')
-        .add({
+  void _sendMessage(String messageText, String recieverUid) {
+    _firestore.collection('Messages').doc(_chatroomId).collection('chats').add({
       'text': messageText,
       'sender': _auth.currentUser!.uid,
       'receiver': receiverUid,
+      'receiverEmail': "",
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
@@ -105,10 +108,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("----------${widget.uid}");
-
-    _messages[0];
-
+    print("Artist Chat Screen");
+    print("-------${widget.uid}");
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -216,8 +217,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: StreamBuilder(
                 stream: _firestore
                     .collection("Messages")
-                    .doc(_chatroomId)
-                    //.doc("${_auth.currentUser!.uid}_$receiverUid")
+                    .doc("${_auth.currentUser!.uid}_$receiverUid")
                     .collection("chats")
                     .orderBy("timestamp")
                     .snapshots(),
@@ -269,21 +269,15 @@ class _ChatScreenState extends State<ChatScreen> {
                       return Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
                         child: ListTile(
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: const Image(
-                                width: 50,
-                                height: 50,
+                          leading: ClipOval(
+                            child: Image(
                                 image: NetworkImage(
-                                  "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bHV4dXJ5JTIwY2FyfGVufDB8fDB8fHww",
-                                ),
-                                fit: BoxFit.fill),
+                                    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bHV4dXJ5JTIwY2FyfGVufDB8fDB8fHww")),
                           ),
                           title: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(_messages[index].text.toString())),
-                          subtitle: Text(
-                              _messages[index].timestamp.toDate().toString()),
+                          //subtitle: Text(messageList[index].),
                         ),
                       );
                     },
