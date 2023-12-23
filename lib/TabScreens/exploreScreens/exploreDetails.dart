@@ -261,8 +261,11 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) =>
-                                  ChatScreen(uid: widget.postUid.toString()),
+                              builder: (context) => ChatScreen(
+                                uid: widget.postUid.toString(),
+                                name: "${widget.firstName} ${widget.lastName}",
+                                profilePicture: widget.artImage.toString(),
+                              ),
                             ));
                           },
                           child: MyTextCard(

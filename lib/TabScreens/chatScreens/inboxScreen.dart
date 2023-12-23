@@ -42,9 +42,9 @@ class _InboxScreenState extends State<InboxScreen> {
       });
     });
     getUID();
-    Timer(Duration(seconds: 5), () {
-      setState(() {});
-    });
+    // Timer(Duration(seconds: 7), () {
+    //   setState(() {});
+    // });
   }
 
   //
@@ -313,6 +313,15 @@ class _InboxScreenState extends State<InboxScreen> {
                           Map<String, Message> lastMessages =
                               data['lastMessages'];
 
+                          usersDetails.isEmpty
+                              ? Timer(
+                                  Duration(seconds: 3),
+                                  () {
+                                    setState(() {});
+                                  },
+                                )
+                              : Container();
+
                           return Expanded(
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
@@ -331,6 +340,9 @@ class _InboxScreenState extends State<InboxScreen> {
                                           CupertinoPageRoute(
                                             builder: (context) => ChatScreen(
                                               uid: splittedUIDs[index],
+                                              name: usersDetails[index],
+                                              profilePicture:
+                                                  userProfilePic[index],
                                             ),
                                           ),
                                         );

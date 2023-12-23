@@ -1,5 +1,4 @@
 import 'package:bewtie/Components/cardButton.dart';
-import 'package:bewtie/Components/textFieldArtist.dart';
 import 'package:bewtie/Components/textFieldInput.dart';
 import 'package:bewtie/TabScreens/chatScreens/chatScreen.dart';
 import 'package:bewtie/Utils/colors.dart';
@@ -9,8 +8,14 @@ import 'package:flutter/material.dart';
 
 class ChatScreenArtist extends StatefulWidget {
   final String uid;
+  final String name;
+  final String profilePicture;
 
-  const ChatScreenArtist({super.key, required this.uid});
+  const ChatScreenArtist(
+      {super.key,
+      required this.uid,
+      required this.name,
+      required this.profilePicture});
 
   @override
   State<ChatScreenArtist> createState() => _ChatScreenState();
@@ -21,14 +26,12 @@ class ChatScreenArtist extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreenArtist> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  //final String receiverUid = '';
   final TextEditingController _messageController = TextEditingController();
   List<String> _users = [];
-  List<Message> _messages = []; // List to store chat messages
+  List<Message> _messages = [];
 
   User? _user;
   String _chatroomId = '';
-  //User get user => _auth.currentUser!;
 
   @override
   void initState() {
@@ -45,7 +48,6 @@ class _ChatScreenState extends State<ChatScreenArtist> {
         _user = user;
         _chatroomId = '${_user!.uid}_${receiverUid}';
         print("--------------------------   $_chatroomId");
-        //_chatroomId = _user!.uid;
       });
     }
     await _createMessagesCollection();
@@ -57,7 +59,6 @@ class _ChatScreenState extends State<ChatScreenArtist> {
     final messagesCollection = _firestore.collection('Messages');
     final userDocument = messagesCollection.doc(_chatroomId);
     if (!(await userDocument.get()).exists) {
-      // 'Messages' collection or the user's document doesn't exist, create them
       await userDocument.set({});
     }
   }
@@ -71,38 +72,6 @@ class _ChatScreenState extends State<ChatScreenArtist> {
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
-
-  // Get Messages :-
-
-  // Stream<QuerySnapshot> getAllMsg(String userId, String receiverUid) {
-  //   User? _user = _auth.currentUser;
-  //   _chatroomId = '${_user!.uid}_${receiverUid}';
-  //   return _firestore
-  //       .collection('Messages')
-  //       .doc(_chatroomId)
-  //       //.doc("8ln9IPy7tvxOhT8JkRBb*8pGIQx0dCtOGQxqSr1qz0QxnKo72")
-  //       .collection('chats')
-  //       .orderBy("timestamp")
-  //       .snapshots();
-  // }
-
-  // void _fetchMessages(String receiverUid) {
-  //   _firestore
-  //       .collection('Messages')
-  //       .doc("0Bsc6DbKL9Ya94a5ToBAsJJ2Iiy1_Mex5GJGGgGY1zfMhfccU")
-  //       .collection('chats')
-  //       .orderBy('timestamp')
-  //       .snapshots()
-  //       .listen((snapshot) {
-  //     var messages = snapshot.docs
-  //         .map((doc) => Message.fromMap(doc.data() as Map<String, dynamic>))
-  //         .toList();
-
-  //     setState(() {
-  //       _messages = messages;
-  //     });
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -188,18 +157,18 @@ class _ChatScreenState extends State<ChatScreenArtist> {
                 ),
               ],
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 20.0),
               child: Text(
-                'Name',
+                widget.name,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 20.0),
-              child: Text(
-                'Subject (Booking, Date & Time, Location)',
-              ),
+              child: Text(""
+                  //'Subject (Booking, Date & Time, Location)',
+                  ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -218,25 +187,9 @@ class _ChatScreenState extends State<ChatScreenArtist> {
                     .collection("chats")
                     .orderBy("timestamp")
                     .snapshots(),
-
-                // FirebaseFirestore.instance
-                //     .collection('Messages')
-                //     .doc(_chatroomId)
-                //     .collection('chats')
-                //     .orderBy("timestamp")
-                //     .snapshots(),
-
-                //
-                //stream: _fireStoreServices.loadMessages(widget.chatUser),
-                // stream: getAllMsg(_user!.uid, receiverUid),
-
                 builder: (context, snapshot) {
                   print(snapshot.data.toString());
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    // print("===============${user.uid.toString()}");
-                    // print("===============${widget.chatUser.id}");
-                    // print("===============${user.displayName.toString()}");
-                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {}
 
                   if (!snapshot.hasData || snapshot.data == null) {
                     return const Center(child: Text('No messages available.'));
@@ -252,9 +205,6 @@ class _ChatScreenState extends State<ChatScreenArtist> {
                       .toList();
 
                   print(_messages.length);
-                  //messageList = snapshot.data!.docs;
-//
-                  // print("---------------------- $messageList");
 
                   if (_messages.isEmpty) {
                     return const Center(child: Text('No messages'));
@@ -268,8 +218,11 @@ class _ChatScreenState extends State<ChatScreenArtist> {
                         child: ListTile(
                           leading: ClipOval(
                             child: Image(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bHV4dXJ5JTIwY2FyfGVufDB8fDB8fHww")),
+                              image: NetworkImage(widget.profilePicture),
+                              width: 50, // Adjust the width as needed
+                              height: 50, // Adjust the height as needed
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           title: Align(
                               alignment: Alignment.centerLeft,
@@ -283,79 +236,6 @@ class _ChatScreenState extends State<ChatScreenArtist> {
               ),
             ),
             // --------------------------------
-            // Expanded(
-            //   child: ListView.builder(
-            //     physics: const NeverScrollableScrollPhysics(),
-            //     shrinkWrap: true,
-            //     itemCount: 3,
-            //     itemBuilder: (context, index) {
-            //       return Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           Padding(
-            //             padding: const EdgeInsets.all(15.0),
-            //             child: Row(
-            //               children: [
-            //                 Padding(
-            //                   padding: const EdgeInsets.all(10.0),
-            //                   child: Container(
-            //                     width: 60, // Adjust the size as needed
-            //                     height: 60, // Adjust the size as needed
-            //                     decoration: BoxDecoration(
-            //                       shape: BoxShape.circle,
-            //                       color: Colors.grey[300],
-            //                     ),
-            //                   ),
-            //                 ),
-            //                 Column(
-            //                   crossAxisAlignment: CrossAxisAlignment.start,
-            //                   children: [
-            //                     Row(
-            //                       children: [
-            //                         Padding(
-            //                           padding: const EdgeInsets.only(left: 10),
-            //                           child: Text(
-            //                             _messages[1].text,
-
-            //                             //"Name",
-            //                             style: const TextStyle(
-            //                                 fontWeight: FontWeight.bold,
-            //                                 fontFamily: 'Manrope'),
-            //                           ),
-            //                         ),
-            //                         const Padding(
-            //                           padding: EdgeInsets.only(left: 10),
-            //                           child: Text(
-            //                             'X:XX AM',
-            //                           ),
-            //                         ),
-            //                       ],
-            //                     ),
-            //                     const Padding(
-            //                       padding: EdgeInsets.only(left: 10),
-            //                       child: Text(
-            //                         'Xxxxxxxxxx',
-            //                         style: TextStyle(fontFamily: 'Manrope'),
-            //                       ),
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-            //           Padding(
-            //             padding: const EdgeInsets.only(left: 100.0),
-            //             child: Container(
-            //               width: double.infinity,
-            //               height: 0.5,
-            //               color: AppColors.lightPink,
-            //             ),
-            //           ),
-            //         ],
-            //       );
-            //     },
-            //   ),
-            // ),
 
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -380,218 +260,9 @@ class _ChatScreenState extends State<ChatScreenArtist> {
                 ],
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(10.0),
-            //   child: TextInputFeildWidget(
-            //     labelText: 'Type a message',
-            //   ),
-            // ),
           ],
         ),
       ),
     );
   }
 }
-
-// Previous Code :-
-
-// class _ChatScreenState extends State<ChatScreenArtist> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.black,
-//       body: SafeArea(
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 GestureDetector(
-//                   onTap: () {
-//                     Navigator.pop(context);
-//                   },
-//                   child: Padding(
-//                     padding: const EdgeInsets.all(15.0),
-//                     child: Icon(
-//                       Icons.arrow_back,
-//                       size: 35,
-//                       color: Colors.white,
-//                     ),
-//                   ),
-//                 ),
-//                 Padding(
-//                   padding: const EdgeInsets.all(10.0),
-//                   child: GestureDetector(
-//                     onTap: () {
-//                       showModalBottomSheet(
-//                           context: context,
-//                           shape: const RoundedRectangleBorder(
-//                             borderRadius: BorderRadius.vertical(
-//                               top: Radius.circular(25.0),
-//                             ),
-//                           ),
-//                           builder: (context) {
-//                             return SizedBox(
-//                               width: double.infinity,
-//                               height: 400,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(20.0),
-//                                 child: Column(
-//                                   mainAxisAlignment:
-//                                       MainAxisAlignment.spaceBetween,
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   mainAxisSize: MainAxisSize.min,
-//                                   children: [
-//                                     Center(
-//                                       child: Container(
-//                                         width: 100,
-//                                         height: 0.5,
-//                                         color: AppColors.primaryPink,
-//                                       ),
-//                                     ),
-//                                     Center(
-//                                         child: Text(
-//                                       'We take all reports seriously,  therefor we will be in touch via email soon,  to find out more about your issue.',
-//                                       textAlign: TextAlign.center,
-//                                     )),
-//                                     GestureDetector(
-//                                         onTap: () {
-//                                           Navigator.pop(context);
-//                                         },
-//                                         child: MyCardButton(
-//                                             title: 'Report this person'))
-//                                   ],
-//                                 ),
-//                               ),
-//                             );
-//                           });
-//                     },
-//                     child: Icon(
-//                       Icons.more_horiz_rounded,
-//                       color: AppColors.primaryPink,
-//                       size: 50,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(left: 20.0),
-//               child: Text(
-//                 'Name',
-//                 style: TextStyle(
-//                   fontWeight: FontWeight.w600,
-//                   fontSize: 20,
-//                   color: Colors.white,
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(left: 20.0),
-//               child: Text(
-//                 'Subject (Booking, Date & Time, Location)',
-//                 style: TextStyle(
-//                   color: Colors.white,
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(top: 10.0),
-//               child: Container(
-//                 width: double.infinity,
-//                 height: 0.5,
-//                 color: Colors.white,
-//               ),
-//             ),
-//             Expanded(
-//               child: ListView.builder(
-//                 physics: NeverScrollableScrollPhysics(),
-//                 shrinkWrap: true,
-//                 itemCount: 3,
-//                 itemBuilder: (context, index) {
-//                   return Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Padding(
-//                         padding: const EdgeInsets.all(15.0),
-//                         child: Row(
-//                           children: [
-//                             Padding(
-//                               padding: const EdgeInsets.all(10.0),
-//                               child: Container(
-//                                 width: 60, // Adjust the size as needed
-//                                 height: 60, // Adjust the size as needed
-//                                 decoration: BoxDecoration(
-//                                   shape: BoxShape.circle,
-//                                   color: Colors.grey[300],
-//                                 ),
-//                               ),
-//                             ),
-//                             Column(
-//                               crossAxisAlignment: CrossAxisAlignment.start,
-//                               children: [
-//                                 Row(
-//                                   children: [
-//                                     Padding(
-//                                       padding: const EdgeInsets.only(left: 10),
-//                                       child: Text(
-//                                         'Name',
-//                                         style: TextStyle(
-//                                           fontWeight: FontWeight.bold,
-//                                           fontFamily: 'Manrope',
-//                                           color: Colors.white,
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     Padding(
-//                                       padding: const EdgeInsets.only(left: 10),
-//                                       child: Text(
-//                                         'X:XX AM',
-//                                         style: TextStyle(
-//                                           color: Colors.white,
-//                                         ),
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
-//                                 Padding(
-//                                   padding: const EdgeInsets.only(left: 10),
-//                                   child: Text(
-//                                     'Xxxxxxxxxx',
-//                                     style: TextStyle(
-//                                       fontFamily: 'Manrope',
-//                                       color: Colors.white,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                       Padding(
-//                         padding: const EdgeInsets.only(left: 100.0),
-//                         child: Container(
-//                           width: double.infinity,
-//                           height: 0.5,
-//                           color: Colors.white,
-//                         ),
-//                       ),
-//                     ],
-//                   );
-//                 },
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(10.0),
-//               child: TextInputFeildWidgetArtist(
-//                 labelText: 'Type a message',
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

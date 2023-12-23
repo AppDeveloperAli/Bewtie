@@ -11,8 +11,14 @@ import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
   final String uid;
+  final String name;
+  final String profilePicture;
 
-  const ChatScreen({super.key, required this.uid});
+  const ChatScreen(
+      {super.key,
+      required this.uid,
+      required this.name,
+      required this.profilePicture});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -73,38 +79,6 @@ class _ChatScreenState extends State<ChatScreen> {
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
-
-  // Get Messages :-
-
-  // Stream<QuerySnapshot> getAllMsg(String userId, String receiverUid) {
-  //   User? _user = _auth.currentUser;
-  //   _chatroomId = '${_user!.uid}_${receiverUid}';
-  //   return _firestore
-  //       .collection('Messages')
-  //       .doc(_chatroomId)
-  //       //.doc("8ln9IPy7tvxOhT8JkRBb*8pGIQx0dCtOGQxqSr1qz0QxnKo72")
-  //       .collection('chats')
-  //       .orderBy("timestamp")
-  //       .snapshots();
-  // }
-
-  // void _fetchMessages(String receiverUid) {
-  //   _firestore
-  //       .collection('Messages')
-  //       .doc("0Bsc6DbKL9Ya94a5ToBAsJJ2Iiy1_Mex5GJGGgGY1zfMhfccU")
-  //       .collection('chats')
-  //       .orderBy('timestamp')
-  //       .snapshots()
-  //       .listen((snapshot) {
-  //     var messages = snapshot.docs
-  //         .map((doc) => Message.fromMap(doc.data() as Map<String, dynamic>))
-  //         .toList();
-
-  //     setState(() {
-  //       _messages = messages;
-  //     });
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -191,18 +165,19 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
               child: Text(
-                'Name',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                widget.name,
+                style:
+                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 20.0),
-              child: Text(
-                'Subject (Booking, Date & Time, Location)',
-              ),
+              child: Text(""
+                  //'Subject (Booking, Date & Time, Location)',
+                  ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -271,8 +246,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: ListTile(
                           leading: ClipOval(
                             child: Image(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bHV4dXJ5JTIwY2FyfGVufDB8fDB8fHww")),
+                              image: NetworkImage(widget.profilePicture),
+                              width: 50, // Adjust the width as needed
+                              height: 50, // Adjust the height as needed
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           title: Align(
                               alignment: Alignment.centerLeft,
