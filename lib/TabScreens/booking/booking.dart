@@ -16,6 +16,7 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   late Stream<MergedQuerySnapshot> _orderStream;
 
   @override
@@ -90,46 +91,53 @@ class _BookingScreenState extends State<BookingScreen> {
                   color: AppColors.lightPink,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: StreamBuilder(
-                  stream: _orderStream,
-                  builder:
-                      (context, AsyncSnapshot<MergedQuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (!snapshot.hasData ||
-                        snapshot.data!.docs.isEmpty) {
-                      return Center(
-                          child: Text('Nothing to show in "Your Booking"'));
-                    } else {
-                      List<DocumentSnapshot> documents = snapshot.data!.docs;
+              auth.currentUser != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: StreamBuilder(
+                        stream: _orderStream,
+                        builder: (context,
+                            AsyncSnapshot<MergedQuerySnapshot> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.docs.isEmpty) {
+                            return Center(
+                                child:
+                                    Text('Nothing to show in "Your Booking"'));
+                          } else {
+                            List<DocumentSnapshot> documents =
+                                snapshot.data!.docs;
 
-                      return ListView.builder(
-                        itemCount: documents.length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          Map<String, dynamic> orderData =
-                              documents[index].data() as Map<String, dynamic>;
+                            return ListView.builder(
+                              itemCount: documents.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                Map<String, dynamic> orderData =
+                                    documents[index].data()
+                                        as Map<String, dynamic>;
 
-                          return BookingOrders(
-                            date: orderData['date'],
-                            location: orderData['location'],
-                            name: orderData['name'],
-                            price: orderData['price'],
-                            service: orderData['service'],
-                            orderID: orderData['orderID'],
-                            artName: orderData['artname'],
-                          );
+                                return BookingOrders(
+                                  date: orderData['date'],
+                                  location: orderData['location'],
+                                  name: orderData['name'],
+                                  price: orderData['price'],
+                                  service: orderData['service'],
+                                  orderID: orderData['orderID'],
+                                  artName: orderData['artname'],
+                                );
+                              },
+                            );
+                          }
                         },
-                      );
-                    }
-                  },
-                ),
-              ),
+                      ),
+                    )
+                  : Center(child: Text('You have no bookings to show')),
             ],
           ),
         ),

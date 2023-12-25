@@ -260,13 +260,20 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       padding: EdgeInsets.only(top: 30, bottom: 10),
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(CupertinoPageRoute(
-                              builder: (context) => ChatScreen(
-                                uid: widget.postUid.toString(),
-                                name: "${widget.firstName} ${widget.lastName}",
-                                profilePicture: widget.artImage.toString(),
-                              ),
-                            ));
+                            if (auth.currentUser != null) {
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                builder: (context) => ChatScreen(
+                                  uid: widget.postUid.toString(),
+                                  name:
+                                      "${widget.firstName} ${widget.lastName}",
+                                  profilePicture: widget.artImage.toString(),
+                                ),
+                              ));
+                            } else {
+                              Navigator.of(context).push(CupertinoDialogRoute(
+                                  builder: (context) => AccountScreen(),
+                                  context: context));
+                            }
                           },
                           child: MyTextCard(
                               title: 'Send a message', fontSize: 18)),
@@ -401,10 +408,20 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                           Expanded(
                             child: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).push(CupertinoPageRoute(
-                                      builder: (context) => LeaveReviewScreen(
-                                            postUID: widget.postUid.toString(),
-                                          )));
+                                  if (auth.currentUser != null) {
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                LeaveReviewScreen(
+                                                  postUID:
+                                                      widget.postUid.toString(),
+                                                )));
+                                  } else {
+                                    Navigator.of(context)
+                                        .push(CupertinoPageRoute(
+                                      builder: (context) => AccountScreen(),
+                                    ));
+                                  }
                                 },
                                 child: MyCardButton(title: 'Leave a review')),
                           ),

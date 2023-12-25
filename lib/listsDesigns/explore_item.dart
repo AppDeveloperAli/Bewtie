@@ -79,10 +79,9 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
   final CollectionReference _collection =
       FirebaseFirestore.instance.collection('Users');
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String getCurrentUserId() {
-    User? user = _auth.currentUser;
-    return user!.uid;
+    return _auth.currentUser!.uid;
   }
 
   void checkInitialFavoriteStatus() async {

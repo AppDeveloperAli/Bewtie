@@ -71,7 +71,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
             padding: const EdgeInsets.all(20.0),
             child: GestureDetector(
                 onTap: () async {
-                  if (auth.currentUser != null) {
+                  if (auth.currentUser != null && controller.text.isNotEmpty) {
                     uploadReview(controller.text);
                   }
                 },

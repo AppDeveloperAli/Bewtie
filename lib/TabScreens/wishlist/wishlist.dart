@@ -101,75 +101,85 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
             ),
-            FutureBuilder<List<List<DocumentSnapshot>>>(
-              future: fetchData(),
-              builder: (
-                context,
-                AsyncSnapshot<List<List<DocumentSnapshot>>> snapshot,
-              ) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
+            auth.currentUser != null
+                ? FutureBuilder<List<List<DocumentSnapshot>>>(
+                    future: fetchData(),
+                    builder: (
+                      context,
+                      AsyncSnapshot<List<List<DocumentSnapshot>>> snapshot,
+                    ) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
 
-                List<List<DocumentSnapshot>> allPosts = snapshot.data ?? [];
-                List<DocumentSnapshot> posts = allPosts[0];
-                List<DocumentSnapshot> artists = allPosts[1];
+                      List<List<DocumentSnapshot>> allPosts =
+                          snapshot.data ?? [];
+                      List<DocumentSnapshot> posts = allPosts[0];
+                      List<DocumentSnapshot> artists = allPosts[1];
 
-                return posts.isEmpty
-                    ? const Expanded(
-                        child:
-                            Center(child: Text('Nothing to show in Wishlists')))
-                    : FutureBuilder<QuerySnapshot>(
-                        future: posts.isNotEmpty
-                            ? posts[0].reference.collection('PostReviews').get()
-                            : null,
-                        builder: (context, subCollectionSnapshot) {
-                          if (subCollectionSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (subCollectionSnapshot.hasError == true) {
-                            return Text(
-                                'Error: ${subCollectionSnapshot.error}');
-                          }
+                      return posts.isEmpty
+                          ? const Expanded(
+                              child: Center(
+                                  child: Text('Nothing to show in Wishlists')))
+                          : FutureBuilder<QuerySnapshot>(
+                              future: posts.isNotEmpty
+                                  ? posts[0]
+                                      .reference
+                                      .collection('PostReviews')
+                                      .get()
+                                  : null,
+                              builder: (context, subCollectionSnapshot) {
+                                if (subCollectionSnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (subCollectionSnapshot.hasError ==
+                                    true) {
+                                  return Text(
+                                      'Error: ${subCollectionSnapshot.error}');
+                                }
 
-                          List<DocumentSnapshot> subCollectionDocuments =
-                              subCollectionSnapshot.data?.docs ?? [];
+                                List<DocumentSnapshot> subCollectionDocuments =
+                                    subCollectionSnapshot.data?.docs ?? [];
 
-                          return ListView.builder(
-                            itemCount: posts.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return ExploreItemDesign(
-                                location: posts[index]['Location'].toString(),
-                                firstName:
-                                    artists[index]['first_name'].toString(),
-                                lastName:
-                                    artists[index]['last_name'].toString(),
-                                imageLinks: posts[index]['images'],
-                                artImage: artists[index]['profileimage'],
-                                bio: getValueOrEmpty(
-                                    artists[index] as DocumentSnapshot<
-                                        Map<String, dynamic>>,
-                                    'describe'),
-                                avail: posts[index]['availability'],
-                                hair: posts[index]['Hair Type'],
-                                mackup: posts[index]['Makeup Type'],
-                                nails: posts[index]['Nails Type'],
-                                postUid: posts[index]['UID'],
-                                price: posts[index]['Package Total'].toString(),
-                                reviewCount:
-                                    subCollectionDocuments.length.toString(),
-                              );
-                            },
-                          );
-                        },
-                      );
-              },
-            ),
+                                return ListView.builder(
+                                  itemCount: posts.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return ExploreItemDesign(
+                                      location:
+                                          posts[index]['Location'].toString(),
+                                      firstName: artists[index]['first_name']
+                                          .toString(),
+                                      lastName: artists[index]['last_name']
+                                          .toString(),
+                                      imageLinks: posts[index]['images'],
+                                      artImage: artists[index]['profileimage'],
+                                      bio: getValueOrEmpty(
+                                          artists[index] as DocumentSnapshot<
+                                              Map<String, dynamic>>,
+                                          'describe'),
+                                      avail: posts[index]['availability'],
+                                      hair: posts[index]['Hair Type'],
+                                      mackup: posts[index]['Makeup Type'],
+                                      nails: posts[index]['Nails Type'],
+                                      postUid: posts[index]['UID'],
+                                      price: posts[index]['Package Total']
+                                          .toString(),
+                                      reviewCount: subCollectionDocuments.length
+                                          .toString(),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                    },
+                  )
+                : const Center(
+                    child: Text('You have no items added to your wishlist')),
           ],
         ),
       ),
