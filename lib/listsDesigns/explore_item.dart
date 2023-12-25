@@ -153,14 +153,33 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                       children: (widget.imageLinks != null &&
                               widget.imageLinks!.isNotEmpty)
                           ? widget.imageLinks!
-                              .map((imageUrl) => Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(imageUrl),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ))
+                              .map(
+                                (imageUrl) => Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              )
                               .toList()
                           : [
                               Padding(
