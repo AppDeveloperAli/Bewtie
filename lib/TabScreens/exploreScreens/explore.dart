@@ -62,13 +62,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      if (auth.currentUser != null) {
-                        Navigator.of(context).push(CupertinoPageRoute(
-                            builder: (context) => const Search1Screen()));
-                      } else {
-                        Navigator.of(context).push(CupertinoPageRoute(
-                            builder: (context) => const AccountScreen()));
-                      }
+                      Navigator.of(context).push(CupertinoPageRoute(
+                          builder: (context) => const Search1Screen()));
                     },
                     child: Container(
                       decoration: BoxDecoration(

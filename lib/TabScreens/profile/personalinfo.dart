@@ -30,8 +30,11 @@ class PersonalInformation extends StatelessWidget {
         }
 
         if (!snapshot.hasData || !snapshot.data!.exists) {
-          return const Scaffold(
-            body: SnackBar(content: Text('User Data not available')),
+          return Scaffold(
+            body: Center(
+                child: PersonalInformationWidget(
+              userData: {},
+            )),
           );
         }
 
@@ -132,7 +135,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    '${userData['first_name'] ?? ''} ${userData['last_name'] ?? ''}',
+                    '${userData['first_name'] ?? ''} ${userData['last_name'] ?? 'Your Name Here..'}',
                   ),
                 ),
                 GestureDetector(
@@ -173,7 +176,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    '${userData['email'] ?? ''}',
+                    '${userData['email'] ?? 'Your Email Here..'}',
                   ),
                 ),
                 GestureDetector(
@@ -214,7 +217,7 @@ class PersonalInformationWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    '${userData['number'] ?? ''}',
+                    '${userData['number'] ?? 'Your Phone Number Here..'}',
                   ),
                 ),
                 GestureDetector(

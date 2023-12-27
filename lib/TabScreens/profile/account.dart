@@ -378,11 +378,63 @@ class _MyHomePageState extends State<MyHomePage> {
         await FirebaseAuth.instance.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
-        print('Verification Failed: $e');
-        CustomSnackBar(context, Text(e.toString()));
-        setState(() {
-          isLoading = false;
-        });
+        void handlePhoneAuthError(
+            BuildContext context, FirebaseAuthException e) {
+          String errorMessage =
+              "An error occurred during phone authentication.";
+
+          switch (e.code) {
+            case "invalid-phone-number":
+              errorMessage =
+                  "The format of the phone number provided is incorrect. Please enter a valid phone number.";
+              break;
+            case "missing-phone-number":
+              errorMessage =
+                  "The phone number is missing. Please enter a valid phone number.";
+              break;
+            case "quota-exceeded":
+              errorMessage =
+                  "SMS quota for the project has been exceeded. Please try again later.";
+              break;
+            case "code-expired":
+              errorMessage =
+                  "The verification code has expired. Please try again.";
+              break;
+            case "user-disabled":
+              errorMessage =
+                  "The user associated with the provided phone number has been disabled. Please contact support.";
+              break;
+            case "too-many-requests":
+              errorMessage =
+                  "Too many unsuccessful login attempts. Please try again later.";
+              break;
+            case "session-expired":
+              errorMessage =
+                  "The verification session has expired. Please initiate the verification process again.";
+              break;
+            case "invalid-verification-code":
+              errorMessage =
+                  "The entered verification code is incorrect. Please double-check and try again.";
+              break;
+            case "invalid-verification-id":
+              errorMessage = "Invalid verification ID. Please try again.";
+              break;
+            case "invalid-credential":
+              errorMessage =
+                  "Invalid phone authentication credential. Please try again.";
+              break;
+            // Add more cases for other error codes as needed
+            default:
+              break;
+          }
+
+          CustomSnackBar(context, Text(errorMessage));
+          setState(() {
+            isLoading = false;
+          });
+        }
+
+        handlePhoneAuthError(context, e);
       },
       codeSent: (String verificationId, [int? forceResendingToken]) {
         _verificationId = verificationId;

@@ -60,10 +60,16 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                   } else if (!snapshot.hasData || !snapshot.data!.exists) {
                     return Text('User data not found.');
                   } else {
-                    List<dynamic> paymentsArray = snapshot.data!['payments'];
+                    Map<String, dynamic>? userData =
+                        snapshot.data!.data() as Map<String, dynamic>?;
 
-                    List<Map<String, dynamic>> paymentsList =
-                        List<Map<String, dynamic>>.from(paymentsArray);
+                    List<Map<String, dynamic>> paymentsList = [];
+
+                    if (userData != null && userData.containsKey('payments')) {
+                      List<dynamic> paymentsArray = userData['payments'];
+                      paymentsList =
+                          List<Map<String, dynamic>>.from(paymentsArray);
+                    }
 
                     return Column(
                       children: [
@@ -76,7 +82,9 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                   Padding(
                                     padding: EdgeInsets.only(top: 15, left: 15),
                                     child: Text(
-                                      '${paymentsList[selectedindex]['cardName']}\n${paymentsList[selectedindex]['cardNumber']}',
+                                      paymentsList.isNotEmpty
+                                          ? '${paymentsList[selectedindex]['cardName']}\n${paymentsList[selectedindex]['cardNumber']}'
+                                          : "Card Name :",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18),
@@ -84,8 +92,9 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                        '\nExpiry ${paymentsList[selectedindex]['expire']}'),
+                                    child: Text(paymentsList.isNotEmpty
+                                        ? '\nExpiry ${paymentsList[selectedindex]['expire']}'
+                                        : 'Expiry :'),
                                   ),
                                 ],
                               ),
