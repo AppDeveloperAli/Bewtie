@@ -73,45 +73,50 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
 
                     return Column(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        paymentsList.isNotEmpty
+                            ? Row(
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 15, left: 15),
-                                    child: Text(
-                                      paymentsList.isNotEmpty
-                                          ? '${paymentsList[selectedindex]['cardName']}\n${paymentsList[selectedindex]['cardNumber']}'
-                                          : "Card Name :",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 15, left: 15),
+                                          child: Text(
+                                            paymentsList.isNotEmpty
+                                                ? '${paymentsList[selectedindex]['cardName']}\n${paymentsList[selectedindex]['cardNumber']}'
+                                                : "Card Name :",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 15),
+                                          child: Text(paymentsList.isNotEmpty
+                                              ? '\nExpiry ${paymentsList[selectedindex]['expire']}'
+                                              : 'Expiry :'),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(paymentsList.isNotEmpty
-                                        ? '\nExpiry ${paymentsList[selectedindex]['expire']}'
-                                        : 'Expiry :'),
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: SizedBox(
+                                        width: 130,
+                                        height: 50,
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              showSheet(selectedindex);
+                                            },
+                                            child:
+                                                MyCardButton(title: 'Remove'))),
                                   ),
                                 ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                  width: 130,
-                                  height: 50,
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        showSheet(1);
-                                      },
-                                      child: MyCardButton(title: 'Remove'))),
-                            ),
-                          ],
-                        ),
+                              )
+                            : Container(),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 10),
                           child: Container(

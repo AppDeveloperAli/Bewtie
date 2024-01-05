@@ -1,5 +1,7 @@
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
+import 'package:bewtie/TabScreens/profile/account.dart';
 import 'package:bewtie/Utils/colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -154,30 +156,21 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                               widget.imageLinks!.isNotEmpty)
                           ? widget.imageLinks!
                               .map(
-                                (imageUrl) => Image.network(
-                                  imageUrl,
+                                (imageUrl) => CachedNetworkImage(
+                                  key: UniqueKey(),
+                                  imageUrl: imageUrl,
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  (loadingProgress
-                                                          .expectedTotalBytes ??
-                                                      1)
-                                              : null,
-                                        ),
-                                      );
-                                    }
-                                  },
+                                  placeholder: (context, url) => Center(
+                                      child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: Image.asset(
+                                      'assets/images/blur.webp',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                 ),
                               )
                               .toList()
@@ -293,7 +286,12 @@ class _ExploreItemDesignState extends State<ExploreItemDesign> {
                   color: isFavorite ? AppColors.primaryPink : null,
                 ),
                 onPressed: () async {
-                  toggleFavouriteStatus();
+                  if (_auth.currentUser != null) {
+                    toggleFavouriteStatus();
+                  } else {
+                    Navigator.of(context).push(CupertinoPageRoute(
+                        builder: (context) => AccountScreen()));
+                  }
                 },
               ),
             ),

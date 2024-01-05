@@ -9,6 +9,7 @@ import 'package:bewtie/TabScreens/exploreScreens/reviews.dart';
 import 'package:bewtie/TabScreens/profile/account.dart';
 import 'package:bewtie/Utils/colors.dart';
 import 'package:bewtie/Utils/snackBar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,14 +60,6 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
   Widget build(BuildContext context) {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    print(widget.nails);
-
-    print(widget.hair);
-
-    print(widget.mackup);
-
-    print("-----${widget.postUid}");
-
     Map<String, String> availabilityStatus =
         getAvailabilityStatus(widget.avialibilty);
 
@@ -103,14 +96,24 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                                 });
                               },
                               children: widget.imageList
-                                  .map((imageUrl) => Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(imageUrl),
-                                            fit: BoxFit.cover,
-                                          ),
+                                  .map(
+                                    (imageUrl) => CachedNetworkImage(
+                                      key: UniqueKey(),
+                                      imageUrl: imageUrl,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                          child: Container(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        child: Image.asset(
+                                          'assets/images/blur.webp',
+                                          fit: BoxFit.cover,
                                         ),
-                                      ))
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    ),
+                                  )
                                   .toList(),
                             ),
                     ),
@@ -172,7 +175,8 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                       height: 60,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(widget.artImage.toString()),
+                          image: CachedNetworkImageProvider(
+                              widget.artImage.toString()),
                           fit: BoxFit.cover,
                         ),
                         shape: BoxShape.circle,
@@ -354,15 +358,20 @@ class _ExploreDetailsScreenState extends State<ExploreDetailsScreen> {
                                           padding: const EdgeInsets.all(10.0),
                                           child: CircleAvatar(
                                             radius: 30.0,
-                                            backgroundImage: NetworkImage(
-                                                review['userImage']),
+                                            backgroundImage: NetworkImage(review[
+                                                        'userImage'] ==
+                                                    'N/A'
+                                                ? 'https://img.freepik.com/free-icon/user_318-563642.jpg?w=2000'
+                                                : review['userImage']),
                                             backgroundColor: Colors.transparent,
                                           )),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 10),
                                         child: Text(
-                                          review['name'],
+                                          review['name'] != 'N/A'
+                                              ? review['name']
+                                              : 'Bewtiebook User',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),

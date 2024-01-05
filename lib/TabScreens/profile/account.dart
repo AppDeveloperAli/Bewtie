@@ -354,7 +354,7 @@ class _MyHomePageState extends State<MyHomePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   late TextEditingController _phoneNumberController;
   late String? _verificationId;
-  String countryTitle = 'United Kingdom';
+  String countryTitle = 'Select a Country';
   String phoneCode = '';
   bool isLoading = false;
 
@@ -541,11 +541,15 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: GestureDetector(
               onTap: () {
-                String phoneNumber =
-                    '+$phoneCode${_phoneNumberController.text}';
+                if (_phoneNumberController.text.isNotEmpty) {
+                  String phoneNumber =
+                      '+$phoneCode${_phoneNumberController.text}';
 
-                print(phoneNumber);
-                _verifyPhoneNumber(phoneNumber);
+                  print(phoneNumber);
+                  _verifyPhoneNumber(phoneNumber);
+                } else {
+                  CustomSnackBar(context, Text('Please put the Number...'));
+                }
               },
               child: isLoading
                   ? Center(child: CircularProgressIndicator())
