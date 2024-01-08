@@ -119,7 +119,8 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
         'name': '$firstName $lastName',
         'text': reviewText,
         'timestamp': FieldValue.serverTimestamp(),
-        'userImage': image
+        'userImage': image,
+        'uid': getUid()
       });
 
       controller.clear();
@@ -134,6 +135,15 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
         isLoading = false;
       });
       CustomSnackBar(context, Text('Error uploading review: $e'));
+    }
+  }
+
+  getUid() {
+    if (auth.currentUser != null) {
+      String uid = auth.currentUser!.uid;
+      return uid;
+    } else {
+      return '';
     }
   }
 }

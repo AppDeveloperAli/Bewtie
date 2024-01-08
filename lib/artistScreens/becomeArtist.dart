@@ -2,6 +2,7 @@
 
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardSelectionArtist.dart';
+import 'package:bewtie/Utils/snackBar.dart';
 import 'package:bewtie/artistScreens/becomeArtist2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -273,8 +274,15 @@ class _Search1ScreenState extends State<BecomeArtistScreen> {
                       print("Hair : ${typeHair}");
                       print("Nails : ${typeNails}");
 
-                      if (typeMakeup.isEmpty) {
-                        print("Select a Skill");
+                      if (typeMakeup.isEmpty &&
+                          typeHair.isEmpty &&
+                          typeNails.isEmpty) {
+                        CustomSnackBarArtist(
+                            context,
+                            Text(
+                              'Please select a Skill',
+                              style: TextStyle(color: Colors.black),
+                            ));
                       } else {
                         Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => BecomeArtistScreen2(

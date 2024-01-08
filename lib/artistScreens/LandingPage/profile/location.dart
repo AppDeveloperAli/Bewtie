@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardSelectionArtist.dart';
 import 'package:bewtie/Components/cardTextArtist.dart';
@@ -5,6 +7,9 @@ import 'package:bewtie/Components/textFieldArtist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 class LocationArtist extends StatefulWidget {
   const LocationArtist({super.key});
@@ -14,6 +19,51 @@ class LocationArtist extends StatefulWidget {
 }
 
 class _LocationArtistState extends State<LocationArtist> {
+  var _controller = TextEditingController();
+  var uuid = Uuid();
+  String _sessionToken = '1234567890';
+  List<dynamic> _placeList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      _onChanged();
+    });
+  }
+
+  _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(_controller.text);
+  }
+
+  void getSuggestion(String input) async {
+    String kPLACES_API_KEY = "AIzaSyDjY2FhuQ9P8QYBNoRBYIha0dLLRJnohDg";
+
+    try {
+      String baseURL =
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+      String request =
+          '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+      var response = await http.get(Uri.parse(request));
+      var data = json.decode(response.body);
+      print(data);
+      if (response.statusCode == 200) {
+        setState(() {
+          _placeList = json.decode(response.body)['predictions'];
+        });
+      } else {
+        throw Exception('Failed to load predictions');
+      }
+    } catch (e) {
+      // toastMessage('success');
+    }
+  }
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -70,7 +120,20 @@ class _LocationArtistState extends State<LocationArtist> {
               ),
               TextInputFeildWidgetArtist(
                 labelText: 'Enter your location',
-                controller: _locationController,
+                controller: _controller,
+              ),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: _placeList.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () async {},
+                    child: ListTile(
+                      title: Text(_placeList[index]["description"]),
+                    ),
+                  );
+                },
               )
             ],
           ),

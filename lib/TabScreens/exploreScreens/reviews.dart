@@ -14,6 +14,13 @@ class ReviewsScreen extends StatefulWidget {
 }
 
 class _ReviewsScreenState extends State<ReviewsScreen> {
+  Future<Map<String, dynamic>> fetchUserData(String uid) async {
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+
+    return userSnapshot.data() as Map<String, dynamic>;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +48,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                         .collection('Post')
                         .doc(widget.postUid)
                         .collection('PostReviews')
+                        .orderBy('timestamp', descending: true)
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
-                      }
-
                       var data = snapshot.data!.docs;
 
                       return Column(
@@ -72,48 +76,66 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                                   DateFormat('yyyy/MM/dd - HH:mm:ss')
                                       .format(dateTime);
 
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: CircleAvatar(
-                                          radius: 30.0,
-                                          backgroundImage: NetworkImage(review[
-                                                      'userImage'] ==
-                                                  'N/A'
-                                              ? 'https://img.freepik.com/free-icon/user_318-563642.jpg?w=2000'
-                                              : review['userImage']),
-                                          backgroundColor: Colors.transparent,
-                                        )),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        review['name'] != 'N/A'
-                                            ? review['name']
-                                            : 'Bewtiebook User',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                              return FutureBuilder(
+                                future: fetchUserData(review['uid']),
+                                builder: (context, userSnapshot) {
+                                  if (userSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  var userData = userSnapshot.data ?? {};
+
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: CircleAvatar(
+                                            radius: 30.0,
+                                            backgroundImage: NetworkImage(
+                                              userData['profileimage'] ??
+                                                  'https://img.freepik.com/free-icon/user_318-563642.jpg?w=2000',
+                                            ),
+                                            backgroundColor: Colors.transparent,
+                                          ),
                                         ),
-                                      ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            userData['first_name'] != null &&
+                                                    userData['last_name'] !=
+                                                        null
+                                                ? '${userData['first_name']} ${userData['last_name']}'
+                                                : 'Bewtiebook User',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            formattedDate,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, top: 10),
+                                          child: Text(
+                                            review['text'],
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        formattedDate,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, top: 10),
-                                      child: Text(
-                                        review['text'],
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  );
+                                },
                               );
                             },
                           ),

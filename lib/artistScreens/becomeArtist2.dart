@@ -137,12 +137,12 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Text(
                   originalString.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
                     color: Colors.white,
@@ -166,7 +166,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                 ),
               ),
               widget.typeMakeup.isEmpty
-                  ? const CircularProgressIndicator()
+                  ? Container()
                   : const Padding(
                       padding: EdgeInsets.all(20),
                       child: Text(
@@ -236,7 +236,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                 },
               ),
               widget.typeHair.isEmpty
-                  ? const CircularProgressIndicator()
+                  ? Container()
                   : const Padding(
                       padding: EdgeInsets.all(20),
                       child: Text(
@@ -306,7 +306,7 @@ class _Search2ScreenState extends State<BecomeArtistScreen2> {
                 },
               ),
               widget.typeNails.isEmpty
-                  ? const CircularProgressIndicator()
+                  ? Container()
                   : const Padding(
                       padding: EdgeInsets.all(20),
                       child: Text(

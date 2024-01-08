@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/textFieldArtist.dart';
 import 'package:bewtie/Utils/colors.dart';
@@ -9,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class BecomeArtistScreen4 extends StatefulWidget {
   // From 1st Screen :-
@@ -45,6 +49,88 @@ class BecomeArtistScreen4 extends StatefulWidget {
 }
 
 class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       elevation: 0,
+  //       title: Text(
+  //         'Google Map Search places Api',
+  //       ),
+  //     ),
+  //     body: Column(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       children: <Widget>[
+  //         Align(
+  //           alignment: Alignment.topCenter,
+  //           child: TextField(
+  //             controller: _controller,
+  //             decoration: InputDecoration(
+  //               hintText: "Seek your location here",
+  //               focusColor: Colors.white,
+  //               floatingLabelBehavior: FloatingLabelBehavior.never,
+  //               prefixIcon: Icon(Icons.map),
+  //               suffixIcon: IconButton(
+  //                 icon: Icon(Icons.cancel),
+  //                 onPressed: () {
+  //                   _controller.clear();
+  //                 },
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+/////////////////////
+
+  var _controller = TextEditingController();
+  var uuid = Uuid();
+  String _sessionToken = '1234567890';
+  List<dynamic> _placeList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      _onChanged();
+    });
+  }
+
+  _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(_controller.text);
+  }
+
+  void getSuggestion(String input) async {
+    String kPLACES_API_KEY = "AIzaSyDjY2FhuQ9P8QYBNoRBYIha0dLLRJnohDg";
+
+    try {
+      String baseURL =
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+      String request =
+          '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+      var response = await http.get(Uri.parse(request));
+      var data = json.decode(response.body);
+      print(data);
+      if (response.statusCode == 200) {
+        setState(() {
+          _placeList = json.decode(response.body)['predictions'];
+        });
+      } else {
+        throw Exception('Failed to load predictions');
+      }
+    } catch (e) {
+      // toastMessage('success');
+    }
+  }
+
   bool isLoading = false;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _location = TextEditingController();
@@ -184,7 +270,7 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        result,
+                        result.isEmpty ? 'Free' : result,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -230,8 +316,21 @@ class _BecomeArtistScreen4State extends State<BecomeArtistScreen4> {
                         padding: const EdgeInsets.all(15.0),
                         child: TextInputFeildWidgetArtist(
                           labelText: 'Enter your destination here...',
-                          controller: _location,
+                          controller: _controller,
                         )),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _placeList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {},
+                          child: ListTile(
+                            title: Text(_placeList[index]["description"]),
+                          ),
+                        );
+                      },
+                    )
                   ],
                 ),
               ),

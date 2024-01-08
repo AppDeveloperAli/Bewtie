@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:bewtie/Components/cardButton.dart';
 import 'package:bewtie/Components/cardText.dart';
 import 'package:bewtie/TabScreens/exploreScreens/exploreDetails.dart';
@@ -10,6 +12,8 @@ import 'package:bewtie/landingPage1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 class Search4Screen extends StatefulWidget {
   final List<String> typeMakeup;
@@ -38,6 +42,51 @@ class Search4Screen extends StatefulWidget {
 }
 
 class _Search4ScreenState extends State<Search4Screen> {
+  var _controller = TextEditingController();
+  var uuid = Uuid();
+  String _sessionToken = '1234567890';
+  List<dynamic> _placeList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      _onChanged();
+    });
+  }
+
+  _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(_controller.text);
+  }
+
+  void getSuggestion(String input) async {
+    String kPLACES_API_KEY = "AIzaSyDjY2FhuQ9P8QYBNoRBYIha0dLLRJnohDg";
+
+    try {
+      String baseURL =
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+      String request =
+          '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+      var response = await http.get(Uri.parse(request));
+      var data = json.decode(response.body);
+      print(data);
+      if (response.statusCode == 200) {
+        setState(() {
+          _placeList = json.decode(response.body)['predictions'];
+        });
+      } else {
+        throw Exception('Failed to load predictions');
+      }
+    } catch (e) {
+      // toastMessage('success');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print("-------${widget.typeMakeup}");
@@ -128,7 +177,7 @@ class _Search4ScreenState extends State<Search4Screen> {
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: TextField(
-                        controller: controller,
+                        controller: _controller,
                         decoration: InputDecoration(
                           hintText: 'Enter your destination here...',
                           contentPadding:
@@ -144,6 +193,19 @@ class _Search4ScreenState extends State<Search4Screen> {
                         ),
                       ),
                     ),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _placeList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {},
+                          child: ListTile(
+                            title: Text(_placeList[index]["description"]),
+                          ),
+                        );
+                      },
+                    )
                   ],
                 ),
               ),
